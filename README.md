@@ -79,7 +79,8 @@ take()
 
 ** 加载配置文件及指定配置参数 ** 
 
-1. 创建 douyin.properties 配置文件
+1.在应用启动时AppConfig.getInstance()获取config实例，然后set值即可
+以下配置仅供参考，推荐使用@PropertySource获取配置文件
 
 ```
 # 抖音应用编码
@@ -101,9 +102,6 @@ dy_redirect_url=http://www.aaaa.com/dy/callback
 
 ```
 AppConfig config = new AppConfig();
-
-//方式一：配置文件
-config.init();
 
 //方式二: 指定各参数
 config.setConfig(String appId, String appSecret, String appTimeout, String appCharset,String httpUrl,String redirectUri);

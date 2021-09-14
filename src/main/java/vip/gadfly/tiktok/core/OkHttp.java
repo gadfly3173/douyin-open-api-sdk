@@ -16,8 +16,8 @@ public class OkHttp {
             .parse("text/x-markdown; charset=utf-8");
     public static final MediaType js = MediaType
             .parse("application/json; charset=utf-8");
-    public static OkHttpClient httpClinet = null;
     private static final Logger log = LoggerFactory.getLogger(OkHttp.class);
+    public static OkHttpClient httpClinet = null;
 
     static {
         httpClinet = new OkHttpClient();

@@ -21,8 +21,8 @@ public class ApiResponse implements Serializable {
 
     private static final long serialVersionUID = 8932491316488002897L;
     public static String DATA_KEY = "data";
-    private Map<String, Object> result;
     private final String json;
+    private Map<String, Object> result;
 
     public ApiResponse(String json) {
         this.json = json;

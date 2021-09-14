@@ -1,12 +1,12 @@
 package vip.gadfly.tiktok.open.api.token;
 
 import com.alibaba.fastjson.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import vip.gadfly.tiktok.core.DouyinException;
 import vip.gadfly.tiktok.core.utils.StringUtil;
 import vip.gadfly.tiktok.open.cache.DefaultAccessTokenCache;
 import vip.gadfly.tiktok.open.cache.IAccessTokenCache;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * accessToken处理
@@ -15,11 +15,11 @@ import org.slf4j.LoggerFactory;
  * @date 2017年10月16日
  */
 public class AccessTokenConfig {
+    private static final Logger log = LoggerFactory.getLogger(AccessTokenConfig.class);
     /**
      * 减去秒数
      */
     public static int OutTime = 10;
-    private static final Logger log = LoggerFactory.getLogger(AccessTokenConfig.class);
     private static IAccessTokenCache accessTokenCache = new DefaultAccessTokenCache();
 
     public static IAccessTokenCache getAccessTokenCache() {

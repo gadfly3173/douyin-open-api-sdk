@@ -1,7 +1,7 @@
 package vip.gadfly.tiktok.core.utils;
 
-import vip.gadfly.tiktok.core.DouyinException;
 import org.apache.commons.lang3.StringUtils;
+import vip.gadfly.tiktok.core.DouyinException;
 
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;

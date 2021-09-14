@@ -15,9 +15,9 @@
 
 ```
 	<dependency>
-		<groupId>com.wptai</groupId>
-		<artifactId>wptai-douyin-api</artifactId>
-		<version>0.0.1</version>
+		<groupId>vip.gadfly</groupId>
+		<artifactId>douyin-open-api-sdk</artifactId>
+		<version>1.0</version>
 	</dependency>	
 ```
 

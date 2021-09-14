@@ -94,11 +94,10 @@ public class AppConfig {
      * @param appId
      * @param appSecret
      * @param appTimeout
-     * @param appCharset
      * @return
      */
     public AppConfig setConfig(String appId, String appSecret,
-                               String appTimeout, String appCharset, String httpUrl, String redirectUri) {
+                               String appTimeout, String httpUrl, String redirectUri) {
         appConfig.appId = appId;
         appConfig.appSecret = appSecret;
         appConfig.appTimeout = appTimeout;

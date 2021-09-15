@@ -17,12 +17,12 @@ public class OkHttp {
     public static final MediaType js = MediaType
             .parse("application/json; charset=utf-8");
     private static final Logger log = LoggerFactory.getLogger(OkHttp.class);
-    public static OkHttpClient httpClinet = null;
+    public static OkHttpClient httpClient = null;
 
     static {
-        httpClinet = new OkHttpClient();
+        httpClient = new OkHttpClient();
         // httpClinet.interceptors().add(new LoggingInterceptor());
-        httpClinet.setConnectTimeout(1000 * 30, TimeUnit.MILLISECONDS);
+        httpClient.setConnectTimeout(1000 * 30, TimeUnit.MILLISECONDS);
         /*
          * httpClinet.setSslSocketFactory(getUnsafeOkHttpClient());
          * httpClinet.setHostnameVerifier(new HostnameVerifier() {
@@ -48,8 +48,8 @@ public class OkHttp {
      * @return string json
      */
     public static String okHttpsPostJson(String url, String content) {
-        httpClinet.setSslSocketFactory(getUnsafeOkHttpClient());
-        httpClinet.setHostnameVerifier(new HostnameVerifier() {
+        httpClient.setSslSocketFactory(getUnsafeOkHttpClient());
+        httpClient.setHostnameVerifier(new HostnameVerifier() {
             public boolean verify(String hostname, SSLSession session) {
                 return true;
             }
@@ -86,7 +86,7 @@ public class OkHttp {
         }
         String result = null;
         try {
-            Request request = null;
+            Request request;
             // 是否有请求头信息
             if (headers == null) {
                 request = new Request.Builder()
@@ -101,7 +101,7 @@ public class OkHttp {
                                 content)).build();
             }
             log.debug("request  : " + request + " body: " + content);
-            Response response = httpClinet.newCall(request).execute();
+            Response response = httpClient.newCall(request).execute();
             log.debug("response :" + response);
             if (!response.isSuccessful()) {
                 return "";
@@ -127,7 +127,7 @@ public class OkHttp {
         }
         ResponseBody result = null;
         try {
-            Request request = null;
+            Request request;
             // 是否有请求头信息
             if (headers == null) {
                 request = new Request.Builder()
@@ -142,7 +142,7 @@ public class OkHttp {
                                 content)).build();
             }
             log.debug("request  : " + request + " body: " + content);
-            Response response = httpClinet.newCall(request).execute();
+            Response response = httpClient.newCall(request).execute();
             log.debug("response :" + response);
             if (!response.isSuccessful()) {
                 return null;
@@ -182,7 +182,7 @@ public class OkHttp {
             request = new Request.Builder().addHeader("Connection", "close")
                     .url(url).get().build();
             log.debug("request : " + request);
-            Response response = httpClinet.newCall(request).execute();
+            Response response = httpClient.newCall(request).execute();
             log.debug("response :" + response);
             if (!response.isSuccessful()) {
                 return null;
@@ -216,7 +216,7 @@ public class OkHttp {
                         .build();
             }
             log.debug("request  : " + request);
-            Response response = httpClinet.newCall(request).execute();
+            Response response = httpClient.newCall(request).execute();
             log.debug("response :" + response);
             if (!response.isSuccessful()) {
                 return "";

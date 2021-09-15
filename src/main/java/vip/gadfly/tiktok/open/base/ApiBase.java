@@ -1,7 +1,9 @@
 package vip.gadfly.tiktok.open.base;
 
+import lombok.extern.slf4j.Slf4j;
 import vip.gadfly.tiktok.config.AppConfig;
 import vip.gadfly.tiktok.core.OkHttp3;
+import vip.gadfly.tiktok.core.exception.TikTokException;
 import vip.gadfly.tiktok.core.utils.StringUtil;
 import vip.gadfly.tiktok.open.api.token.AccessTokenConfig;
 
@@ -17,8 +19,12 @@ import java.io.File;
  * @author OF
  * @date 2018年7月13日
  */
+@Slf4j
 public abstract class ApiBase {
 
+    private final static int retrySleepMillis = 1000;
+    private final static int maxRetryTimes = 5;
+    private final static int tiktokBusyCode = 2100004;
     private String openId;
     private String appId = AppConfig.getAppId();
     private String accessToken;
@@ -37,19 +43,46 @@ public abstract class ApiBase {
      * @return 返回 ApiResponse 内容
      */
     public static ApiResponse sendPost(ApiRequest request) {
-        String result = OkHttp3.okHttpPostJson(request.getUrl(),
-                request.toJson());
-        return new ApiResponse(result);
+        int retryTimes = 0;
+        do {
+            try {
+                String result = OkHttp3.okHttpPostJson(request.getUrl(),
+                        request.toJson());
+                return new ApiResponse(result);
+            } catch (TikTokException e) {
+                responseExceptionHandler(retryTimes, e);
+            }
+        } while (retryTimes++ < maxRetryTimes);
+        log.warn("重试达到最大次数【{}】", maxRetryTimes);
+        throw new TikTokException("抖音服务端异常，超出重试次数");
     }
 
     public static ApiResponse sendPost(String url, ApiRequest request) {
-        String result = OkHttp3.okHttpPostJson(url, request.toJson());
-        return new ApiResponse(result);
+        int retryTimes = 0;
+        do {
+            try {
+                String result = OkHttp3.okHttpPostJson(url, request.toJson());
+                return new ApiResponse(result);
+            } catch (TikTokException e) {
+                responseExceptionHandler(retryTimes, e);
+            }
+        } while (retryTimes++ < maxRetryTimes);
+        log.warn("重试达到最大次数【{}】", maxRetryTimes);
+        throw new TikTokException("抖音服务端异常，超出重试次数");
     }
 
     public static ApiResponse sendPost(String url, File file, String mediaType) {
-        String result = OkHttp3.okHttpPost(url, file, mediaType);
-        return new ApiResponse(result);
+        int retryTimes = 0;
+        do {
+            try {
+                String result = OkHttp3.okHttpPost(url, file, mediaType);
+                return new ApiResponse(result);
+            } catch (TikTokException e) {
+                responseExceptionHandler(retryTimes, e);
+            }
+        } while (retryTimes++ < maxRetryTimes);
+        log.warn("重试达到最大次数【{}】", maxRetryTimes);
+        throw new TikTokException("抖音服务端异常，超出重试次数");
     }
 
     /**
@@ -59,15 +92,50 @@ public abstract class ApiBase {
      * @return 返回 json 内容
      */
     public static ApiResponse sendPost(String url, String json) {
-        String result = OkHttp3.okHttpPostJson(url, json);
-        return new ApiResponse(result);
+        int retryTimes = 0;
+        do {
+            try {
+                String result = OkHttp3.okHttpPostJson(url, json);
+                return new ApiResponse(result);
+            } catch (TikTokException e) {
+                responseExceptionHandler(retryTimes, e);
+            }
+        } while (retryTimes++ < maxRetryTimes);
+        log.warn("重试达到最大次数【{}】", maxRetryTimes);
+        throw new TikTokException("抖音服务端异常，超出重试次数");
     }
 
     public static ApiResponse sendGet(String url) {
-        System.out.println(url);
-        String result = OkHttp3.okHttpGet(url, null);
-        System.out.println(result);
-        return new ApiResponse(result);
+        int retryTimes = 0;
+        do {
+            try {
+                String result = OkHttp3.okHttpGet(url, null);
+                return new ApiResponse(result);
+            } catch (TikTokException e) {
+                responseExceptionHandler(retryTimes, e);
+            }
+        } while (retryTimes++ < maxRetryTimes);
+        log.warn("重试达到最大次数【{}】", maxRetryTimes);
+        throw new TikTokException("抖音服务端异常，超出重试次数");
+    }
+
+    private static void responseExceptionHandler(int retryTimes, TikTokException e) {
+        if (retryTimes + 1 > maxRetryTimes) {
+            log.warn("重试达到最大次数【{}】", maxRetryTimes);
+            // 最后一次重试失败后，直接抛出异常，不再等待
+            throw new TikTokException("抖音服务端异常，超出重试次数");
+        }
+        // 2100004 系统繁忙, 1000ms后重试
+        if (e.getErrorCode() != tiktokBusyCode) {
+            throw e;
+        }
+        int sleepMillis = retrySleepMillis * (1 << retryTimes);
+        try {
+            log.debug("抖音系统繁忙，{} ms 后重试(第{}次)", sleepMillis, retryTimes + 1);
+            Thread.sleep(sleepMillis);
+        } catch (InterruptedException e1) {
+            Thread.currentThread().interrupt();
+        }
     }
 
     public String getOpenId() {
@@ -126,5 +194,4 @@ public abstract class ApiBase {
     public abstract ApiBase withOpenId(String openId);
 
     public abstract String scope();
-
 }

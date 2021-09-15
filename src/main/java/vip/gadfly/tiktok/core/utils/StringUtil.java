@@ -1,7 +1,7 @@
 package vip.gadfly.tiktok.core.utils;
 
 import org.apache.commons.lang3.StringUtils;
-import vip.gadfly.tiktok.core.DouyinException;
+import vip.gadfly.tiktok.core.exception.TikTokException;
 
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
@@ -29,15 +29,15 @@ public class StringUtil extends StringUtils {
      * @param len      报文头长度
      * @param encoding 编码集
      * @return
-     * @throws DouyinException
+     * @throws TikTokException
      */
     public static String getMsgHead(String msg, int len, String encoding)
-            throws DouyinException {
+            throws TikTokException {
         if (isBlank(encoding)) {
-            throw new DouyinException("msg is blank!");
+            throw new TikTokException("msg is blank!");
         }
         if (len <= 0) {
-            throw new DouyinException("len is must be bigger than 0 !");
+            throw new TikTokException("len is must be bigger than 0 !");
         }
         try {
             String head = String.format("%0" + len + "d",

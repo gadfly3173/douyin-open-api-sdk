@@ -92,8 +92,8 @@ public class JsonUtil {
      * @param type
      * @return
      */
-    public static List<?> jsonToList(String jsonStr, Type type) {
-        List<?> objList = null;
+    public static <T> List<T> jsonToList(String jsonStr, Type type) {
+        List<T> objList = null;
         if (gson != null) {
             objList = gson.fromJson(jsonStr, type);
         }
@@ -122,8 +122,8 @@ public class JsonUtil {
      * @param jsonStr
      * @return
      */
-    public static Object jsonToBean(String jsonStr, Class<?> cl) {
-        Object obj = null;
+    public static <T> T jsonToBean(String jsonStr, Class<T> cl) {
+        T obj = null;
         if (gson != null) {
             obj = gson.fromJson(jsonStr, cl);
         }

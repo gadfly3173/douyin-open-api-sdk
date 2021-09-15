@@ -48,13 +48,13 @@ public class OauthApi extends ApiBase {
 
 
     /**
-     * 用于获取用户允许授权后，重定向到 redirect_uri 的网址的cdoe值
+     * 用于获取用户允许授权后，重定向到 redirect_uri 的网址的code值
      *
      * @param scanBackUrl 回调地址
      * @return
      */
     public OauthConnectResult getResult(String scanBackUrl) {
-        return (OauthConnectResult) JsonUtil.jsonToBean(scanBackUrl, OauthConnectResult.class);
+        return JsonUtil.jsonToBean(scanBackUrl, OauthConnectResult.class);
     }
 
 

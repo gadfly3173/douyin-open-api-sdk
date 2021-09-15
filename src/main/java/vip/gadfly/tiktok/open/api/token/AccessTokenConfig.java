@@ -3,7 +3,7 @@ package vip.gadfly.tiktok.open.api.token;
 import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import vip.gadfly.tiktok.core.DouyinException;
+import vip.gadfly.tiktok.core.exception.TikTokException;
 import vip.gadfly.tiktok.core.utils.StringUtil;
 import vip.gadfly.tiktok.open.cache.DefaultAccessTokenCache;
 import vip.gadfly.tiktok.open.cache.IAccessTokenCache;
@@ -75,7 +75,7 @@ public class AccessTokenConfig {
     public AccessTokenResult getAccessTokenResult(String cacheKey, boolean isRefresh) {
         String json = accessTokenCache.getStr(cacheKey);
         if (StringUtil.isEmpty(json)) {
-            throw new DouyinException(" cache not find cacheKey =" + cacheKey);
+            throw new TikTokException(" cache not find cacheKey =" + cacheKey);
         }
         AccessTokenResult result = JSONObject.parseObject(json, AccessTokenResult.class);
         // 判断是否将要过期

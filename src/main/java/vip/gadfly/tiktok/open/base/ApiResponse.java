@@ -2,7 +2,7 @@ package vip.gadfly.tiktok.open.base;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.reflect.TypeToken;
-import vip.gadfly.tiktok.core.DouyinException;
+import vip.gadfly.tiktok.core.exception.TikTokException;
 import vip.gadfly.tiktok.core.utils.JsonUtil;
 import vip.gadfly.tiktok.core.utils.StringUtil;
 
@@ -30,11 +30,11 @@ public class ApiResponse implements Serializable {
             JSONObject temp = JSONObject.parseObject(json);
             this.result = temp.getJSONObject(DATA_KEY);
         } catch (Exception e) {
-            throw new DouyinException(e.getMessage() + "\n json =" + json);
+            throw new TikTokException(e.getMessage() + "\n json =" + json);
         }
 
         if (!this.isSuccessful()) {
-            throw new DouyinException(" error : this result data is null \n json =" + json);
+            throw new TikTokException(this.getErrorCode(), " error : this result data is null \n json =" + json);
         }
     }
 
@@ -119,13 +119,13 @@ public class ApiResponse implements Serializable {
      * @param cl
      * @return
      */
-    public <T> T dataToBean(Class<?> cl) {
+    public <T> T dataToBean(Class<T> cl) {
         T obj;
         try {
             String data = JsonUtil.objectToJson(this.result);
-            obj = (T) JsonUtil.jsonToBean(data, cl);
+            obj = JsonUtil.jsonToBean(data, cl);
         } catch (Exception ex) {
-            throw new DouyinException(" error : data josn to bean is error" + ex.getMessage());
+            throw new TikTokException(" error : data json to bean is error" + ex.getMessage());
         }
         return obj;
     }
@@ -140,10 +140,10 @@ public class ApiResponse implements Serializable {
         try {
             Type type = new TypeToken<List<T>>() {
             }.getType();
-            list = (List<T>) JsonUtil.jsonToList(JsonUtil.objectToJson(this.result), type);
+            list = JsonUtil.jsonToList(JsonUtil.objectToJson(this.result), type);
 
         } catch (Exception ex) {
-            throw new DouyinException(" error : data josn to bean is error" + ex.getMessage());
+            throw new TikTokException(" error : data json to bean is error" + ex.getMessage());
         }
         return list;
     }

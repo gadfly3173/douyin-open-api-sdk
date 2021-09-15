@@ -9,7 +9,7 @@ import vip.gadfly.tiktok.open.conf.DouyinConf;
  * Scope: video.create
  */
 public class VideoCreateApi extends ApiBase {
-    public static String VIDEO_UPLOAD = AppConfig.getInstance().httpUrl + "/video/create/";
+    public String VIDEO_UPLOAD = getHttpUrl() + "/video/create/";
 
     /**
      * 创建抖音视频

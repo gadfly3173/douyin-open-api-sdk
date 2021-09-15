@@ -5,7 +5,7 @@ import vip.gadfly.tiktok.open.base.ApiBase;
 import vip.gadfly.tiktok.open.conf.DouyinConf;
 
 public class FollowingListApi extends ApiBase {
-    public static String FOLLOWING_LIST_URL = AppConfig.getInstance().httpUrl + "/following/list";
+    public String FOLLOWING_LIST_URL = getHttpUrl() + "/following/list";
 
     /**
      * 关注列表

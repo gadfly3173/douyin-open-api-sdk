@@ -5,7 +5,7 @@ import vip.gadfly.tiktok.open.base.ApiBase;
 import vip.gadfly.tiktok.open.conf.DouyinConf;
 
 public class FansListApi extends ApiBase {
-    public static String FANS_LIST_URL = AppConfig.getInstance().httpUrl + "/fans/list";
+    public String FANS_LIST_URL = getHttpUrl() + "/fans/list";
 
     /**
      * 粉丝列表

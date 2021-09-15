@@ -7,7 +7,7 @@ import vip.gadfly.tiktok.open.base.ApiResponse;
 
 public class HotsearchSentencesApi extends ApiBase {
 
-    public static String API_URL = AppConfig.getInstance().httpUrl + "/hotsearch/sentences/";
+    public String API_URL = getHttpUrl() + "/hotsearch/sentences/";
 
     public HotsearchSentencesResult get() {
 

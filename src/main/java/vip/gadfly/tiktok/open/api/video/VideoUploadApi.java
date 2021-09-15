@@ -22,7 +22,7 @@ import java.io.File;
  * 关注列表
  */
 public class VideoUploadApi extends ApiBase {
-    public static String VIDEO_UPLOAD = AppConfig.getInstance().httpUrl + "/video/upload/";
+    public String VIDEO_UPLOAD = getHttpUrl() + "/video/upload/";
 
     /**
      * 上传文件到文件务器
@@ -30,7 +30,7 @@ public class VideoUploadApi extends ApiBase {
      * @param param VideoUploadParam
      * @return
      */
-    public static VideoUploadResult doPost(VideoUploadParam param) {
+    public VideoUploadResult doPost(VideoUploadParam param) {
         String url = VIDEO_UPLOAD + "?" + param.getNoPageUrlParam();
         VideoUploadResult result = sendPost(url, param.getUploadFile(), param.getMediaType()).dataToBean(VideoUploadResult.class);
         return result;

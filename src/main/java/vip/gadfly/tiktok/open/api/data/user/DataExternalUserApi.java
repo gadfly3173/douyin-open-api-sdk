@@ -12,7 +12,7 @@ import vip.gadfly.tiktok.open.conf.DouyinConf;
 
 public class DataExternalUserApi extends ApiBase {
 
-    public static String API_URL = AppConfig.getInstance().httpUrl + "/data/external/user/";
+    public String API_URL = getHttpUrl() + "/data/external/user/";
 //    private static String DEEP_RESULT_LIST = "result_list";
 
 

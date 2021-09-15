@@ -8,7 +8,7 @@ import vip.gadfly.tiktok.open.conf.DouyinConf;
  * Scope: video.list
  */
 public class VideoListApi extends ApiBase {
-    public static String VIDEO_LIST = AppConfig.getInstance().httpUrl + "/video/list/";
+    public String VIDEO_LIST = getHttpUrl() + "/video/list/";
 
     /**
      * 列出已发布的视频

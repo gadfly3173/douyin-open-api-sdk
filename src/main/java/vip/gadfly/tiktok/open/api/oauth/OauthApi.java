@@ -12,7 +12,7 @@ import vip.gadfly.tiktok.open.base.ApiBase;
  * @date 2019/11/10
  */
 public class OauthApi extends ApiBase {
-    public static String CONNECTION_URL = AppConfig.getInstance().httpUrl + "/platform/oauth/connect/";
+    public String CONNECTION_URL = getHttpUrl() + "/platform/oauth/connect/";
 
     /**
      * 自定义 OauthConnectParam 获取抖音扫一扫登陆URL

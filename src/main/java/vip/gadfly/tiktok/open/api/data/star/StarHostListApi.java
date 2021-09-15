@@ -8,7 +8,7 @@ import vip.gadfly.tiktok.open.base.ApiResponse;
 
 public class StarHostListApi extends ApiBase {
 
-    public static String API_URL = AppConfig.getInstance().httpUrl + "/star/hot_list/";
+    public String API_URL = getHttpUrl() + "/star/hot_list/";
 
     public StarHostListResult get(StarHostListParam param) {
 

@@ -10,7 +10,7 @@ import vip.gadfly.tiktok.open.conf.DouyinConf;
  * Scope: video.data
  */
 public class VideoDataApi extends ApiBase {
-    public static String VIDEO_DATA = AppConfig.getInstance().httpUrl + "/video/data/";
+    public String VIDEO_DATA = getHttpUrl() + "/video/data/";
 
     /**
      * 查询指定视频数据

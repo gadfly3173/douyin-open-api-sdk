@@ -6,7 +6,7 @@ import vip.gadfly.tiktok.open.base.ApiResponse;
 import vip.gadfly.tiktok.open.conf.DouyinConf;
 
 public class OauthUserInfoApi extends ApiBase {
-    public static String OAUTH_USERINFO_URL = AppConfig.getInstance().httpUrl + "/oauth/userinfo";
+    public String OAUTH_USERINFO_URL = getHttpUrl() + "/oauth/userinfo";
 
     /**
      * 获取用户的抖音公开信息，包含昵称、头像、性别和地区
@@ -14,7 +14,7 @@ public class OauthUserInfoApi extends ApiBase {
      * @param param OauthUserInfoParam
      * @return
      */
-    public static OauthUserInfoResult get(OauthUserInfoParam param) {
+    public OauthUserInfoResult get(OauthUserInfoParam param) {
         String url = OAUTH_USERINFO_URL + "?" + param.getUrlParam();
         ApiResponse response = sendGet(url);
         OauthUserInfoResult result = response.dataToBean(OauthUserInfoResult.class);

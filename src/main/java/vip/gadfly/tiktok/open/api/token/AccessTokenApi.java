@@ -13,8 +13,8 @@ import vip.gadfly.tiktok.open.base.ApiResponse;
  * @date 2017年10月16日
  */
 public class AccessTokenApi extends ApiBase {
-    private static final String TOKEN_URL = AppConfig.getInstance().httpUrl + "/oauth/access_token";
-    private static final String TOKEN_CLIENT_URL = AppConfig.getInstance().httpUrl + "/oauth/client_token";
+    private final String TOKEN_URL = getHttpUrl() + "/oauth/access_token";
+    private final String TOKEN_CLIENT_URL = getHttpUrl() + "/oauth/client_token";
 
     /**
      * 根据 code 请求 accessToken

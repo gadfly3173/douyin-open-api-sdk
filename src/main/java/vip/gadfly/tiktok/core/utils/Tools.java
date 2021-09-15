@@ -1098,7 +1098,7 @@ public class Tools {
         Method method = null;
         try {
             method = ownerClass.getMethod("get" + propertyName);
-        } catch (SecurityException e) {
+        } catch (SecurityException ignored) {
         } catch (NoSuchMethodException e) {
             return null;
         }
@@ -1369,8 +1369,8 @@ public class Tools {
      * @return
      */
     public static String moneyGb(String money) {
-        StringBuffer sb_f = new StringBuffer();// 整数部分
-        StringBuffer sb_b = new StringBuffer();// 小数部分
+        StringBuilder sb_f = new StringBuilder();// 整数部分
+        StringBuilder sb_b = new StringBuilder();// 小数部分
 
         char[] mchr = money.toCharArray();
 
@@ -1388,7 +1388,7 @@ public class Tools {
 
         if (idx == -1)// 没有小数
             idx = mchr.length;
-        for (int i = 0, un1 = 0, un2 = 0; i < idx; i++) {
+        for (int i = 0, un1, un2; i < idx; i++) {
             char c = mchr[i];
 
             un1 = (idx - i + 3) % digit_unit1.length;
@@ -1398,7 +1398,7 @@ public class Tools {
                 if (sb_f.length() > 0 && sb_f.lastIndexOf("零") != sb_f.length() - 1)
                     sb_f.append(gbDigit(c));
             } else
-                sb_f.append(gbDigit(c) + digit_unit1[un1]);
+                sb_f.append(gbDigit(c)).append(digit_unit1[un1]);
 
             if (sb_f.length() > 0 && un1 == 0) {
                 if (sb_f.lastIndexOf("零") == sb_f.length() - 1)
@@ -1427,7 +1427,7 @@ public class Tools {
         if (id_code.length() != 18)// 输入字符不是18位则返回原字符串
             return id_code;
 
-        StringBuffer sb = new StringBuffer(id_code);
+        StringBuilder sb = new StringBuilder(id_code);
         sb.replace(17, 18, "");// 删除校验位
         sb.replace(6, 8, "");// 删除年份的前两位
         return sb.toString();
@@ -1442,8 +1442,7 @@ public class Tools {
          * SYS_ORG where orgno=a.orgno) from sys_user a select * from sys_user
          * where orgid like
          */
-        String sql = "(select orgid from sys_org where orgno=" + colname + ")";
-        return sql;
+        return "(select orgid from sys_org where orgno=" + colname + ")";
 
     }
 
@@ -1469,12 +1468,12 @@ public class Tools {
      */
     public static String numbercheckcode() {
         char[] chars = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
-        String res = "";
+        StringBuilder res = new StringBuilder();
         for (int i = 0; i < 6; i++) {
             int id = (int) Math.ceil(Math.random() * 10);
-            res += chars[id];
+            res.append(chars[id]);
         }
-        return res;
+        return res.toString();
     }
 
     /**
@@ -1485,12 +1484,12 @@ public class Tools {
     public static String verification() {
         char[] chars = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
                 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
-        String res = "";
+        StringBuilder res = new StringBuilder();
         for (int i = 0; i < 4; i++) {
             int id = (int) Math.ceil(Math.random() * 35);
-            res += chars[id];
+            res.append(chars[id]);
         }
-        return res;
+        return res.toString();
     }
 
     public static String uuid() {
@@ -1507,13 +1506,13 @@ public class Tools {
     public static String genRandom(int n, String sp) {
         sp = sp == null ? "" : sp;
         Random rand = new Random();
-        String result = "";
+        StringBuilder result = new StringBuilder();
         for (int i = 0; i < n; i++) {
             Float f = rand.nextFloat() * 10;
             if (i > 0)
-                result += sp;
-            result += f.intValue();
+                result.append(sp);
+            result.append(f.intValue());
         }
-        return result;
+        return result.toString();
     }
 }

@@ -140,7 +140,7 @@ public class JsonUtil {
     @SuppressWarnings("unchecked")
     public static <T> T jsonToBeanDateSerializer(String jsonStr, Class<T> cl,
                                                  final String pattern) {
-        T obj = null;
+        T obj;
         gson = new GsonBuilder()
                 .registerTypeAdapter(Date.class, (JsonDeserializer<Date>) (json, typeOfT, context) -> {
                     SimpleDateFormat format = new SimpleDateFormat(pattern);

@@ -45,7 +45,7 @@ public class MatchUtil {
     public static String getMatchValue(String pattern, String msg) {
         Pattern p = Pattern.compile(pattern);
         Matcher matcher = p.matcher(msg);
-        if (matcher != null && matcher.find()) {
+        if (matcher.find()) {
             return matcher.group(matcher.groupCount()).trim();
         }
         return "";

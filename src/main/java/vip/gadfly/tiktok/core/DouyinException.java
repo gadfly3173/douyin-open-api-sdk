@@ -4,8 +4,8 @@ import java.util.Map;
 
 public class DouyinException extends RuntimeException {
     private static final long serialVersionUID = 1L;
-    private String erroCode = null;
-    private Map<String, Object> returndata;
+    private String errorCode = null;
+    private Map<String, Object> returnData;
 
     /**
      * @param string
@@ -14,22 +14,22 @@ public class DouyinException extends RuntimeException {
         super(string);
     }
 
-    public DouyinException(String message, Map<String, Object> returndata) {
+    public DouyinException(String message, Map<String, Object> returnData) {
         super(message);
-        this.returndata = returndata;
+        this.returnData = returnData;
     }
 
-    public DouyinException(String erroCode, String msg) {
+    public DouyinException(String errorCode, String msg) {
         super(msg);
-        this.erroCode = erroCode;
+        this.errorCode = errorCode;
     }
 
-    public String getErroCode() {
-        return erroCode;
+    public String getErrorCode() {
+        return errorCode;
     }
 
-    public Map<String, Object> getReturndata() {
-        return returndata;
+    public Map<String, Object> getReturnData() {
+        return returnData;
     }
 
 }

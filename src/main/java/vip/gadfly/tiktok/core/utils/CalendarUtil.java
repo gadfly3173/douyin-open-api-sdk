@@ -201,12 +201,12 @@ public class CalendarUtil {
         return hehe;
     }
 
-    public static String getYestoday(String dateformat) {
+    public static String getYesterday(String dateformat) {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, -1);
-        Date yestoday = cal.getTime();
+        Date yesterday = cal.getTime();
         SimpleDateFormat dateFormat = new SimpleDateFormat(dateformat);// 可以方便地修改日期格式
-        String hehe = dateFormat.format(yestoday);
+        String hehe = dateFormat.format(yesterday);
         return hehe;
     }
 
@@ -289,9 +289,9 @@ public class CalendarUtil {
     public static String getTimeOffset(String dateformat, int i) {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MINUTE, i);
-        Date yestoday = cal.getTime();
+        Date yesterday = cal.getTime();
         SimpleDateFormat dateFormat = new SimpleDateFormat(dateformat);
-        return dateFormat.format(yestoday);
+        return dateFormat.format(yesterday);
     }
 
     /**
@@ -300,7 +300,7 @@ public class CalendarUtil {
      * @return
      */
     public String getDefaultDay() {
-        String str = "";
+        String str;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
         Calendar lastDate = Calendar.getInstance();
@@ -318,7 +318,7 @@ public class CalendarUtil {
      * @return
      */
     public String getPreviousMonthFirst() {
-        String str = "";
+        String str;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
         Calendar lastDate = Calendar.getInstance();
@@ -336,7 +336,7 @@ public class CalendarUtil {
      * @return
      */
     public String getFirstDayOfMonth() {
-        String str = "";
+        String str;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
         Calendar lastDate = Calendar.getInstance();
@@ -648,16 +648,11 @@ public class CalendarUtil {
     public String getThisSeasonFirstTime(int month) {
         int[][] array = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}, {10, 11, 12}};
         int season = 1;
-        if (month >= 1 && month <= 3) {
-            season = 1;
-        }
         if (month >= 4 && month <= 6) {
             season = 2;
-        }
-        if (month >= 7 && month <= 9) {
+        } else if (month >= 7 && month <= 9) {
             season = 3;
-        }
-        if (month >= 10 && month <= 12) {
+        } else if (month >= 10 && month <= 12) {
             season = 4;
         }
         int start_month = array[season - 1][0];
@@ -680,16 +675,11 @@ public class CalendarUtil {
     public String getThisSeasonFinallyTime(int month) {
         int[][] array = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}, {10, 11, 12}};
         int season = 1;
-        if (month >= 1 && month <= 3) {
-            season = 1;
-        }
         if (month >= 4 && month <= 6) {
             season = 2;
-        }
-        if (month >= 7 && month <= 9) {
+        } else if (month >= 7 && month <= 9) {
             season = 3;
-        }
-        if (month >= 10 && month <= 12) {
+        } else if (month >= 10 && month <= 12) {
             season = 4;
         }
         int end_month = array[season - 1][2];

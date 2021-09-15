@@ -58,7 +58,7 @@ public class StringUtil extends StringUtils {
      * @return
      */
     public static String replace(String source, String oldStr, String newStr) {
-        return Pattern.compile(oldStr, LITERAL).matcher(source)
+        return Pattern.compile(oldStr, Pattern.LITERAL).matcher(source)
                 .replaceAll(quoteReplacement(newStr));
     }
 
@@ -132,13 +132,12 @@ public class StringUtil extends StringUtils {
         String timef = time.substring(2, 4);
         String nowtimes = str.substring(0, 2);
         String nowtimef = str.substring(2, 4);
-        int newtime = 0;
+        int newtime;
         if (Integer.parseInt(times) > Integer.parseInt(nowtimes)) {
             newtime = (Integer.parseInt(times) - Integer.parseInt(nowtimes)) * 60;
             newtime = newtime + Integer.parseInt(timef)
                               - Integer.parseInt(nowtimef);
         } else if (Integer.parseInt(times) == Integer.parseInt(nowtimes)) {
-            newtime = 0;
             if (Integer.parseInt(timef) >= Integer.parseInt(nowtimef)) {
                 newtime = Integer.parseInt(timef) - Integer.parseInt(nowtimef);
             } else {
@@ -158,7 +157,7 @@ public class StringUtil extends StringUtils {
         if ((s.indexOf('\\') == -1) && (s.indexOf('$') == -1)) {
             return s;
         }
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
             if (c == '\\') {
@@ -182,7 +181,7 @@ public class StringUtil extends StringUtils {
      */
     public static String lpad(String sour, String fillStr, int len) {
 
-        StringBuffer blank = new StringBuffer();
+        StringBuilder blank = new StringBuilder();
 
         for (int index = sour.length(); index < len; ++index) {
             blank.append(fillStr);
@@ -233,13 +232,13 @@ public class StringUtil extends StringUtils {
      * HTML字符转义
      *
      * @return String 过滤后的字符串
-     * @see 对输入参数中的敏感字符进行过滤替换,防止用户利用JavaScript等方式输入恶意代码
-     * @see String input = <img src='http://t1.baidu.com/it/fm=0&gp=0.jpg'/>
-     * @see HtmlUtils.htmlEscape(input); //from spring.jar
-     * @see StringEscapeUtils.escapeHtml(input); //from commons-lang.jar
-     * @see 尽管Spring和Apache都提供了字符转义的方法,但Apache的StringEscapeUtils功能要更强大一些
-     * @see StringEscapeUtils提供了对HTML,Java,JavaScript,SQL,XML等字符的转义和反转义
-     * @see 但二者在转义HTML字符时,都不会对单引号和空格进行转义,而本方法则提供了对它们的转义
+     * <p>对输入参数中的敏感字符进行过滤替换,防止用户利用JavaScript等方式输入恶意代码</p>
+     * <p>{@code String input = <img src='http://t1.baidu.com/it/fm=0&gp=0.jpg'/>}</p>
+     * <p>{@code HtmlUtils.htmlEscape(input); //from spring.jar}</p>
+     * <p>{@code StringEscapeUtils.escapeHtml(input); //from commons-lang.jar}</p>
+     * <p>尽管Spring和Apache都提供了字符转义的方法,但Apache的StringEscapeUtils功能要更强大一些</p>
+     * <p>StringEscapeUtils提供了对HTML,Java,JavaScript,SQL,XML等字符的转义和反转义</p>
+     * <p>但二者在转义HTML字符时,都不会对单引号和空格进行转义,而本方法则提供了对它们的转义</p>
      */
     public static String htmlEscape(String input) {
         if (isEmpty(input)) {

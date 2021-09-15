@@ -8,8 +8,8 @@ import java.io.ObjectOutputStream;
 public class SerializeUtil {
 
     public static byte[] serialize(Object object) {
-        ObjectOutputStream oos = null;
-        ByteArrayOutputStream baos = null;
+        ObjectOutputStream oos;
+        ByteArrayOutputStream baos;
         try {
             // 序列化
             baos = new ByteArrayOutputStream();
@@ -17,19 +17,19 @@ public class SerializeUtil {
             oos.writeObject(object);
             byte[] bytes = baos.toByteArray();
             return bytes;
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         return null;
     }
 
     public static Object unserialize(byte[] bytes) {
-        ByteArrayInputStream bais = null;
+        ByteArrayInputStream bais;
         try {
             // 反序列化
             bais = new ByteArrayInputStream(bytes);
             ObjectInputStream ois = new ObjectInputStream(bais);
             return ois.readObject();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
         return null;

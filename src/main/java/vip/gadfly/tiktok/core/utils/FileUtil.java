@@ -74,9 +74,6 @@ public class FileUtil {
         try {
             URL url = sc.getResource(filename);
             return url.getFile();
-        } catch (MalformedURLException e) {
-            log.error(e.getMessage());
-            e.printStackTrace();
         } catch (Exception e) {
             log.error(e.getMessage());
             e.printStackTrace();
@@ -118,7 +115,7 @@ public class FileUtil {
     /**
      * 删除文件
      *
-     * @param shortpath 文件路径(绝对路径,去掉前面的全局配置路径)
+     * @param path 文件路径(绝对路径,去掉前面的全局配置路径)
      */
     public static void deleteFile(String path) {
         if (StringUtils.isEmpty(path)) {
@@ -129,7 +126,7 @@ public class FileUtil {
         }
         String filepath = path;
         File file = new File(filepath);
-        if (file != null && file.exists()) {
+        if (file.exists()) {
             file.delete();
         }
 
@@ -176,12 +173,12 @@ public class FileUtil {
                 }
                 buffer.append(text);
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         } finally {
             try {
                 input.close();
                 fr.close();
-            } catch (Exception e) {
+            } catch (Exception ignored) {
             }
         }
         return buffer;
@@ -217,7 +214,7 @@ public class FileUtil {
             try {
                 input.close();
                 fr.close();
-            } catch (Exception e) {
+            } catch (Exception ignored) {
             }
         }
         return content;
@@ -226,7 +223,7 @@ public class FileUtil {
     /**
      * 读取指定文件的所有内容,以String返回
      *
-     * @param pathname 要读取文件的全路径和全名称
+     * @param pathName 要读取文件的全路径和全名称
      * @return 文件所有内内容
      */
     public static String readFile(String pathName, String charset) {
@@ -291,7 +288,7 @@ public class FileUtil {
             try {
                 output.close();
                 fw.close();
-            } catch (IOException e) {
+            } catch (IOException ignored) {
             }
         }
     }
@@ -305,12 +302,12 @@ public class FileUtil {
     private static List<File> getSubFiles(File baseDir) {
         List<File> ret = new ArrayList<File>();
         File[] tmp = baseDir.listFiles();
-        for (int i = 0; i < tmp.length; i++) {
-            if (tmp[i].isFile()) {
-                ret.add(tmp[i]);
+        for (File file : tmp) {
+            if (file.isFile()) {
+                ret.add(file);
             }
-            if (tmp[i].isDirectory()) {
-                ret.addAll(getSubFiles(tmp[i]));
+            if (file.isDirectory()) {
+                ret.addAll(getSubFiles(file));
             }
         }
         return ret;
@@ -326,7 +323,7 @@ public class FileUtil {
     private static String getAbsFileName(String baseDir, File realFileName) {
         File real = realFileName;
         File base = new File(baseDir);
-        String ret = real.getName();
+        StringBuilder ret = new StringBuilder(real.getName());
         while (true) {
             real = real.getParentFile();
             if (real == null) {
@@ -335,10 +332,10 @@ public class FileUtil {
             if (real.equals(base)) {
                 break;
             } else {
-                ret = real.getName() + "/" + ret;
+                ret.insert(0, real.getName() + "/");
             }
         }
-        return ret;
+        return ret.toString();
     }
 
     /**
@@ -382,9 +379,8 @@ public class FileUtil {
                 targetFile));
         ZipEntry ze = null;
         byte[] buf = new byte[BUFFER];
-        int readLen = 0;
-        for (int i = 0; i < fileList.size(); i++) {
-            File f = fileList.get(i);
+        int readLen;
+        for (File f : fileList) {
             ze = new ZipEntry(getAbsFileName(baseDir, f));
             ze.setSize(f.length());
             ze.setTime(f.lastModified());
@@ -418,7 +414,7 @@ public class FileUtil {
         ZipFile zfile = new ZipFile(zipFile);
         @SuppressWarnings("rawtypes")
         Enumeration zList = zfile.entries();
-        ZipEntry ze = null;
+        ZipEntry ze;
         byte[] buf = new byte[BUFFER];
         while (zList.hasMoreElements()) {
             ze = (ZipEntry) zList.nextElement();
@@ -430,7 +426,7 @@ public class FileUtil {
             OutputStream os = new BufferedOutputStream(new FileOutputStream(
                     targetDir + ze.getName()));
             InputStream is = new BufferedInputStream(zfile.getInputStream(ze));
-            int readLen = 0;
+            int readLen;
             while ((readLen = is.read(buf, 0, BUFFER)) != -1) {
                 os.write(buf, 0, readLen);
             }

@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
 public class TiktokOpenHostConfig {
     public static final String TIKTOK_OPEN_API_HOST_URL = "https://open.douyin.com";
@@ -34,6 +33,12 @@ public class TiktokOpenHostConfig {
      * 对应于：https://open-api.ixigua.com
      */
     private String xiguaOpenHost;
+
+    public TiktokOpenHostConfig() {
+        this.tiktokOpenHost = TIKTOK_OPEN_API_HOST_URL;
+        this.toutiaoOpenHost = TOUTIAO_OPEN_API_HOST_URL;
+        this.xiguaOpenHost = XIGUA_OPEN_API_HOST_URL;
+    }
 
     public static String buildUrl(TiktokOpenHostConfig hostConfig, String prefix, String path) {
         if (hostConfig == null) {

@@ -1,13 +1,18 @@
 package vip.gadfly.tiktok.open.base;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import vip.gadfly.tiktok.config.AppConfig;
+import vip.gadfly.tiktok.config.TiktokOpenConfigStorage;
 import vip.gadfly.tiktok.core.OkHttp3;
 import vip.gadfly.tiktok.core.exception.TikTokException;
 import vip.gadfly.tiktok.core.utils.StringUtil;
+import vip.gadfly.tiktok.core.utils.TiktokOpenConfigStorageHolder;
 import vip.gadfly.tiktok.open.api.token.AccessTokenConfig;
 
 import java.io.File;
+import java.util.Map;
 
 /**
  * 接口基类
@@ -23,11 +28,12 @@ import java.io.File;
 public abstract class ApiBase {
 
     public final static int tiktokBusyCode = 2100004;
-    private final static int retrySleepMillis = 1000;
-    private final static int maxRetryTimes = 5;
+    private static int retrySleepMillis = 1000;
+    private static int maxRetryTimes = 5;
     private String openId;
-    private String appId = AppConfig.getAppId();
     private String accessToken;
+
+    private Map<String, TiktokOpenConfigStorage> configStorageMap;
 
     public ApiBase(String openId) {
         this.openId = openId;
@@ -138,6 +144,110 @@ public abstract class ApiBase {
         }
     }
 
+    public TiktokOpenConfigStorage getTiktokOpenConfigStorage() {
+        if (this.configStorageMap.size() == 1) {
+            // 只有一个公众号，直接返回其配置即可
+            return this.configStorageMap.values().iterator().next();
+        }
+
+        return this.configStorageMap.get(TiktokOpenConfigStorageHolder.get());
+    }
+
+    /**
+     * 设置 {@link TiktokOpenConfigStorage} 的实现. 兼容老版本
+     *
+     * @param tiktokConfigProvider .
+     */
+    public void setTiktokOpenConfigStorage(TiktokOpenConfigStorage tiktokConfigProvider) {
+        final String defaultMpId = tiktokConfigProvider.getAppId();
+        this.setMultiConfigStorages(ImmutableMap.of(defaultMpId, tiktokConfigProvider), defaultMpId);
+    }
+
+    /**
+     * 注入多个 {@link TiktokOpenConfigStorage} 的实现. 并为每个 {@link TiktokOpenConfigStorage} 赋予不同的 {@link String mpId} 值
+     * 随机采用一个{@link String mpId}进行Http初始化操作
+     *
+     * @param configStorages TiktokOpenConfigStorage map
+     */
+    public void setMultiConfigStorages(Map<String, TiktokOpenConfigStorage> configStorages) {
+        this.setMultiConfigStorages(configStorages, configStorages.keySet().iterator().next());
+    }
+
+    /**
+     * 注入多个 {@link TiktokOpenConfigStorage} 的实现. 并为每个 {@link TiktokOpenConfigStorage} 赋予不同的 {@link String label} 值
+     *
+     * @param configStorages TiktokOpenConfigStorage map
+     * @param defaultMpId    设置一个{@link TiktokOpenConfigStorage} 所对应的{@link String mpId}进行Http初始化
+     */
+    public void setMultiConfigStorages(Map<String, TiktokOpenConfigStorage> configStorages, String defaultMpId) {
+        this.configStorageMap = Maps.newHashMap(configStorages);
+        TiktokOpenConfigStorageHolder.set(defaultMpId);
+    }
+
+    /**
+     * Map里 加入新的 {@link TiktokOpenConfigStorage}，适用于动态添加新的微信公众号配置.
+     *
+     * @param mpId           公众号id
+     * @param configStorages 新的微信配置
+     */
+    public void addConfigStorage(String mpId, TiktokOpenConfigStorage configStorages) {
+        synchronized (this) {
+            if (this.configStorageMap == null) {
+                this.setTiktokOpenConfigStorage(configStorages);
+            } else {
+                TiktokOpenConfigStorageHolder.set(mpId);
+                this.configStorageMap.put(mpId, configStorages);
+            }
+        }
+    }
+
+    /**
+     * 从 Map中 移除 {@link String mpId} 所对应的 {@link TiktokOpenConfigStorage}，适用于动态移除微信公众号配置.
+     *
+     * @param mpId 对应公众号的标识
+     */
+    public void removeConfigStorage(String mpId) {
+        synchronized (this) {
+            if (this.configStorageMap.size() == 1) {
+                this.configStorageMap.remove(mpId);
+                log.warn("已删除最后一个公众号配置：{}，须立即使用setTiktokOpenConfigStorage或setMultiConfigStorages添加配置", mpId);
+                return;
+            }
+            if (TiktokOpenConfigStorageHolder.get().equals(mpId)) {
+                this.configStorageMap.remove(mpId);
+                final String defaultMpId = this.configStorageMap.keySet().iterator().next();
+                TiktokOpenConfigStorageHolder.set(defaultMpId);
+                log.warn("已删除默认公众号配置，公众号【{}】被设为默认配置", defaultMpId);
+                return;
+            }
+            this.configStorageMap.remove(mpId);
+        }
+    }
+
+    /**
+     * 进行相应的公众号切换.
+     *
+     * @param mpId 公众号标识
+     * @return 切换是否成功 boolean
+     */
+    public boolean switchover(String mpId) {
+        if (this.configStorageMap.containsKey(mpId)) {
+            TiktokOpenConfigStorageHolder.set(mpId);
+            return true;
+        }
+
+        log.error("无法找到对应【{}】的公众号配置信息，请核实！", mpId);
+        return false;
+    }
+
+    public void setRetrySleepMillis(int retrySleepMillis) {
+        ApiBase.retrySleepMillis = retrySleepMillis;
+    }
+
+    public void setMaxRetryTimes(int maxRetryTimes) {
+        ApiBase.maxRetryTimes = maxRetryTimes;
+    }
+
     public String getOpenId() {
         return openId;
     }
@@ -148,12 +258,13 @@ public abstract class ApiBase {
     }
 
     public String getAppId() {
-        return appId;
+        TiktokOpenConfigStorage configStorage = getTiktokOpenConfigStorage();
+        return configStorage.getAppId();
     }
 
-    public ApiBase setAppId(String appId) {
-        this.appId = appId;
-        return this;
+    public String getHttpUrl() {
+        TiktokOpenConfigStorage configStorage = getTiktokOpenConfigStorage();
+        return configStorage.getHostConfig().getTiktokOpenHost();
     }
 
     /**

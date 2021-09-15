@@ -38,7 +38,7 @@ public class TiktokOpenDefaultConfigImpl implements TiktokOpenConfigStorage, Ser
 
     protected volatile File tmpDirFile;
 
-    private TiktokOpenHostConfig hostConfig = null;
+    private TiktokOpenHostConfig hostConfig = new TiktokOpenHostConfig();
 
     @Override
     public String getTicket(TicketType type) {

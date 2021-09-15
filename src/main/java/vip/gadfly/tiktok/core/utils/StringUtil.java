@@ -4,6 +4,8 @@ import org.apache.commons.lang3.StringUtils;
 import vip.gadfly.tiktok.core.exception.TikTokException;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Pattern;
@@ -20,7 +22,7 @@ public class StringUtil extends StringUtils {
     /**
      * 默认编码级别
      */
-    public static final String DEFAULT_ENCODING = "UTF-8";
+    public static final Charset DEFAULT_ENCODING = StandardCharsets.UTF_8;
 
     /**
      * 获取报文头头长度

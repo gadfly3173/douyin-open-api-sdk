@@ -29,7 +29,7 @@ public class Tools {
     private static final String[] fraction = {"角", "分"};
     private static final String[] digit_unit1 = {"", "拾", "佰", "仟"};
     private static final String[] digit_unit2 = {"元", "万", "亿"};
-    private static final String defaultCharset = "UTF-8";
+    private static final String defaultCharset = StandardCharsets.UTF_8.name();
     /**
      * 数字格式化实例
      **/

@@ -1,4 +1,4 @@
-package vip.gadfly.tiktok.core;
+package vip.gadfly.tiktok.core.utils;
 
 import vip.gadfly.tiktok.core.exception.TikTokException;
 

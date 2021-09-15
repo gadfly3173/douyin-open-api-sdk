@@ -14,18 +14,18 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum TicketType {
-  /**
-   * client
-   */
-  CLIENT("client_token"),
-  /**
-   * jsapi
-   */
-  JSAPI("ticket");
+    /**
+     * client
+     */
+    CLIENT("client_token"),
+    /**
+     * jsapi
+     */
+    JSAPI("ticket");
 
-  /**
-   * type代码
-   */
-  private final String code;
+    /**
+     * type代码
+     */
+    private final String code;
 
 }

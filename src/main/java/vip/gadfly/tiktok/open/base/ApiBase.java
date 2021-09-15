@@ -24,7 +24,7 @@ public abstract class ApiBase {
 
     private final static int retrySleepMillis = 1000;
     private final static int maxRetryTimes = 5;
-    private final static int tiktokBusyCode = 2100004;
+    public final static int tiktokBusyCode = 2100004;
     private String openId;
     private String appId = AppConfig.getAppId();
     private String accessToken;

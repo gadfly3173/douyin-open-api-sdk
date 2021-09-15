@@ -2,6 +2,7 @@ package vip.gadfly.tiktok.open.base;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.reflect.TypeToken;
+import lombok.extern.slf4j.Slf4j;
 import vip.gadfly.tiktok.core.exception.TikTokException;
 import vip.gadfly.tiktok.core.utils.JsonUtil;
 import vip.gadfly.tiktok.core.utils.StringUtil;
@@ -17,6 +18,7 @@ import java.util.Map;
  * @author OF
  * @date 2018年07月13日
  */
+@Slf4j
 public class ApiResponse implements Serializable {
 
     private static final long serialVersionUID = 8932491316488002897L;
@@ -25,12 +27,16 @@ public class ApiResponse implements Serializable {
     private Map<String, Object> result;
 
     public ApiResponse(String json) {
+        if (StringUtil.isBlank(json)) {
+            throw new TikTokException(ApiBase.tiktokBusyCode, "tiktok busy");
+        }
         this.json = json;
         try {
             JSONObject temp = JSONObject.parseObject(json);
             this.result = temp.getJSONObject(DATA_KEY);
         } catch (Exception e) {
-            throw new TikTokException(e.getMessage() + "\n json =" + json);
+            log.error(e.getMessage(), e);
+            throw new TikTokException(ApiBase.tiktokBusyCode, e.getMessage() + "\n json =" + json);
         }
 
         if (!this.isSuccessful()) {

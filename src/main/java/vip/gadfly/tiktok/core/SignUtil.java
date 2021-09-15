@@ -2,7 +2,8 @@ package vip.gadfly.tiktok.core;
 
 import vip.gadfly.tiktok.core.exception.TikTokException;
 
-import java.security.*;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.Random;
 

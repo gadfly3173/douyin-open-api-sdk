@@ -22,9 +22,9 @@ import java.io.File;
 @Slf4j
 public abstract class ApiBase {
 
+    public final static int tiktokBusyCode = 2100004;
     private final static int retrySleepMillis = 1000;
     private final static int maxRetryTimes = 5;
-    public final static int tiktokBusyCode = 2100004;
     private String openId;
     private String appId = AppConfig.getAppId();
     private String accessToken;

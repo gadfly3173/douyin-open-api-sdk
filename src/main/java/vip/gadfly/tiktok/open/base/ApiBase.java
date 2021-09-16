@@ -3,7 +3,6 @@ package vip.gadfly.tiktok.open.base;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
-import vip.gadfly.tiktok.config.AppConfig;
 import vip.gadfly.tiktok.config.TiktokOpenConfigStorage;
 import vip.gadfly.tiktok.core.OkHttp3;
 import vip.gadfly.tiktok.core.exception.TikTokException;
@@ -300,9 +299,13 @@ public abstract class ApiBase {
         return this;
     }
 
-    public abstract ApiBase withAccessToken(String accessToken);
+    public ApiBase withAccessToken(String accessToken) {
+        return this.setAccessToken(accessToken);
+    }
 
-    public abstract ApiBase withOpenId(String openId);
+    public ApiBase withOpenId(String openId) {
+        return this.setOpenId(openId);
+    }
 
     public abstract String scope();
 }

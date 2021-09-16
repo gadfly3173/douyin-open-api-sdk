@@ -14,13 +14,13 @@ import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
 import java.util.concurrent.TimeUnit;
 
-public class OkHttp3 {
+public class OkHttp4 {
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-    private static final Logger log = LoggerFactory.getLogger(OkHttp3.class);
+    private static final Logger log = LoggerFactory.getLogger(OkHttp4.class);
     public static OkHttpClient client = new OkHttpClient();
 
     public static String post(String url, String json) throws IOException {
-        RequestBody body = RequestBody.create(JSON, json);
+        RequestBody body = RequestBody.Companion.create(json, JSON);
         Request request = new Request.Builder().url(url).post(body).build();
         client.readTimeoutMillis();
         Response response = client.newCall(request).execute();
@@ -77,7 +77,8 @@ public class OkHttp3 {
      */
     public static ResponseBody okHttpPostJsonResponseBody(String url,
                                                           String content) {
-        return okHttpPostResponseBody(url, content, JSON, null);
+        return okHttpPostResponseBody(url, content,
+                JSON, null);
     }
 
     /**
@@ -98,12 +99,12 @@ public class OkHttp3 {
             if (headers == null) {
                 request = new Request.Builder()
                         .url(url)
-                        .post(RequestBody.create(mediaType, content)).build();
+                        .post(RequestBody.Companion.create(content, mediaType)).build();
             } else {
                 request = new Request.Builder()
                         .url(url)
                         .headers(headers)
-                        .post(RequestBody.create(mediaType, content)).build();
+                        .post(RequestBody.Companion.create(content, mediaType)).build();
             }
             log.debug("request  : " + request + " body: " + content);
             Response response = client.newCall(request).execute();
@@ -138,12 +139,12 @@ public class OkHttp3 {
             if (headers == null) {
                 request = new Request.Builder()
                         .url(url)
-                        .post(RequestBody.create(mediaType, content)).build();
+                        .post(RequestBody.Companion.create(content, mediaType)).build();
             } else {
                 request = new Request.Builder()
                         .url(url)
                         .headers(headers)
-                        .post(RequestBody.create(mediaType, content)).build();
+                        .post(RequestBody.Companion.create(content, mediaType)).build();
             }
             log.debug("request  : " + request + " body: " + content);
             Response response = client.newCall(request).execute();
@@ -176,8 +177,7 @@ public class OkHttp3 {
             if (headers == null) {
                 request = new Request.Builder().url(url).get().build();
             } else {
-                request = new Request.Builder().url(url).headers(headers).get()
-                        .build();
+                request = new Request.Builder().url(url).headers(headers).get().build();
             }
             log.debug("request  : " + request);
             Response response = client.newCall(request).execute();
@@ -202,7 +202,7 @@ public class OkHttp3 {
 
         Request request = new Request.Builder()
                 .url(url)
-                .post(RequestBody.create(MediaType.parse(mediaType), file))
+                .post(RequestBody.Companion.create(file, MediaType.parse(mediaType)))
                 .build();
 
         log.debug("request  : " + request + " body: " + file);

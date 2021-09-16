@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import vip.gadfly.tiktok.config.TiktokOpenConfigStorage;
-import vip.gadfly.tiktok.core.OkHttp3;
+import vip.gadfly.tiktok.core.OkHttp4;
 import vip.gadfly.tiktok.core.exception.TikTokException;
 import vip.gadfly.tiktok.core.utils.StringUtil;
 import vip.gadfly.tiktok.core.utils.TiktokOpenConfigStorageHolder;
@@ -51,7 +51,7 @@ public abstract class ApiBase {
         int retryTimes = 0;
         do {
             try {
-                String result = OkHttp3.okHttpPostJson(request.getUrl(),
+                String result = OkHttp4.okHttpPostJson(request.getUrl(),
                         request.toJson());
                 return new ApiResponse(result);
             } catch (TikTokException e) {
@@ -66,7 +66,7 @@ public abstract class ApiBase {
         int retryTimes = 0;
         do {
             try {
-                String result = OkHttp3.okHttpPostJson(url, request.toJson());
+                String result = OkHttp4.okHttpPostJson(url, request.toJson());
                 return new ApiResponse(result);
             } catch (TikTokException e) {
                 responseExceptionHandler(retryTimes, e);
@@ -80,7 +80,7 @@ public abstract class ApiBase {
         int retryTimes = 0;
         do {
             try {
-                String result = OkHttp3.okHttpPost(url, file, mediaType);
+                String result = OkHttp4.okHttpPost(url, file, mediaType);
                 return new ApiResponse(result);
             } catch (TikTokException e) {
                 responseExceptionHandler(retryTimes, e);
@@ -100,7 +100,7 @@ public abstract class ApiBase {
         int retryTimes = 0;
         do {
             try {
-                String result = OkHttp3.okHttpPostJson(url, json);
+                String result = OkHttp4.okHttpPostJson(url, json);
                 return new ApiResponse(result);
             } catch (TikTokException e) {
                 responseExceptionHandler(retryTimes, e);
@@ -114,7 +114,7 @@ public abstract class ApiBase {
         int retryTimes = 0;
         do {
             try {
-                String result = OkHttp3.okHttpGet(url, null);
+                String result = OkHttp4.okHttpGet(url, null);
                 return new ApiResponse(result);
             } catch (TikTokException e) {
                 responseExceptionHandler(retryTimes, e);

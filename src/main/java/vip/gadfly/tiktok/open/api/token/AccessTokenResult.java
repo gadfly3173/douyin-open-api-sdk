@@ -104,7 +104,7 @@ public class AccessTokenResult extends BaseResult {
             // 过期时间加两小时 减10秒是为了网络误差 *1000 变成毫秒
             expiredTime = (System.currentTimeMillis() + ((expiresIn - AccessTokenConfig.OutTime) * 1000));
         this.setExpiredTime(expiredTime);
-        AccessTokenConfig.getAccessTokenCache().set(cacheKey, JsonUtil.objectToJson(this));
+        AccessTokenConfig.getInstance().getAccessTokenCache().set(cacheKey, JsonUtil.objectToJson(this), expiresIn);
     }
 
 

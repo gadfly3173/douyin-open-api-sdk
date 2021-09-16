@@ -75,7 +75,7 @@ public class AccessTokenApi extends ApiBase {
      * @return
      */
     public String get(boolean isRefresh) {
-        AccessTokenConfig config = new AccessTokenConfig();
+        AccessTokenConfig config = AccessTokenConfig.getInstance();
         if (!StringUtil.isEmpty(getOpenId())) {
             return config.getAccessToken(getOpenId(), isRefresh);
         } else {

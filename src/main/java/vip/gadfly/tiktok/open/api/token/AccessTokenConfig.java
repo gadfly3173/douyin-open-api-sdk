@@ -16,13 +16,19 @@ import vip.gadfly.tiktok.open.cache.IAccessTokenCache;
  */
 public class AccessTokenConfig {
     private static final Logger log = LoggerFactory.getLogger(AccessTokenConfig.class);
+
+    private static final AccessTokenConfig INSTANCE = new AccessTokenConfig();
+
+    public static AccessTokenConfig getInstance() {
+        return INSTANCE;
+    }
     /**
      * 减去秒数
      */
     public static int OutTime = 10;
-    private static IAccessTokenCache accessTokenCache = new DefaultAccessTokenCache();
+    private static IAccessTokenCache accessTokenCache;
 
-    public static IAccessTokenCache getAccessTokenCache() {
+    public IAccessTokenCache getAccessTokenCache() {
         return AccessTokenConfig.accessTokenCache;
     }
 

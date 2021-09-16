@@ -22,9 +22,9 @@ public class TiktokOpenAccessTokenApi extends AbstractTiktokOpenApiBase {
      * @param code 授权码
      * @return
      */
-    public TiktokOpenAccessTokenResult get(String code) {
+    public TiktokOpenAccessTokenResult getAccessTokenResult(String code) {
         TiktokOpenAccessTokenParam param = new TiktokOpenAccessTokenParam();
-        param.setCode(code);
+        param.setCode(code).setGrantType(TiktokOpenAccessTokenParam.GRANT_TYPE_CODE);
         String url = TOKEN_URL + "?" + param.getUrlParam();
         TiktokOpenApiResponse response = sendGet(url);
         TiktokOpenAccessTokenResult result = response.dataToBean(TiktokOpenAccessTokenResult.class);
@@ -38,7 +38,7 @@ public class TiktokOpenAccessTokenApi extends AbstractTiktokOpenApiBase {
      *
      * @return
      */
-    public TiktokOpenAccessTokenResult get() {
+    public TiktokOpenAccessTokenResult getClientTokenResult() {
         TiktokOpenAccessTokenParam param = new TiktokOpenAccessTokenParam();
         param.setGrantType(TiktokOpenAccessTokenParam.GRANT_TYPE_CLIENT);
         String url = TOKEN_CLIENT_URL + "?" + param.getClientUrlParam();
@@ -54,7 +54,7 @@ public class TiktokOpenAccessTokenApi extends AbstractTiktokOpenApiBase {
      * @param accessToken 需要刷新的 token
      * @return
      */
-    public TiktokOpenAccessTokenResult refresh(String accessToken) {
+    public TiktokOpenAccessTokenResult refreshAccessToken(String accessToken) {
         String cacheKey = getCacheKey();
         TiktokOpenAccessTokenParam param = new TiktokOpenAccessTokenParam();
         param.setGrantType(TiktokOpenAccessTokenParam.GRANT_TYPE_REFRESH);
@@ -73,7 +73,7 @@ public class TiktokOpenAccessTokenApi extends AbstractTiktokOpenApiBase {
      * @param isRefresh
      * @return
      */
-    public String get(boolean isRefresh) {
+    public String getAccessToken(boolean isRefresh) {
         TiktokOpenAccessTokenConfig config = TiktokOpenAccessTokenConfig.getInstance();
         return config.getAccessToken(getCacheKey(), isRefresh);
 

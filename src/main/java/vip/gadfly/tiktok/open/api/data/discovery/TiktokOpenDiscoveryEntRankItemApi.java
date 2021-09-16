@@ -11,7 +11,7 @@ public class TiktokOpenDiscoveryEntRankItemApi extends AbstractTiktokOpenApiBase
     public TiktokOpenDiscoveryEntRankItemResult get() {
 
         TiktokOpenAccessTokenApi accessTokenApi = new TiktokOpenAccessTokenApi();
-        String clientAccessToken = accessTokenApi.get().getAccessToken();
+        String clientAccessToken = accessTokenApi.getClientTokenResult().getAccessToken();
 
         TiktokOpenDiscoveryEntRankItemParam param = new TiktokOpenDiscoveryEntRankItemParam();
         param.setAccessToken(clientAccessToken);

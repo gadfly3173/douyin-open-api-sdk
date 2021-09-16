@@ -9,7 +9,7 @@ public class OauthApiTest extends BaseTest {
 
     @Test
     public void getOauthConnectUrl() {
-        OauthApi oauthApi = new OauthApi();
+        TiktokOpenOauthApi oauthApi = new TiktokOpenOauthApi();
         String result = oauthApi.getScanUrl();
         System.out.println(result);
         Assert.assertNotNull(result);
@@ -18,11 +18,11 @@ public class OauthApiTest extends BaseTest {
 
     @Test
     public void getOauthConnectResult() {
-        OauthApi oauthApi = new OauthApi();
-        OauthConnectResult result = new OauthConnectResult();
+        TiktokOpenOauthApi oauthApi = new TiktokOpenOauthApi();
+        TiktokOpenOauthConnectResult result = new TiktokOpenOauthConnectResult();
         result.setCode("00");
         result.setState("22");
-        OauthConnectResult result1 = oauthApi.getResult(JsonUtil.objectToJson(result));
+        TiktokOpenOauthConnectResult result1 = oauthApi.getResult(JsonUtil.objectToJson(result));
         System.out.println(JsonUtil.objectToJson(result1));
         Assert.assertNotNull(result1);
     }

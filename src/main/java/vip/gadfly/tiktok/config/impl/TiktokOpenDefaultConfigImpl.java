@@ -3,7 +3,7 @@ package vip.gadfly.tiktok.config.impl;
 import lombok.Data;
 import vip.gadfly.tiktok.config.TiktokOpenConfigStorage;
 import vip.gadfly.tiktok.config.TiktokOpenHostConfig;
-import vip.gadfly.tiktok.core.enums.TicketType;
+import vip.gadfly.tiktok.core.enums.TiktokOpenTicketType;
 
 import java.io.File;
 import java.io.Serializable;
@@ -41,7 +41,7 @@ public class TiktokOpenDefaultConfigImpl implements TiktokOpenConfigStorage, Ser
     private TiktokOpenHostConfig hostConfig = new TiktokOpenHostConfig();
 
     @Override
-    public String getTicket(TicketType type) {
+    public String getTicket(TiktokOpenTicketType type) {
         switch (type) {
             case CLIENT:
                 return this.clientTicket;
@@ -52,7 +52,7 @@ public class TiktokOpenDefaultConfigImpl implements TiktokOpenConfigStorage, Ser
         }
     }
 
-    public void setTicket(TicketType type, String ticket) {
+    public void setTicket(TiktokOpenTicketType type, String ticket) {
         switch (type) {
             case CLIENT:
                 this.clientTicket = ticket;
@@ -64,7 +64,7 @@ public class TiktokOpenDefaultConfigImpl implements TiktokOpenConfigStorage, Ser
     }
 
     @Override
-    public Lock getTicketLock(TicketType type) {
+    public Lock getTicketLock(TiktokOpenTicketType type) {
         switch (type) {
             case CLIENT:
                 return this.clientTicketLock;
@@ -76,7 +76,7 @@ public class TiktokOpenDefaultConfigImpl implements TiktokOpenConfigStorage, Ser
     }
 
     @Override
-    public boolean isTicketExpired(TicketType type) {
+    public boolean isTicketExpired(TiktokOpenTicketType type) {
         switch (type) {
             case CLIENT:
                 return System.currentTimeMillis() > this.clientTicketExpiresTime;
@@ -88,7 +88,7 @@ public class TiktokOpenDefaultConfigImpl implements TiktokOpenConfigStorage, Ser
     }
 
     @Override
-    public synchronized void updateTicket(TicketType type, String ticket, int expiresInSeconds) {
+    public synchronized void updateTicket(TiktokOpenTicketType type, String ticket, int expiresInSeconds) {
         switch (type) {
             case JSAPI:
                 this.jsapiTicket = ticket;
@@ -105,7 +105,7 @@ public class TiktokOpenDefaultConfigImpl implements TiktokOpenConfigStorage, Ser
     }
 
     @Override
-    public void expireTicket(TicketType type) {
+    public void expireTicket(TiktokOpenTicketType type) {
         switch (type) {
             case JSAPI:
                 this.jsapiTicketExpiresTime = 0;

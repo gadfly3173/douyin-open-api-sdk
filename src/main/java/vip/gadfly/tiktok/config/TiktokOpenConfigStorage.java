@@ -1,6 +1,6 @@
 package vip.gadfly.tiktok.config;
 
-import vip.gadfly.tiktok.core.enums.TicketType;
+import vip.gadfly.tiktok.core.enums.TiktokOpenTicketType;
 
 import java.io.File;
 import java.util.concurrent.locks.Lock;
@@ -38,7 +38,7 @@ public interface TiktokOpenConfigStorage {
      * @param type the type
      * @return the ticket
      */
-    String getTicket(TicketType type);
+    String getTicket(TiktokOpenTicketType type);
 
     /**
      * Gets ticket lock.
@@ -46,7 +46,7 @@ public interface TiktokOpenConfigStorage {
      * @param type the type
      * @return the ticket lock
      */
-    Lock getTicketLock(TicketType type);
+    Lock getTicketLock(TiktokOpenTicketType type);
 
     /**
      * Is ticket expired boolean.
@@ -54,14 +54,14 @@ public interface TiktokOpenConfigStorage {
      * @param type the type
      * @return the boolean
      */
-    boolean isTicketExpired(TicketType type);
+    boolean isTicketExpired(TiktokOpenTicketType type);
 
     /**
      * 强制将ticket过期掉.
      *
      * @param type the type
      */
-    void expireTicket(TicketType type);
+    void expireTicket(TiktokOpenTicketType type);
 
     /**
      * 更新ticket.
@@ -71,7 +71,7 @@ public interface TiktokOpenConfigStorage {
      * @param ticket           新的ticket值
      * @param expiresInSeconds 过期时间，以秒为单位
      */
-    void updateTicket(TicketType type, String ticket, int expiresInSeconds);
+    void updateTicket(TiktokOpenTicketType type, String ticket, int expiresInSeconds);
 
     /**
      * Gets tmp dir file.

@@ -2,7 +2,7 @@ package vip.gadfly.tiktok.config.impl;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import vip.gadfly.tiktok.core.enums.TicketType;
+import vip.gadfly.tiktok.core.enums.TiktokOpenTicketType;
 import vip.gadfly.tiktok.core.redis.TiktokRedisOps;
 
 import java.util.concurrent.TimeUnit;
@@ -46,27 +46,27 @@ public class TiktokOpenRedisConfigImpl extends TiktokOpenDefaultConfigImpl {
         clientTicketLock = this.redisOps.getLock(lockKey.concat("clientTicketLock"));
     }
 
-    private String getTicketRedisKey(TicketType type) {
+    private String getTicketRedisKey(TiktokOpenTicketType type) {
         return String.format(TICKET_KEY_TPL, this.keyPrefix, appId, type.getCode());
     }
 
     @Override
-    public String getTicket(TicketType type) {
+    public String getTicket(TiktokOpenTicketType type) {
         return redisOps.getValue(this.getTicketRedisKey(type));
     }
 
     @Override
-    public boolean isTicketExpired(TicketType type) {
+    public boolean isTicketExpired(TiktokOpenTicketType type) {
         return redisOps.getExpire(this.getTicketRedisKey(type)) < 2;
     }
 
     @Override
-    public synchronized void updateTicket(TicketType type, String jsapiTicket, int expiresInSeconds) {
+    public synchronized void updateTicket(TiktokOpenTicketType type, String jsapiTicket, int expiresInSeconds) {
         redisOps.setValue(this.getTicketRedisKey(type), jsapiTicket, expiresInSeconds - 200, TimeUnit.SECONDS);
     }
 
     @Override
-    public void expireTicket(TicketType type) {
+    public void expireTicket(TiktokOpenTicketType type) {
         redisOps.expire(this.getTicketRedisKey(type), 0, TimeUnit.SECONDS);
     }
 

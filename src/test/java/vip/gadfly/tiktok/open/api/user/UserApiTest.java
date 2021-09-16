@@ -3,17 +3,17 @@ package vip.gadfly.tiktok.open.api.user;
 import vip.gadfly.tiktok.open.api.base.BaseTest;
 import org.junit.Assert;
 import org.junit.Test;
-import vip.gadfly.tiktok.open.api.oauth.OauthApi;
-import vip.gadfly.tiktok.open.api.token.AccessTokenApi;
-import vip.gadfly.tiktok.open.api.token.AccessTokenResult;
-import vip.gadfly.tiktok.open.api.video.VideoListApi;
-import vip.gadfly.tiktok.open.api.video.VideoListResult;
+import vip.gadfly.tiktok.open.api.oauth.TiktokOpenOauthApi;
+import vip.gadfly.tiktok.open.api.token.TiktokOpenAccessTokenApi;
+import vip.gadfly.tiktok.open.api.token.TiktokOpenAccessTokenResult;
+import vip.gadfly.tiktok.open.api.video.TiktokOpenVideoListApi;
+import vip.gadfly.tiktok.open.api.video.TiktokOpenVideoListResult;
 
 public class UserApiTest extends BaseTest {
 
     @Test
     public void getOauthConnectUrl() {
-        OauthApi oauthApi = new OauthApi();
+        TiktokOpenOauthApi oauthApi = new TiktokOpenOauthApi();
         String result = oauthApi.getScanUrl();
         System.out.println(result);
         Assert.assertNotNull(result);
@@ -22,8 +22,8 @@ public class UserApiTest extends BaseTest {
     @Test
     public void tokenApi() {
         String code = "wUtj1dPSMLqIoy5UtL9Tx6O4Yk1hfTLgdqnY";
-        AccessTokenApi tokenApi =  new AccessTokenApi();
-        AccessTokenResult tokenResult = tokenApi.get(code);
+        TiktokOpenAccessTokenApi tokenApi =  new TiktokOpenAccessTokenApi();
+        TiktokOpenAccessTokenResult tokenResult = tokenApi.get(code);
         Assert.assertNotNull(tokenResult);
     }
 
@@ -56,15 +56,15 @@ public class UserApiTest extends BaseTest {
 //                .withOpenId(openId).page(1553940121,20);
 //        isSuccess(fansListResult);
 
-        VideoListApi videoListApi = new VideoListApi();
-        VideoListResult result1 = videoListApi
+        TiktokOpenVideoListApi videoListApi = new TiktokOpenVideoListApi();
+        TiktokOpenVideoListResult result1 = videoListApi
                 .withAccessToken(accessToken)
                 .withOpenId(openId)
                 .page(1563989822000L, 20L);
         isSuccess(result1);
 
-//        DataExternalUserParam param = new DataExternalUserParam();
-//        param.setDataType(DataExternalUserEnum.FANS);
+//        TiktokOpenDataExternalUserParam param = new TiktokOpenDataExternalUserParam();
+//        param.setDataType(TiktokOpenDataExternalUserEnum.FANS);
 //        DataExternalUserApi dataExternalUserApi = new DataExternalUserApi();
 //        DataExternalUserResult result2 = dataExternalUserApi.withAccessToken(accessToken)
 //                .withOpenId(openId)

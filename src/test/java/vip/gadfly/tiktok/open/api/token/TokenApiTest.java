@@ -9,8 +9,8 @@ public class TokenApiTest extends BaseTest {
         //用户回调 code
         String code = "wC6VDIrDDtA9rqI15LRD1F7Zdb7hPZM2MP2s";
         //获取 token
-        AccessTokenApi tokenApi =  new AccessTokenApi();
-        AccessTokenResult result = tokenApi.get(code);
+        TiktokOpenAccessTokenApi tokenApi =  new TiktokOpenAccessTokenApi();
+        TiktokOpenAccessTokenResult result = tokenApi.get(code);
         isSuccess(result);
     }
 }

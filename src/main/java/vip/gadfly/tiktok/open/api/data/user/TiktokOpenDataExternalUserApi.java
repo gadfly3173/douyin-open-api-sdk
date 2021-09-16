@@ -1,7 +1,7 @@
 package vip.gadfly.tiktok.open.api.data.user;
 
 import vip.gadfly.tiktok.open.api.data.user.enume.TiktokOpenDataExternalUserEnum;
-import vip.gadfly.tiktok.open.base.TiktokOpenApiBase;
+import vip.gadfly.tiktok.open.base.AbstractTiktokOpenApiBase;
 import vip.gadfly.tiktok.open.base.TiktokOpenApiResponse;
 import vip.gadfly.tiktok.open.conf.DouyinConf;
 
@@ -9,7 +9,7 @@ import vip.gadfly.tiktok.open.conf.DouyinConf;
  * 获取用户评论数
  */
 
-public class TiktokOpenDataExternalUserApi extends TiktokOpenApiBase {
+public class TiktokOpenDataExternalUserApi extends AbstractTiktokOpenApiBase {
 
     public String API_URL = getHttpUrl() + "/data/external/user/";
 //    private static String DEEP_RESULT_LIST = "result_list";

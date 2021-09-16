@@ -1,13 +1,13 @@
 package vip.gadfly.tiktok.open.api.video;
 
 import vip.gadfly.tiktok.core.utils.JsonUtil;
-import vip.gadfly.tiktok.open.base.TiktokOpenApiBase;
+import vip.gadfly.tiktok.open.base.AbstractTiktokOpenApiBase;
 import vip.gadfly.tiktok.open.conf.DouyinConf;
 
 /**
  * Scope: video.create
  */
-public class TiktokOpenVideoCreateApi extends TiktokOpenApiBase {
+public class TiktokOpenVideoCreateApi extends AbstractTiktokOpenApiBase {
     public String VIDEO_UPLOAD = getHttpUrl() + "/video/create/";
 
     /**

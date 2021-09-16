@@ -1,9 +1,9 @@
 package vip.gadfly.tiktok.open.api.user;
 
-import vip.gadfly.tiktok.open.base.TiktokOpenApiBase;
+import vip.gadfly.tiktok.open.base.AbstractTiktokOpenApiBase;
 import vip.gadfly.tiktok.open.conf.DouyinConf;
 
-public class TiktokOpenFollowingListApi extends TiktokOpenApiBase {
+public class TiktokOpenFollowingListApi extends AbstractTiktokOpenApiBase {
     public String FOLLOWING_LIST_URL = getHttpUrl() + "/following/list";
 
     /**

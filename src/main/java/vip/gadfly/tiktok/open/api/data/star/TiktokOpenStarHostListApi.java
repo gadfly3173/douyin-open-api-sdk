@@ -2,10 +2,10 @@ package vip.gadfly.tiktok.open.api.data.star;
 
 import vip.gadfly.tiktok.open.api.data.star.enume.TiktokOpenStarHostEnum;
 import vip.gadfly.tiktok.open.api.token.TiktokOpenAccessTokenApi;
-import vip.gadfly.tiktok.open.base.TiktokOpenApiBase;
+import vip.gadfly.tiktok.open.base.AbstractTiktokOpenApiBase;
 import vip.gadfly.tiktok.open.base.TiktokOpenApiResponse;
 
-public class TiktokOpenStarHostListApi extends TiktokOpenApiBase {
+public class TiktokOpenStarHostListApi extends AbstractTiktokOpenApiBase {
 
     public String API_URL = getHttpUrl() + "/star/hot_list/";
 
@@ -40,12 +40,12 @@ public class TiktokOpenStarHostListApi extends TiktokOpenApiBase {
     }
 
     @Override
-    public TiktokOpenApiBase withAccessToken(String accessToken) {
+    public AbstractTiktokOpenApiBase withAccessToken(String accessToken) {
         return null;
     }
 
     @Override
-    public TiktokOpenApiBase withOpenId(String openId) {
+    public AbstractTiktokOpenApiBase withOpenId(String openId) {
         return null;
     }
 

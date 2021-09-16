@@ -2,7 +2,7 @@ package vip.gadfly.tiktok.open.api.oauth;
 
 
 import vip.gadfly.tiktok.core.utils.JsonUtil;
-import vip.gadfly.tiktok.open.base.TiktokOpenApiBase;
+import vip.gadfly.tiktok.open.base.AbstractTiktokOpenApiBase;
 
 /**
  * 网页授权
@@ -10,7 +10,7 @@ import vip.gadfly.tiktok.open.base.TiktokOpenApiBase;
  * @author hubusi
  * @date 2019/11/10
  */
-public class TiktokOpenOauthApi extends TiktokOpenApiBase {
+public class TiktokOpenOauthApi extends AbstractTiktokOpenApiBase {
     public String CONNECTION_URL = getHttpUrl() + "/platform/oauth/connect/";
 
     /**
@@ -57,11 +57,11 @@ public class TiktokOpenOauthApi extends TiktokOpenApiBase {
     }
 
 
-    public TiktokOpenApiBase withAccessToken(String accessToken) {
+    public AbstractTiktokOpenApiBase withAccessToken(String accessToken) {
         return null;
     }
 
-    public TiktokOpenApiBase withOpenId(String openId) {
+    public AbstractTiktokOpenApiBase withOpenId(String openId) {
         return null;
     }
 

@@ -1,6 +1,6 @@
 package vip.gadfly.tiktok.open.api.video;
 
-import vip.gadfly.tiktok.open.base.TiktokOpenApiBase;
+import vip.gadfly.tiktok.open.base.AbstractTiktokOpenApiBase;
 import vip.gadfly.tiktok.open.conf.DouyinConf;
 
 import java.io.File;
@@ -20,7 +20,7 @@ import java.io.File;
  * 粉丝列表
  * 关注列表
  */
-public class TiktokOpenVideoUploadApi extends TiktokOpenApiBase {
+public class TiktokOpenVideoUploadApi extends AbstractTiktokOpenApiBase {
     public String VIDEO_UPLOAD = getHttpUrl() + "/video/upload/";
 
     /**

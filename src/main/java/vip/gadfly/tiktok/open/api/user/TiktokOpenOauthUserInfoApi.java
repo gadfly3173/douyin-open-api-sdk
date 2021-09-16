@@ -1,10 +1,10 @@
 package vip.gadfly.tiktok.open.api.user;
 
-import vip.gadfly.tiktok.open.base.TiktokOpenApiBase;
+import vip.gadfly.tiktok.open.base.AbstractTiktokOpenApiBase;
 import vip.gadfly.tiktok.open.base.TiktokOpenApiResponse;
 import vip.gadfly.tiktok.open.conf.DouyinConf;
 
-public class TiktokOpenOauthUserInfoApi extends TiktokOpenApiBase {
+public class TiktokOpenOauthUserInfoApi extends AbstractTiktokOpenApiBase {
     public String OAUTH_USERINFO_URL = getHttpUrl() + "/oauth/userinfo";
 
     /**

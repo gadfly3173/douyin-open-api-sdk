@@ -22,13 +22,14 @@ import java.util.Map;
 public class TiktokOpenApiResponse implements Serializable {
 
     private static final long serialVersionUID = 8932491316488002897L;
+    public final static int TIKTOK_OPEN_BUSY_CODE = 2100004;
     public static String DATA_KEY = "data";
     private final String json;
     private Map<String, Object> result;
 
     public TiktokOpenApiResponse(String json) {
         if (StringUtil.isBlank(json)) {
-            throw new TikTokException(TiktokOpenApiBase.tiktokBusyCode, "tiktok busy");
+            throw new TikTokException(TIKTOK_OPEN_BUSY_CODE, "tiktok busy");
         }
         this.json = json;
         try {
@@ -36,7 +37,7 @@ public class TiktokOpenApiResponse implements Serializable {
             this.result = temp.getJSONObject(DATA_KEY);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw new TikTokException(TiktokOpenApiBase.tiktokBusyCode, e.getMessage() + "\n json =" + json);
+            throw new TikTokException(TIKTOK_OPEN_BUSY_CODE, e.getMessage() + "\n json =" + json);
         }
 
         if (!this.isSuccessful()) {

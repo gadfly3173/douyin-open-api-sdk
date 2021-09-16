@@ -1,9 +1,8 @@
 package vip.gadfly.tiktok.open.api.token;
 
 
-import vip.gadfly.tiktok.config.AppConfig;
 import vip.gadfly.tiktok.core.utils.StringUtil;
-import vip.gadfly.tiktok.open.base.TiktokOpenApiBase;
+import vip.gadfly.tiktok.open.base.AbstractTiktokOpenApiBase;
 import vip.gadfly.tiktok.open.base.TiktokOpenApiResponse;
 
 /**
@@ -12,7 +11,7 @@ import vip.gadfly.tiktok.open.base.TiktokOpenApiResponse;
  * @author OF
  * @date 2017年10月16日
  */
-public class TiktokOpenAccessTokenApi extends TiktokOpenApiBase {
+public class TiktokOpenAccessTokenApi extends AbstractTiktokOpenApiBase {
     private final String TOKEN_URL = getHttpUrl() + "/oauth/access_token";
     private final String TOKEN_CLIENT_URL = getHttpUrl() + "/oauth/client_token";
 
@@ -45,7 +44,7 @@ public class TiktokOpenAccessTokenApi extends TiktokOpenApiBase {
         String url = TOKEN_CLIENT_URL + "?" + param.getClientUrlParam();
         TiktokOpenApiResponse response = sendGet(url);
         TiktokOpenAccessTokenResult result = response.dataToBean(TiktokOpenAccessTokenResult.class);
-        result.saveCache(AppConfig.getAppId());
+        result.saveCache(getAppId());
         return result;
     }
 

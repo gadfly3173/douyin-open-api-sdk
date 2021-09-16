@@ -1,9 +1,9 @@
 package vip.gadfly.tiktok.open.api.user;
 
-import vip.gadfly.tiktok.open.base.TiktokOpenApiBase;
+import vip.gadfly.tiktok.open.base.AbstractTiktokOpenApiBase;
 import vip.gadfly.tiktok.open.conf.DouyinConf;
 
-public class TiktokOpenFansDataApi extends TiktokOpenApiBase {
+public class TiktokOpenFansDataApi extends AbstractTiktokOpenApiBase {
     public String FANS_LIST_URL = getHttpUrl() + "/fans/data";
 
     /**

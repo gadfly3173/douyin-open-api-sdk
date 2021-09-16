@@ -24,9 +24,8 @@ import java.util.Map;
  * @date 2018年7月13日
  */
 @Slf4j
-public abstract class TiktokOpenApiBase {
+public abstract class AbstractTiktokOpenApiBase {
 
-    public final static int tiktokBusyCode = 2100004;
     private static int retrySleepMillis = 1000;
     private static int maxRetryTimes = 5;
     private String openId;
@@ -34,11 +33,11 @@ public abstract class TiktokOpenApiBase {
 
     private Map<String, TiktokOpenConfigStorage> configStorageMap;
 
-    public TiktokOpenApiBase(String openId) {
+    public AbstractTiktokOpenApiBase(String openId) {
         this.openId = openId;
     }
 
-    public TiktokOpenApiBase() {
+    public AbstractTiktokOpenApiBase() {
     }
 
     /**
@@ -131,7 +130,7 @@ public abstract class TiktokOpenApiBase {
             throw new TikTokException("抖音服务端异常，超出重试次数");
         }
         // 2100004 系统繁忙, 1000ms后重试
-        if (e.getErrorCode() != tiktokBusyCode) {
+        if (e.getErrorCode() != TiktokOpenApiResponse.TIKTOK_OPEN_BUSY_CODE) {
             throw e;
         }
         int sleepMillis = retrySleepMillis * (1 << retryTimes);
@@ -240,18 +239,18 @@ public abstract class TiktokOpenApiBase {
     }
 
     public void setRetrySleepMillis(int retrySleepMillis) {
-        TiktokOpenApiBase.retrySleepMillis = retrySleepMillis;
+        AbstractTiktokOpenApiBase.retrySleepMillis = retrySleepMillis;
     }
 
     public void setMaxRetryTimes(int maxRetryTimes) {
-        TiktokOpenApiBase.maxRetryTimes = maxRetryTimes;
+        AbstractTiktokOpenApiBase.maxRetryTimes = maxRetryTimes;
     }
 
     public String getOpenId() {
         return openId;
     }
 
-    public TiktokOpenApiBase setOpenId(String openId) {
+    public AbstractTiktokOpenApiBase setOpenId(String openId) {
         this.openId = openId;
         return this;
     }
@@ -294,16 +293,16 @@ public abstract class TiktokOpenApiBase {
         return config.getAccessToken(getCacheKey(), true);
     }
 
-    public TiktokOpenApiBase setAccessToken(String accessToken) {
+    public AbstractTiktokOpenApiBase setAccessToken(String accessToken) {
         this.accessToken = accessToken;
         return this;
     }
 
-    public TiktokOpenApiBase withAccessToken(String accessToken) {
+    public AbstractTiktokOpenApiBase withAccessToken(String accessToken) {
         return this.setAccessToken(accessToken);
     }
 
-    public TiktokOpenApiBase withOpenId(String openId) {
+    public AbstractTiktokOpenApiBase withOpenId(String openId) {
         return this.setOpenId(openId);
     }
 

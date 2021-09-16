@@ -1,10 +1,10 @@
 package vip.gadfly.tiktok.open.api.data.hot;
 
 import vip.gadfly.tiktok.open.api.token.TiktokOpenAccessTokenApi;
-import vip.gadfly.tiktok.open.base.TiktokOpenApiBase;
+import vip.gadfly.tiktok.open.base.AbstractTiktokOpenApiBase;
 import vip.gadfly.tiktok.open.base.TiktokOpenApiResponse;
 
-public class TiktokOpenHotsearchTrendingSentencesApi extends TiktokOpenApiBase {
+public class TiktokOpenHotsearchTrendingSentencesApi extends AbstractTiktokOpenApiBase {
 
     public String API_URL = getHttpUrl() + "/hotsearch/trending/sentences/";
 
@@ -34,12 +34,12 @@ public class TiktokOpenHotsearchTrendingSentencesApi extends TiktokOpenApiBase {
     }
 
     @Override
-    public TiktokOpenApiBase withAccessToken(String accessToken) {
+    public AbstractTiktokOpenApiBase withAccessToken(String accessToken) {
         return null;
     }
 
     @Override
-    public TiktokOpenApiBase withOpenId(String openId) {
+    public AbstractTiktokOpenApiBase withOpenId(String openId) {
         return null;
     }
 

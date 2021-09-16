@@ -1,12 +1,12 @@
 package vip.gadfly.tiktok.open.api.video;
 
-import vip.gadfly.tiktok.open.base.TiktokOpenApiBase;
+import vip.gadfly.tiktok.open.base.AbstractTiktokOpenApiBase;
 import vip.gadfly.tiktok.open.conf.DouyinConf;
 
 /**
  * Scope: video.list
  */
-public class TiktokOpenVideoListApi extends TiktokOpenApiBase {
+public class TiktokOpenVideoListApi extends AbstractTiktokOpenApiBase {
     public String VIDEO_LIST = getHttpUrl() + "/video/list/";
 
     /**

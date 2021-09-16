@@ -1,6 +1,5 @@
 package vip.gadfly.tiktok.open.api.video;
 
-import vip.gadfly.tiktok.config.AppConfig;
 import vip.gadfly.tiktok.core.utils.JsonUtil;
 import vip.gadfly.tiktok.open.base.ApiBase;
 import vip.gadfly.tiktok.open.conf.DouyinConf;

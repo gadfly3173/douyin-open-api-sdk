@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import vip.gadfly.tiktok.core.exception.TikTokException;
 import vip.gadfly.tiktok.core.utils.StringUtil;
-import vip.gadfly.tiktok.open.cache.DefaultAccessTokenCache;
 import vip.gadfly.tiktok.open.cache.IAccessTokenCache;
 
 /**
@@ -18,15 +17,15 @@ public class AccessTokenConfig {
     private static final Logger log = LoggerFactory.getLogger(AccessTokenConfig.class);
 
     private static final AccessTokenConfig INSTANCE = new AccessTokenConfig();
-
-    public static AccessTokenConfig getInstance() {
-        return INSTANCE;
-    }
     /**
      * 减去秒数
      */
     public static int OutTime = 10;
     private static IAccessTokenCache accessTokenCache;
+
+    public static AccessTokenConfig getInstance() {
+        return INSTANCE;
+    }
 
     public IAccessTokenCache getAccessTokenCache() {
         return AccessTokenConfig.accessTokenCache;

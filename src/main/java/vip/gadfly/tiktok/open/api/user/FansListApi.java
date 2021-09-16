@@ -1,6 +1,5 @@
 package vip.gadfly.tiktok.open.api.user;
 
-import vip.gadfly.tiktok.config.AppConfig;
 import vip.gadfly.tiktok.open.base.ApiBase;
 import vip.gadfly.tiktok.open.conf.DouyinConf;
 

@@ -1,6 +1,5 @@
 package vip.gadfly.tiktok.open.api.data.star;
 
-import vip.gadfly.tiktok.config.AppConfig;
 import vip.gadfly.tiktok.open.api.data.star.enume.StarHostEnum;
 import vip.gadfly.tiktok.open.api.token.AccessTokenApi;
 import vip.gadfly.tiktok.open.base.ApiBase;

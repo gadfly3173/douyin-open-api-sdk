@@ -1,6 +1,5 @@
 package vip.gadfly.tiktok.open.api.data.discovery;
 
-import vip.gadfly.tiktok.config.AppConfig;
 import vip.gadfly.tiktok.open.api.token.AccessTokenApi;
 import vip.gadfly.tiktok.open.base.ApiBase;
 import vip.gadfly.tiktok.open.base.ApiResponse;

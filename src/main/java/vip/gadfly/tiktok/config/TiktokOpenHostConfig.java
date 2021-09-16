@@ -3,7 +3,6 @@ package vip.gadfly.tiktok.config;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * 微信接口地址域名部分的自定义设置信息.

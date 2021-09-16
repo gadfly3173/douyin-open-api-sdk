@@ -1,7 +1,6 @@
 package vip.gadfly.tiktok.open.api.oauth;
 
 
-import vip.gadfly.tiktok.config.AppConfig;
 import vip.gadfly.tiktok.core.utils.JsonUtil;
 import vip.gadfly.tiktok.open.base.ApiBase;
 

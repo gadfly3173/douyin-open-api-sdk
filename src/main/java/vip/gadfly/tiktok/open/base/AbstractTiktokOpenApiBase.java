@@ -11,6 +11,7 @@ import vip.gadfly.tiktok.core.utils.TiktokOpenConfigStorageHolder;
 import vip.gadfly.tiktok.open.api.token.TiktokOpenAccessTokenConfig;
 
 import java.io.File;
+import java.text.MessageFormat;
 import java.util.Map;
 
 /**
@@ -26,6 +27,7 @@ import java.util.Map;
 @Slf4j
 public abstract class AbstractTiktokOpenApiBase implements ITiktokOpenBaseService, IRetryableExecutor {
 
+    private static final String ACCESS_TOKEN_PREFIX = "{0}:{1}:access_token";
     private static int retrySleepMillis = 1000;
     private static int maxRetryTimes = 5;
     private String openId;
@@ -272,9 +274,9 @@ public abstract class AbstractTiktokOpenApiBase implements ITiktokOpenBaseServic
      */
     public String getCacheKey() {
         if (!StringUtil.isEmpty(getOpenId())) {
-            return getOpenId();
+            return MessageFormat.format(ACCESS_TOKEN_PREFIX, getAppId(), getOpenId());
         } else {
-            return getAppId();
+            return MessageFormat.format(ACCESS_TOKEN_PREFIX, getAppId(), "");
         }
     }
 

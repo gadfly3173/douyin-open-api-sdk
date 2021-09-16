@@ -75,11 +75,7 @@ public class TiktokOpenAccessTokenApi extends AbstractTiktokOpenApiBase {
      */
     public String get(boolean isRefresh) {
         TiktokOpenAccessTokenConfig config = TiktokOpenAccessTokenConfig.getInstance();
-        if (!StringUtil.isEmpty(getOpenId())) {
-            return config.getAccessToken(getOpenId(), isRefresh);
-        } else {
-            return config.getAccessToken(getAppId(), isRefresh);
-        }
+        return config.getAccessToken(getCacheKey(), isRefresh);
 
     }
 

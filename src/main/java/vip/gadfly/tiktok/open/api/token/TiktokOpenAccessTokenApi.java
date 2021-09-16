@@ -51,14 +51,14 @@ public class TiktokOpenAccessTokenApi extends AbstractTiktokOpenApiBase {
     /**
      * 刷新 accessToken
      *
-     * @param accessToken 需要刷新的 token
+     * @param refreshToken 需要刷新的 token
      * @return
      */
-    public TiktokOpenAccessTokenResult refreshAccessToken(String accessToken) {
+    public TiktokOpenAccessTokenResult refreshAccessToken(String refreshToken) {
         String cacheKey = getCacheKey();
         TiktokOpenAccessTokenParam param = new TiktokOpenAccessTokenParam();
         param.setGrantType(TiktokOpenAccessTokenParam.GRANT_TYPE_REFRESH);
-        param.setRefreshToken(accessToken);
+        param.setRefreshToken(refreshToken);
         String url = TOKEN_URL + "?" + param.getRefreshUrlParam();
         TiktokOpenApiResponse response = sendGet(url);
         TiktokOpenAccessTokenResult result = response.dataToBean(TiktokOpenAccessTokenResult.class);

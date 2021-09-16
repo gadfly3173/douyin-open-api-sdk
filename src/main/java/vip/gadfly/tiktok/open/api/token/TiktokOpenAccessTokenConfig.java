@@ -21,18 +21,18 @@ public class TiktokOpenAccessTokenConfig {
      * 减去秒数
      */
     public static int OutTime = 10;
-    private static ITiktokOpenAccessTokenCache accessTokenCache;
+    private ITiktokOpenAccessTokenCache accessTokenCache;
 
     public static TiktokOpenAccessTokenConfig getInstance() {
         return INSTANCE;
     }
 
-    public ITiktokOpenAccessTokenCache getAccessTokenCache() {
-        return TiktokOpenAccessTokenConfig.accessTokenCache;
+    public static ITiktokOpenAccessTokenCache getAccessTokenCache() {
+        return INSTANCE.accessTokenCache;
     }
 
     public static void setAccessTokenCache(ITiktokOpenAccessTokenCache accessTokenCache) {
-        TiktokOpenAccessTokenConfig.accessTokenCache = accessTokenCache;
+        INSTANCE.accessTokenCache = accessTokenCache;
     }
 
     /**
@@ -44,9 +44,9 @@ public class TiktokOpenAccessTokenConfig {
         return getAccessTokenResult(cacheKey, isRefresh).getAccessToken();
     }
 
-    public TiktokOpenAccessTokenResult setAccessToken(String accessToken) {
+    public TiktokOpenAccessTokenResult setRefreshToken(String refreshToken) {
         TiktokOpenAccessTokenApi tokenApi = new TiktokOpenAccessTokenApi();
-        TiktokOpenAccessTokenResult result = tokenApi.refresh(accessToken);
+        TiktokOpenAccessTokenResult result = tokenApi.refreshAccessToken(refreshToken);
         return result;
 
     }
@@ -54,11 +54,11 @@ public class TiktokOpenAccessTokenConfig {
     /**
      * 失败连续三次重复
      */
-    public TiktokOpenAccessTokenResult refreshAccessToken(String accessToken) {
+    public TiktokOpenAccessTokenResult refreshAccessToken(String refreshToken) {
         TiktokOpenAccessTokenResult result = null;
         for (int i = 1; i <= 3; i++) {
             log.debug("获取 access token 第 [" + i + "] 次");
-            result = setAccessToken(accessToken);
+            result = setRefreshToken(refreshToken);
             if (result != null) {
                 return result;
             }
@@ -84,8 +84,8 @@ public class TiktokOpenAccessTokenConfig {
         }
         TiktokOpenAccessTokenResult result = JSONObject.parseObject(json, TiktokOpenAccessTokenResult.class);
         // 判断是否将要过期
-        if (!isAvailable(result) && isRefresh) {
-            result = refreshAccessToken(result.getAccessToken());
+        if (!isAvailable(result) || isRefresh) {
+            result = refreshAccessToken(result.getRefreshToken());
         }
         return result;
     }

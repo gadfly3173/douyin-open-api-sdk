@@ -291,7 +291,7 @@ public abstract class AbstractTiktokOpenApiBase implements ITiktokOpenBaseServic
             return accessToken;
         }
         //从缓存里获取
-        TiktokOpenAccessTokenConfig config = new TiktokOpenAccessTokenConfig();
+        TiktokOpenAccessTokenConfig config = TiktokOpenAccessTokenConfig.getInstance();
         return config.getAccessToken(getCacheKey(), true);
     }
 

@@ -2,6 +2,7 @@ package vip.gadfly.tiktok.open.base;
 
 import com.google.gson.annotations.SerializedName;
 import vip.gadfly.tiktok.config.AppConfig;
+import vip.gadfly.tiktok.core.http.ITiktokOpenRequest;
 import vip.gadfly.tiktok.core.utils.StringUtil;
 
 import java.io.Serializable;
@@ -9,7 +10,7 @@ import java.io.Serializable;
 /**
  * 获取授权码(code) 参数实体类
  */
-public class TiktokOpenBaseParam implements Serializable {
+public class TiktokOpenBaseParam implements ITiktokOpenRequest, Serializable {
 
     /**
      * 应用唯一标识

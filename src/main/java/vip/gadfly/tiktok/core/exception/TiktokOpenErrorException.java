@@ -4,9 +4,9 @@ package vip.gadfly.tiktok.core.exception;
  * @author yangyidian
  * @date 2020/06/28
  **/
-public class TiktokOpenErrorException extends RuntimeException{
+public class TiktokOpenErrorException extends RuntimeException {
 
-    private ITiktokOpenError error;
+    private final ITiktokOpenError error;
 
     public TiktokOpenErrorException(ITiktokOpenError error) {
         super(error.toString());

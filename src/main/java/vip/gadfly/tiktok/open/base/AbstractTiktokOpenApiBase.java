@@ -24,7 +24,7 @@ import java.util.Map;
  * @date 2018年7月13日
  */
 @Slf4j
-public abstract class AbstractTiktokOpenApiBase {
+public abstract class AbstractTiktokOpenApiBase implements ITiktokOpenBaseService, IRetryableExecutor {
 
     private static int retrySleepMillis = 1000;
     private static int maxRetryTimes = 5;

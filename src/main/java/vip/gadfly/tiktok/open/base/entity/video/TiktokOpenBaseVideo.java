@@ -1,10 +1,11 @@
 package vip.gadfly.tiktok.open.base.entity.video;
 
 import com.google.gson.annotations.SerializedName;
+import vip.gadfly.tiktok.core.http.ITiktokOpenRequest;
 
 import java.io.Serializable;
 
-public class TiktokOpenBaseVideo implements Serializable {
+public class TiktokOpenBaseVideo implements ITiktokOpenRequest, Serializable {
 
     /**
      * string

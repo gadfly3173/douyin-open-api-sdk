@@ -1,12 +1,13 @@
 package vip.gadfly.tiktok.open.base;
 
 
+import vip.gadfly.tiktok.core.http.ITiktokOpenRequest;
 import vip.gadfly.tiktok.core.utils.JsonUtil;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class TiktokOpenApiRequest {
+public class TiktokOpenApiRequest implements ITiktokOpenRequest {
     private Map<String, Object> body = new HashMap<String, Object>();
     private String url;
 

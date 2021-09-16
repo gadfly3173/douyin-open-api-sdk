@@ -10,6 +10,7 @@ import java.util.Objects;
  * 不知道字节怎么想的，要定义两套不同的错误码
  * TiktokOpenError 跟 ByteDancePayError 是平级的，并不是父子关系
  * ByteDanceError的部分错误码可以在<code>TiktokOpenErrorMsgEnum</code>中找到, 完整的请去官网查看
+ *
  * @author yangyidian
  * @date 2020/06/28
  **/
@@ -29,10 +30,11 @@ public class TiktokOpenError implements ITiktokOpenError, Serializable {
 
     /**
      * 封装结果判断
+     *
      * @return
      */
     @Override
-    public Boolean checkSuccess(){
+    public Boolean checkSuccess() {
         return Objects.equals(this.errno, 0);
     }
 

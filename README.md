@@ -99,6 +99,7 @@ dy_redirect_url=http://www.aaaa.com/dy/callback
 ```
 
 2. 加载及初始化(支持非配置文件方式)
+使用jackson需要版本 >= 2.12
 
 ```
 AppConfig config = new AppConfig();

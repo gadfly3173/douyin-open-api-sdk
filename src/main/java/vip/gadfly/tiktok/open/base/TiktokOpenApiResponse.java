@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.gson.reflect.TypeToken;
 import lombok.extern.slf4j.Slf4j;
 import vip.gadfly.tiktok.core.exception.TikTokException;
+import vip.gadfly.tiktok.core.http.ITiktokOpenResponse;
 import vip.gadfly.tiktok.core.utils.JsonUtil;
 import vip.gadfly.tiktok.core.utils.StringUtil;
 
@@ -19,10 +20,10 @@ import java.util.Map;
  * @date 2018年07月13日
  */
 @Slf4j
-public class TiktokOpenApiResponse implements Serializable {
+public class TiktokOpenApiResponse implements ITiktokOpenResponse, Serializable {
 
-    private static final long serialVersionUID = 8932491316488002897L;
     public final static int TIKTOK_OPEN_BUSY_CODE = 2100004;
+    private static final long serialVersionUID = 8932491316488002897L;
     public static String DATA_KEY = "data";
     private final String json;
     private Map<String, Object> result;

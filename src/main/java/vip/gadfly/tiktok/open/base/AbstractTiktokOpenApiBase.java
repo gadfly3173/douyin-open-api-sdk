@@ -2,10 +2,18 @@ package vip.gadfly.tiktok.open.base;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import vip.gadfly.tiktok.config.TiktokOpenConfigStorage;
 import vip.gadfly.tiktok.core.OkHttp4;
+import vip.gadfly.tiktok.core.exception.ITiktokOpenError;
 import vip.gadfly.tiktok.core.exception.TikTokException;
+import vip.gadfly.tiktok.core.exception.TiktokOpenErrorException;
+import vip.gadfly.tiktok.core.exception.TiktokOpenErrorMsgEnum;
+import vip.gadfly.tiktok.core.http.ITiktokOpenHttpClient;
 import vip.gadfly.tiktok.core.utils.StringUtil;
 import vip.gadfly.tiktok.core.utils.TiktokOpenConfigStorageHolder;
 import vip.gadfly.tiktok.open.api.token.TiktokOpenAccessTokenConfig;
@@ -32,6 +40,9 @@ public abstract class AbstractTiktokOpenApiBase implements ITiktokOpenBaseServic
     private static int maxRetryTimes = 5;
     private String openId;
     private String accessToken;
+    @Autowired
+    @Getter
+    private ITiktokOpenHttpClient tiktokOpenHttpClient;
 
     private Map<String, TiktokOpenConfigStorage> configStorageMap;
 
@@ -40,6 +51,11 @@ public abstract class AbstractTiktokOpenApiBase implements ITiktokOpenBaseServic
     }
 
     public AbstractTiktokOpenApiBase() {
+    }
+
+    @Override
+    public Logger getLogger() {
+        return log;
     }
 
     /**
@@ -141,6 +157,73 @@ public abstract class AbstractTiktokOpenApiBase implements ITiktokOpenBaseServic
             Thread.sleep(sleepMillis);
         } catch (InterruptedException e1) {
             Thread.currentThread().interrupt();
+        }
+    }
+
+    @Override
+    public String get(String url) {
+        return get(url, String.class);
+    }
+
+    @Override
+    public <T> T get(String url, Class<T> t) {
+        return retryableExecuteRequest(
+                (url2, headers, request2, t2) -> getInternal(url2, t2), url, null, null, t);
+    }
+
+    private <T> T getInternal(String url, Class<T> t) {
+        return executeRequest((uriWithCommonParam, headers, request, t2) ->
+                                      getTiktokOpenHttpClient().get(uriWithCommonParam, t2), url, null, null, t);
+    }
+
+    @Override
+    public <T> T post(String url, Object request, Class<T> t) {
+        return retryableExecuteRequest(
+                (url2, headers, request2, t2) -> postInternal(url2, request2, t2),
+                url, null, request, t);
+    }
+
+    private <T> T postInternal(String url, Object request, Class<T> t) {
+        return executeRequest((uriWithCommonParam, headers2, request2, t2) ->
+                                      getTiktokOpenHttpClient().post(uriWithCommonParam, request2, t2), url, null, request, t);
+    }
+
+    @Override
+    public <T> T postWithHeaders(String url, Multimap<String, String> headers, Object request, Class<T> t) {
+        return retryableExecuteRequest(this::postWithHeadersInternal, url, headers, request, t);
+    }
+
+    private <T> T postWithHeadersInternal(String url, Multimap<String, String> headers, Object request, Class<T> t) {
+        return executeRequest((uriWithCommonParam, headers2, request2, t2) ->
+                                      getTiktokOpenHttpClient().postWithHeaders(uriWithCommonParam, headers2, request2, t2), url, headers, request, t);
+    }
+
+    @Override
+    public boolean shouldRetry(ITiktokOpenError error) {
+        return TiktokOpenErrorMsgEnum.CODE_2100004.getCode() == error.errorCode();
+    }
+
+    /**
+     * 调用字节跳动服务器接口
+     * 统一在url上添加component_access_token 和 component_appid参数
+     *
+     * @param executable
+     * @param url
+     * @param request
+     * @param t
+     * @param <T>
+     * @return
+     */
+    private <T> T executeRequest(IExecutable<T> executable, String url, Multimap<String, String> headers, Object request, Class<T> t) {
+        try {
+            return executable.execute(url, headers, request, t);
+        } catch (TiktokOpenErrorException e) {
+            ITiktokOpenError error = e.getError();
+            if (!error.checkSuccess()) {
+                log.error("\n【请求地址】: {}\n【错误信息】: {}", url, e.getError());
+                throw new TiktokOpenErrorException(error, e);
+            }
+            return null;
         }
     }
 
@@ -286,18 +369,22 @@ public abstract class AbstractTiktokOpenApiBase implements ITiktokOpenBaseServic
      * @return
      */
     public String getAccessToken() {
+        return getAccessToken(false);
+    }
+
+    public AbstractTiktokOpenApiBase setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+        return this;
+    }
+
+    public String getAccessToken(boolean isRefresh) {
         //如果有指定 tokenCode
         if (!StringUtil.isEmpty(this.accessToken)) {
             return accessToken;
         }
         //从缓存里获取
         TiktokOpenAccessTokenConfig config = TiktokOpenAccessTokenConfig.getInstance();
-        return config.getAccessToken(getCacheKey(), true);
-    }
-
-    public AbstractTiktokOpenApiBase setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
-        return this;
+        return config.getAccessToken(getCacheKey(), isRefresh);
     }
 
     public AbstractTiktokOpenApiBase withAccessToken(String accessToken) {

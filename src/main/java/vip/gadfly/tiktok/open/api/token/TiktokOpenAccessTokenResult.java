@@ -99,12 +99,12 @@ public class TiktokOpenAccessTokenResult extends TiktokOpenBaseResult {
      */
     public void saveCache(String cacheKey) {
         Long expiresIn = this.getExpiresIn();
-        Long expiredTime = 0L;
+        long expiredTime = 0L;
         if (expiresIn != null)
             // 过期时间加两小时 减10秒是为了网络误差 *1000 变成毫秒
             expiredTime = (System.currentTimeMillis() + ((expiresIn - TiktokOpenAccessTokenConfig.OutTime) * 1000));
         this.setExpiredTime(expiredTime);
-        TiktokOpenAccessTokenConfig.getInstance().getAccessTokenCache().set(cacheKey, JsonUtil.objectToJson(this), expiresIn);
+        TiktokOpenAccessTokenConfig.getAccessTokenCache().set(cacheKey, JsonUtil.objectToJson(this), expiresIn);
     }
 
 

@@ -46,8 +46,7 @@ public class TiktokOpenAccessTokenConfig {
 
     public TiktokOpenAccessTokenResult setRefreshToken(String refreshToken) {
         TiktokOpenAccessTokenApi tokenApi = new TiktokOpenAccessTokenApi();
-        TiktokOpenAccessTokenResult result = tokenApi.refreshAccessToken(refreshToken);
-        return result;
+        return tokenApi.refreshAccessToken(refreshToken);
 
     }
 

@@ -1,8 +1,8 @@
 package vip.gadfly.tiktok.open.api.user;
 
 import com.google.gson.annotations.SerializedName;
-import vip.gadfly.tiktok.open.base.entity.TiktokOpenFlowDataItemBase;
-import vip.gadfly.tiktok.open.base.entity.TiktokOpenStaDataItemBase;
+import vip.gadfly.tiktok.open.common.bean.TiktokOpenFlowDataItemBase;
+import vip.gadfly.tiktok.open.common.bean.TiktokOpenStaDataItemBase;
 
 import java.io.Serializable;
 import java.util.List;

@@ -5,16 +5,16 @@ import com.google.gson.annotations.SerializedName;
 public class TiktokOpenVideoCreateResponse {
 
     @SerializedName("data")
-    private TiktokOpenVideoCreateResponseData data;
+    private TtOpVideoCreateResponseData data;
 
     private TiktokOpenVideoCreateResponseExtra extra;
 
 
-    public TiktokOpenVideoCreateResponseData getData() {
+    public TtOpVideoCreateResponseData getData() {
         return data;
     }
 
-    public void setData(TiktokOpenVideoCreateResponseData data) {
+    public void setData(TtOpVideoCreateResponseData data) {
         this.data = data;
     }
 

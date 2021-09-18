@@ -6,10 +6,10 @@ import java.util.concurrent.locks.Lock;
 /**
  * 微信Redis相关操作
  * <p>
- * 该接口不承诺稳定, 外部实现请继承{@link BaseTiktokRedisOps}
+ * 该接口不承诺稳定, 外部实现请继承{@link BaseTtOpRedisOps}
  *
- * @see BaseTiktokRedisOps 实现需要继承该类
- * @see RedisTemplateTiktokRedisOps redisTemplate实现
+ * @see BaseTtOpRedisOps 实现需要继承该类
+ * @see RedisTemplateTtOpRedisOps redisTemplate实现
  */
 public interface TiktokRedisOps {
 

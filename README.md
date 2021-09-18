@@ -13,6 +13,8 @@
 而如果需要修改`DefaultTtOpServiceImpl.java`中的实现，也就是覆盖`AbstractTtOpApiBase.java`的实现时，
 请不要直接实现（implements） ITtOpBaseService，而是继承（extends） AbstractTtOpApiBase。
 
+自动更新用户的access/refresh token功能未实现。
+
 #### 项目介绍
    为抖音开发者提供快速接入方案、未依赖任何第三方mvc框架，支持所用java web 框架接入
    (抖音官方 java-sdk 太烂了，强列建议用这个！！！)

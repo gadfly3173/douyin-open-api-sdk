@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import vip.gadfly.tiktok.core.exception.TikTokException;
 import vip.gadfly.tiktok.core.utils.StringUtil;
-import vip.gadfly.tiktok.open.cache.ITiktokOpenAccessTokenCache;
+import vip.gadfly.tiktok.open.cache.ITtOpAccessTokenCache;
 
 /**
  * accessToken处理
@@ -21,17 +21,17 @@ public class TiktokOpenAccessTokenConfig {
      * 减去秒数
      */
     public static int OutTime = 10;
-    private ITiktokOpenAccessTokenCache accessTokenCache;
+    private ITtOpAccessTokenCache accessTokenCache;
 
     public static TiktokOpenAccessTokenConfig getInstance() {
         return INSTANCE;
     }
 
-    public static ITiktokOpenAccessTokenCache getAccessTokenCache() {
+    public static ITtOpAccessTokenCache getAccessTokenCache() {
         return INSTANCE.accessTokenCache;
     }
 
-    public static void setAccessTokenCache(ITiktokOpenAccessTokenCache accessTokenCache) {
+    public static void setAccessTokenCache(ITtOpAccessTokenCache accessTokenCache) {
         INSTANCE.accessTokenCache = accessTokenCache;
     }
 
@@ -44,8 +44,8 @@ public class TiktokOpenAccessTokenConfig {
         return getAccessTokenResult(cacheKey, isRefresh).getAccessToken();
     }
 
-    public TiktokOpenAccessTokenResult setRefreshToken(String refreshToken) {
-        TiktokOpenAccessTokenApi tokenApi = new TiktokOpenAccessTokenApi();
+    public TtOpAccessTokenResult setRefreshToken(String refreshToken) {
+        TtOpAccessTokenApi tokenApi = new TtOpAccessTokenApi();
         return tokenApi.refreshAccessToken(refreshToken);
 
     }
@@ -53,8 +53,8 @@ public class TiktokOpenAccessTokenConfig {
     /**
      * 失败连续三次重复
      */
-    public TiktokOpenAccessTokenResult refreshAccessToken(String refreshToken) {
-        TiktokOpenAccessTokenResult result = null;
+    public TtOpAccessTokenResult refreshAccessToken(String refreshToken) {
+        TtOpAccessTokenResult result = null;
         for (int i = 1; i <= 3; i++) {
             log.debug("获取 access token 第 [" + i + "] 次");
             result = setRefreshToken(refreshToken);
@@ -76,12 +76,12 @@ public class TiktokOpenAccessTokenConfig {
      *
      * @return
      */
-    public TiktokOpenAccessTokenResult getAccessTokenResult(String cacheKey, boolean isRefresh) {
+    public TtOpAccessTokenResult getAccessTokenResult(String cacheKey, boolean isRefresh) {
         String json = accessTokenCache.getStr(cacheKey);
         if (StringUtil.isEmpty(json)) {
             throw new TikTokException(" cache not find cacheKey =" + cacheKey);
         }
-        TiktokOpenAccessTokenResult result = JSONObject.parseObject(json, TiktokOpenAccessTokenResult.class);
+        TtOpAccessTokenResult result = JSONObject.parseObject(json, TtOpAccessTokenResult.class);
         // 判断是否将要过期
         if (!isAvailable(result) || isRefresh) {
             result = refreshAccessToken(result.getRefreshToken());
@@ -89,11 +89,11 @@ public class TiktokOpenAccessTokenConfig {
         return result;
     }
 
-    public boolean isAvailable(TiktokOpenAccessTokenResult result) {
+    public boolean isAvailable(TtOpAccessTokenResult result) {
         Long expiredTime = result.getExpiredTime();
         if (expiredTime == null || expiredTime == 0)
             return false;
-        if (result.getErrCode() != 0)
+        if (result.getErrorCode() != 0)
             return false;
         if (expiredTime < System.currentTimeMillis())
             return false;

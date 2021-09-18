@@ -94,21 +94,6 @@ public interface ITtOpBaseService {
      *
      * @return openid
      */
-    String getOpenId();
-
-    /**
-     * 设置要使用的用户open id
-     *
-     * @param openId open id
-     * @return this
-     */
-    ITtOpBaseService setOpenId(String openId);
-
-    /**
-     * 获取当前使用的用户open id
-     *
-     * @return openid
-     */
     String getAppId();
 
     /**

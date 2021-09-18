@@ -10,13 +10,10 @@ import org.slf4j.Logger;
 import vip.gadfly.tiktok.config.TtOpConfigStorage;
 import vip.gadfly.tiktok.core.enums.TtOpTicketType;
 import vip.gadfly.tiktok.core.exception.ITtOpError;
-import vip.gadfly.tiktok.core.exception.TikTokException;
 import vip.gadfly.tiktok.core.exception.TtOpErrorException;
 import vip.gadfly.tiktok.core.exception.TtOpErrorMsgEnum;
 import vip.gadfly.tiktok.core.http.ITtOpHttpClient;
-import vip.gadfly.tiktok.core.http.OkHttp4;
 import vip.gadfly.tiktok.core.http.impl.OkHttpTtOpHttpClient;
-import vip.gadfly.tiktok.core.utils.StringUtil;
 import vip.gadfly.tiktok.core.utils.TtOpConfigStorageHolder;
 import vip.gadfly.tiktok.core.utils.crypto.SHA1;
 import vip.gadfly.tiktok.core.utils.crypto.SignUtil;
@@ -24,8 +21,6 @@ import vip.gadfly.tiktok.open.api.TtOpOAuth2Service;
 import vip.gadfly.tiktok.open.api.impl.TtOpOauth2ServiceImpl;
 import vip.gadfly.tiktok.open.common.bean.TtOpJsapiSignature;
 
-import java.io.File;
-import java.text.MessageFormat;
 import java.util.Map;
 import java.util.concurrent.locks.Lock;
 
@@ -37,15 +32,18 @@ import java.util.concurrent.locks.Lock;
  * </pre>
  *
  * @author OF
- * @date 2018年7月13日
+ * @author Gadfly
+ * @since 2018年7月13日
  */
 @Slf4j
 public abstract class AbstractTtOpApiBase implements ITtOpBaseService, IRetryableExecutor {
 
-    private static final String ACCESS_TOKEN_PREFIX = "{0}:{1}:access_token";
+    @Getter
+    @Setter
     private int retrySleepMillis = 1000;
+    @Getter
+    @Setter
     private int maxRetryTimes = 5;
-    private String openId;
     @Getter
     @Setter
     private ITtOpHttpClient tiktokOpenHttpClient = new OkHttpTtOpHttpClient();
@@ -55,113 +53,7 @@ public abstract class AbstractTtOpApiBase implements ITtOpBaseService, IRetryabl
 
     private Map<String, TtOpConfigStorage> configStorageMap;
 
-    public AbstractTtOpApiBase(String openId) {
-        this.openId = openId;
-    }
-
     public AbstractTtOpApiBase() {
-    }
-
-    /**
-     * POST 请求数据
-     *
-     * @param request json 内容
-     * @return 返回 TtOpApiResponse 内容
-     */
-    public TtOpApiResponse sendPost(TtOpApiRequest request) {
-        int retryTimes = 0;
-        do {
-            try {
-                String result = OkHttp4.okHttpPostJson(request.getUrl(),
-                        request.toJson());
-                return new TtOpApiResponse(result);
-            } catch (TikTokException e) {
-                responseExceptionHandler(retryTimes, e);
-            }
-        } while (retryTimes++ < this.maxRetryTimes);
-        log.warn("重试达到最大次数【{}】", this.maxRetryTimes);
-        throw new TikTokException("抖音服务端异常，超出重试次数");
-    }
-
-    public TtOpApiResponse sendPost(String url, TtOpApiRequest request) {
-        int retryTimes = 0;
-        do {
-            try {
-                String result = OkHttp4.okHttpPostJson(url, request.toJson());
-                return new TtOpApiResponse(result);
-            } catch (TikTokException e) {
-                responseExceptionHandler(retryTimes, e);
-            }
-        } while (retryTimes++ < maxRetryTimes);
-        log.warn("重试达到最大次数【{}】", maxRetryTimes);
-        throw new TikTokException("抖音服务端异常，超出重试次数");
-    }
-
-    public TtOpApiResponse sendPost(String url, File file, String mediaType) {
-        int retryTimes = 0;
-        do {
-            try {
-                String result = OkHttp4.okHttpPost(url, file, mediaType);
-                return new TtOpApiResponse(result);
-            } catch (TikTokException e) {
-                responseExceptionHandler(retryTimes, e);
-            }
-        } while (retryTimes++ < maxRetryTimes);
-        log.warn("重试达到最大次数【{}】", maxRetryTimes);
-        throw new TikTokException("抖音服务端异常，超出重试次数");
-    }
-
-    /**
-     * POST 请求数据
-     *
-     * @param url json 内容
-     * @return 返回 json 内容
-     */
-    public TtOpApiResponse sendPost(String url, String json) {
-        int retryTimes = 0;
-        do {
-            try {
-                String result = OkHttp4.okHttpPostJson(url, json);
-                return new TtOpApiResponse(result);
-            } catch (TikTokException e) {
-                responseExceptionHandler(retryTimes, e);
-            }
-        } while (retryTimes++ < maxRetryTimes);
-        log.warn("重试达到最大次数【{}】", maxRetryTimes);
-        throw new TikTokException("抖音服务端异常，超出重试次数");
-    }
-
-    public TtOpApiResponse sendGet(String url) {
-        int retryTimes = 0;
-        do {
-            try {
-                String result = OkHttp4.okHttpGet(url, null);
-                return new TtOpApiResponse(result);
-            } catch (TikTokException e) {
-                responseExceptionHandler(retryTimes, e);
-            }
-        } while (retryTimes++ < maxRetryTimes);
-        log.warn("重试达到最大次数【{}】", maxRetryTimes);
-        throw new TikTokException("抖音服务端异常，超出重试次数");
-    }
-
-    private void responseExceptionHandler(int retryTimes, TikTokException e) {
-        if (retryTimes + 1 > maxRetryTimes) {
-            log.warn("重试达到最大次数【{}】", maxRetryTimes);
-            // 最后一次重试失败后，直接抛出异常，不再等待
-            throw new TikTokException("抖音服务端异常，超出重试次数");
-        }
-        // 2100004 系统繁忙, 1000ms后重试
-        if (e.getErrorCode() != TtOpApiResponse.TIKTOK_OPEN_BUSY_CODE) {
-            throw e;
-        }
-        int sleepMillis = retrySleepMillis * (1 << retryTimes);
-        try {
-            log.debug("抖音系统繁忙，{} ms 后重试(第{}次)", sleepMillis, retryTimes + 1);
-            Thread.sleep(sleepMillis);
-        } catch (InterruptedException e1) {
-            Thread.currentThread().interrupt();
-        }
     }
 
     @Override
@@ -306,27 +198,6 @@ public abstract class AbstractTtOpApiBase implements ITtOpBaseService, IRetryabl
     }
 
     @Override
-    public void setRetrySleepMillis(int retrySleepMillis) {
-        this.retrySleepMillis = retrySleepMillis;
-    }
-
-    @Override
-    public void setMaxRetryTimes(int maxRetryTimes) {
-        this.maxRetryTimes = maxRetryTimes;
-    }
-
-    @Override
-    public String getOpenId() {
-        return openId;
-    }
-
-    @Override
-    public ITtOpBaseService setOpenId(String openId) {
-        this.openId = openId;
-        return this;
-    }
-
-    @Override
     public String getAppId() {
         TtOpConfigStorage configStorage = getTtOpConfigStorage();
         return configStorage.getAppId();
@@ -336,19 +207,6 @@ public abstract class AbstractTtOpApiBase implements ITtOpBaseService, IRetryabl
     public String getHttpUrl() {
         TtOpConfigStorage configStorage = getTtOpConfigStorage();
         return configStorage.getHostConfig().getTiktokOpenHost();
-    }
-
-    /**
-     * 缓存本地的 key (openId / appId)
-     *
-     * @return key
-     */
-    public String getCacheKey() {
-        if (!StringUtil.isEmpty(getOpenId())) {
-            return MessageFormat.format(ACCESS_TOKEN_PREFIX, getAppId(), getOpenId());
-        } else {
-            return MessageFormat.format(ACCESS_TOKEN_PREFIX, getAppId(), "");
-        }
     }
 
     @Override

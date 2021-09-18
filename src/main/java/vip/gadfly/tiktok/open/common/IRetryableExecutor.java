@@ -16,7 +16,7 @@ public interface IRetryableExecutor {
      * 默认：1000ms
      * </pre>
      */
-    default long getRetrySleepMillis() {
+    default int getRetrySleepMillis() {
         return 1000;
     }
 

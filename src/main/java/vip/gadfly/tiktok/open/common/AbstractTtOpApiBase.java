@@ -22,8 +22,6 @@ import vip.gadfly.tiktok.core.utils.crypto.SHA1;
 import vip.gadfly.tiktok.core.utils.crypto.SignUtil;
 import vip.gadfly.tiktok.open.api.TtOpOAuth2Service;
 import vip.gadfly.tiktok.open.api.impl.TtOpOauth2ServiceImpl;
-import vip.gadfly.tiktok.open.api.token.TtOpAccessTokenApi;
-import vip.gadfly.tiktok.open.api.token.TtOpAccessTokenResult;
 import vip.gadfly.tiktok.open.common.bean.TtOpJsapiSignature;
 
 import java.io.File;
@@ -417,5 +415,6 @@ public abstract class AbstractTtOpApiBase implements ITtOpBaseService, IRetryabl
 
     public String scope() {
         return null;
-    };
+    }
+
 }

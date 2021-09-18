@@ -2,6 +2,7 @@ package vip.gadfly.tiktok.open.bean.oauth2;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import vip.gadfly.tiktok.open.common.TtOpBaseResult;
 
 /**
@@ -9,6 +10,7 @@ import vip.gadfly.tiktok.open.common.TtOpBaseResult;
  * @since 2021-09-18 15:23
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class TtOpAccessTokenResult extends TtOpBaseResult {
 
     private static final long serialVersionUID = 1L;

@@ -158,7 +158,7 @@ public interface ITtOpBaseService {
      */
     TtOpJsapiSignature createJsapiSignature(String url);
 
-    void setTtOpOAuth2Service(TtOpOAuth2Service ttOpOAuth2Service);
-
     TtOpOAuth2Service getTtOpOAuth2Service();
+
+    void setTtOpOAuth2Service(TtOpOAuth2Service ttOpOAuth2Service);
 }

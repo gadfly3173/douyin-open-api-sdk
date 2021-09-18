@@ -5,7 +5,8 @@ import lombok.Getter;
 import vip.gadfly.tiktok.config.TtOpConfigStorage;
 import vip.gadfly.tiktok.config.TtOpHostConfig;
 
-import static vip.gadfly.tiktok.config.TtOpHostConfig.*;
+import static vip.gadfly.tiktok.config.TtOpHostConfig.TIKTOK_OPEN_API_HOST_URL;
+import static vip.gadfly.tiktok.config.TtOpHostConfig.buildUrl;
 
 /**
  * @author Gadfly

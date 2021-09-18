@@ -1,6 +1,6 @@
 package vip.gadfly.tiktok.open.api.data.hot;
 
-import vip.gadfly.tiktok.open.api.token.TiktokOpenAccessTokenApi;
+import vip.gadfly.tiktok.core.enums.TiktokOpenTicketType;
 import vip.gadfly.tiktok.open.base.AbstractTiktokOpenApiBase;
 import vip.gadfly.tiktok.open.base.TiktokOpenApiResponse;
 
@@ -10,8 +10,7 @@ public class TiktokOpenHotsearchSentencesApi extends AbstractTiktokOpenApiBase {
 
     public TiktokOpenHotsearchSentencesResult get() {
 
-        TiktokOpenAccessTokenApi accessTokenApi = new TiktokOpenAccessTokenApi();
-        String clientAccessToken = accessTokenApi.get().getAccessToken();
+        String clientAccessToken = this.getTicket(TiktokOpenTicketType.CLIENT);
 
         TiktokOpenHotsearchSentencesParam param = new TiktokOpenHotsearchSentencesParam();
         param.setAccessToken(clientAccessToken);

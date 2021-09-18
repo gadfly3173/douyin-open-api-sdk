@@ -64,7 +64,7 @@ public class TiktokOpenAccessTokenConfig {
             try {
                 Thread.sleep(300);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                log.error(e.getMessage(), e);
             }
         }
         return result;

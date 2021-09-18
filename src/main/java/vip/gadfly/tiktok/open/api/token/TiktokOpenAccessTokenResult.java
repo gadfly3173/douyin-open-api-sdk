@@ -22,12 +22,15 @@ public class TiktokOpenAccessTokenResult extends TiktokOpenBaseResult {
     private String accessToken;
 
     @SerializedName("expires_in")
-    private Long expiresIn;
+    private Integer expiresIn;
 
     private Long expiredTime = 0L;
 
     @SerializedName("refresh_token")
     private String refreshToken;
+
+    @SerializedName("ticket")
+    private String ticket;
 
     @SerializedName("open_id")
     private String openId;
@@ -52,11 +55,11 @@ public class TiktokOpenAccessTokenResult extends TiktokOpenBaseResult {
         this.accessToken = accessToken;
     }
 
-    public Long getExpiresIn() {
+    public Integer getExpiresIn() {
         return expiresIn;
     }
 
-    public void setExpiresIn(Long expiresIn) {
+    public void setExpiresIn(Integer expiresIn) {
         this.expiresIn = expiresIn;
     }
 
@@ -66,6 +69,14 @@ public class TiktokOpenAccessTokenResult extends TiktokOpenBaseResult {
 
     public void setRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
+    }
+
+    public String getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(String ticket) {
+        this.ticket = ticket;
     }
 
     public String getOpenId() {
@@ -98,7 +109,7 @@ public class TiktokOpenAccessTokenResult extends TiktokOpenBaseResult {
      * @param cacheKey
      */
     public void saveCache(String cacheKey) {
-        Long expiresIn = this.getExpiresIn();
+        Integer expiresIn = this.getExpiresIn();
         long expiredTime = 0L;
         if (expiresIn != null)
             // 过期时间加两小时 减10秒是为了网络误差 *1000 变成毫秒
@@ -106,6 +117,4 @@ public class TiktokOpenAccessTokenResult extends TiktokOpenBaseResult {
         this.setExpiredTime(expiredTime);
         TiktokOpenAccessTokenConfig.getAccessTokenCache().set(cacheKey, JsonUtil.objectToJson(this), expiresIn);
     }
-
-
 }

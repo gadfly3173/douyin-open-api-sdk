@@ -1,12 +1,10 @@
-package vip.gadfly.tiktok.core.utils;
+package vip.gadfly.tiktok.core.utils.crypto;
 
 import vip.gadfly.tiktok.core.exception.TikTokException;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.MessageFormat;
-import java.util.Base64;
 import java.util.Random;
 
 /**
@@ -15,12 +13,6 @@ import java.util.Random;
  * @author Gadfly
  */
 public class SignUtil {
-    public static String getJsapiSignature(String nonceStr, String ticket, Long timestamp, String url) {
-        String string = MessageFormat.format("jsapi_ticket={0}&nonce_str={1}&timestamp={2}&url={3}",
-                nonceStr, ticket, timestamp.toString(), url);
-        return sign(string, "MD5");
-    }
-
     public static String sign(String string, String digest) {
         try {
             MessageDigest sign = MessageDigest.getInstance(digest);
@@ -48,8 +40,8 @@ public class SignUtil {
     /**
      * 随机生成32位字符串.
      */
-    public static String genRandomStr() {
-        return genRandomStr(32);
+    public static String getRandomStr() {
+        return getRandomStr(16);
     }
 
     /**
@@ -58,7 +50,7 @@ public class SignUtil {
      * @param length 字符串长度
      * @return 随机字符串
      */
-    public static String genRandomStr(int length) {
+    public static String getRandomStr(int length) {
         String base = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         Random random = new Random();
         StringBuilder sb = new StringBuilder();

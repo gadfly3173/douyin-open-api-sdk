@@ -1,6 +1,6 @@
 package vip.gadfly.tiktok.open.api.data.discovery;
 
-import vip.gadfly.tiktok.open.api.token.TiktokOpenAccessTokenApi;
+import vip.gadfly.tiktok.core.enums.TiktokOpenTicketType;
 import vip.gadfly.tiktok.open.base.AbstractTiktokOpenApiBase;
 import vip.gadfly.tiktok.open.base.TiktokOpenApiResponse;
 
@@ -10,8 +10,7 @@ public class TiktokOpenDiscoveryEntRankItemApi extends AbstractTiktokOpenApiBase
 
     public TiktokOpenDiscoveryEntRankItemResult get() {
 
-        TiktokOpenAccessTokenApi accessTokenApi = new TiktokOpenAccessTokenApi();
-        String clientAccessToken = accessTokenApi.getClientTokenResult().getAccessToken();
+        String clientAccessToken = this.getTicket(TiktokOpenTicketType.CLIENT);
 
         TiktokOpenDiscoveryEntRankItemParam param = new TiktokOpenDiscoveryEntRankItemParam();
         param.setAccessToken(clientAccessToken);

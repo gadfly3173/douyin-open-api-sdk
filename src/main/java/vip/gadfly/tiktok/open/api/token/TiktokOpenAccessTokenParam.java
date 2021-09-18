@@ -38,16 +38,18 @@ public class TiktokOpenAccessTokenParam extends TiktokOpenBaseParam {
         return grantType;
     }
 
-    public void setGrantType(String grantType) {
+    public TiktokOpenAccessTokenParam setGrantType(String grantType) {
         this.grantType = grantType;
+        return this;
     }
 
     public String getRefreshToken() {
         return refreshToken;
     }
 
-    public void setRefreshToken(String refreshToken) {
+    public TiktokOpenAccessTokenParam setRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
+        return this;
     }
 
     /**
@@ -68,6 +70,15 @@ public class TiktokOpenAccessTokenParam extends TiktokOpenBaseParam {
     public String getClientUrlParam() {
         return "client_key=" + this.getAppId() + "&client_secret=" + this.getAppSecret() +
                        "&grant_type=" + this.grantType;
+    }
+
+    /**
+     * 拼接URL参数值
+     *
+     * @return
+     */
+    public String getJsapiUrlParam() {
+        return "access_token=" + this.getAccessToken();
     }
 
     /**

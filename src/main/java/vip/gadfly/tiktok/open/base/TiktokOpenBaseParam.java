@@ -1,7 +1,6 @@
 package vip.gadfly.tiktok.open.base;
 
 import com.google.gson.annotations.SerializedName;
-import vip.gadfly.tiktok.config.AppConfig;
 import vip.gadfly.tiktok.core.http.ITiktokOpenRequest;
 import vip.gadfly.tiktok.core.utils.StringUtil;
 
@@ -15,12 +14,12 @@ public class TiktokOpenBaseParam implements ITiktokOpenRequest, Serializable {
     /**
      * 应用唯一标识
      */
-    private String appId = AppConfig.getInstance().appId;
+    private String appId;
 
     /**
      * 密钥
      */
-    private String appSecret = AppConfig.getInstance().appSecret;
+    private String appSecret;
 
     @SerializedName("open_id")
     private String openId;

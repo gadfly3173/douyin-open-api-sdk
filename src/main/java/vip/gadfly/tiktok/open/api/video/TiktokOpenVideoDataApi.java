@@ -17,7 +17,7 @@ public class TiktokOpenVideoDataApi extends AbstractTiktokOpenApiBase {
      * @param param TiktokOpenVideoDataParam
      * @return
      */
-    public TiktokOpenVideoDataResult get(TiktokOpenVideoDataParam param) {
+    public TiktokOpenVideoDataResult getVideoResult(TiktokOpenVideoDataParam param) {
         String url = VIDEO_DATA + "?" + param.getUrlParam();
         String paramJson = JsonUtil.objectToJson(param.getItemIds());
         TiktokOpenVideoDataResult result = sendPost(url, paramJson).dataToBean(TiktokOpenVideoDataResult.class);
@@ -29,11 +29,11 @@ public class TiktokOpenVideoDataApi extends AbstractTiktokOpenApiBase {
      *
      * @return
      */
-    public TiktokOpenBaseVideo get(String itemId) {
+    public TiktokOpenBaseVideo getBaseVideo(String itemId) {
         TiktokOpenBaseVideo video = null;
         TiktokOpenVideoDataParam param = new TiktokOpenVideoDataParam();
         param.setItemIds(new String[]{itemId});
-        TiktokOpenVideoDataResult result = get(param);
+        TiktokOpenVideoDataResult result = getVideoResult(param);
         if (result != null && result.getList().size() > 0) {
             video = result.getList().get(0);
         }
@@ -45,10 +45,10 @@ public class TiktokOpenVideoDataApi extends AbstractTiktokOpenApiBase {
      *
      * @return
      */
-    public TiktokOpenVideoDataResult get(String[] itemIds) {
+    public TiktokOpenVideoDataResult getVideoResult(String[] itemIds) {
         TiktokOpenVideoDataParam param = new TiktokOpenVideoDataParam();
         param.setItemIds(itemIds);
-        return get(param);
+        return getVideoResult(param);
     }
 
     public TiktokOpenVideoDataApi withAccessToken(String accessToken) {

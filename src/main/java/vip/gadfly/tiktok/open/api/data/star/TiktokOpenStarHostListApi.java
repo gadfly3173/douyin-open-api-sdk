@@ -1,7 +1,7 @@
 package vip.gadfly.tiktok.open.api.data.star;
 
+import vip.gadfly.tiktok.core.enums.TiktokOpenTicketType;
 import vip.gadfly.tiktok.open.api.data.star.enume.TiktokOpenStarHostEnum;
-import vip.gadfly.tiktok.open.api.token.TiktokOpenAccessTokenApi;
 import vip.gadfly.tiktok.open.base.AbstractTiktokOpenApiBase;
 import vip.gadfly.tiktok.open.base.TiktokOpenApiResponse;
 
@@ -11,8 +11,7 @@ public class TiktokOpenStarHostListApi extends AbstractTiktokOpenApiBase {
 
     public TiktokOpenStarHostListResult get(TiktokOpenStarHostListParam param) {
 
-        TiktokOpenAccessTokenApi accessTokenApi = new TiktokOpenAccessTokenApi();
-        String clientAccessToken = accessTokenApi.get().getAccessToken();
+        String clientAccessToken = this.getTicket(TiktokOpenTicketType.CLIENT);
 
         param.setAccessToken(clientAccessToken);
 

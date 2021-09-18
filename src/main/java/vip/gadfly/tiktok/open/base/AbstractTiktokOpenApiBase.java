@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import vip.gadfly.tiktok.config.TiktokOpenConfigStorage;
 import vip.gadfly.tiktok.core.OkHttp4;
+import vip.gadfly.tiktok.core.enums.TiktokOpenTicketType;
 import vip.gadfly.tiktok.core.exception.ITiktokOpenError;
 import vip.gadfly.tiktok.core.exception.TikTokException;
 import vip.gadfly.tiktok.core.exception.TiktokOpenErrorException;
@@ -16,11 +17,17 @@ import vip.gadfly.tiktok.core.exception.TiktokOpenErrorMsgEnum;
 import vip.gadfly.tiktok.core.http.ITiktokOpenHttpClient;
 import vip.gadfly.tiktok.core.utils.StringUtil;
 import vip.gadfly.tiktok.core.utils.TiktokOpenConfigStorageHolder;
+import vip.gadfly.tiktok.core.utils.crypto.SHA1;
+import vip.gadfly.tiktok.core.utils.crypto.SignUtil;
+import vip.gadfly.tiktok.open.api.token.TiktokOpenAccessTokenApi;
 import vip.gadfly.tiktok.open.api.token.TiktokOpenAccessTokenConfig;
+import vip.gadfly.tiktok.open.api.token.TiktokOpenAccessTokenResult;
+import vip.gadfly.tiktok.open.base.entity.TiktokOpenJsapiSignature;
 
 import java.io.File;
 import java.text.MessageFormat;
 import java.util.Map;
+import java.util.concurrent.locks.Lock;
 
 /**
  * 接口基类
@@ -51,11 +58,6 @@ public abstract class AbstractTiktokOpenApiBase implements ITiktokOpenBaseServic
     }
 
     public AbstractTiktokOpenApiBase() {
-    }
-
-    @Override
-    public Logger getLogger() {
-        return log;
     }
 
     /**
@@ -158,6 +160,11 @@ public abstract class AbstractTiktokOpenApiBase implements ITiktokOpenBaseServic
         } catch (InterruptedException e1) {
             Thread.currentThread().interrupt();
         }
+    }
+
+    @Override
+    public Logger getLogger() {
+        return log;
     }
 
     @Override
@@ -382,9 +389,52 @@ public abstract class AbstractTiktokOpenApiBase implements ITiktokOpenBaseServic
         if (!StringUtil.isEmpty(this.accessToken)) {
             return accessToken;
         }
+        if (StringUtil.isEmpty(getOpenId())) {
+            return getTicket(TiktokOpenTicketType.CLIENT);
+        }
         //从缓存里获取
         TiktokOpenAccessTokenConfig config = TiktokOpenAccessTokenConfig.getInstance();
         return config.getAccessToken(getCacheKey(), isRefresh);
+    }
+
+    public String getTicket(TiktokOpenTicketType type) {
+        return this.getTicket(type, false);
+    }
+
+    public String getTicket(TiktokOpenTicketType type, boolean forceRefresh) {
+        if (forceRefresh) {
+            this.getTiktokOpenConfigStorage().expireTicket(type);
+        }
+
+        if (this.getTiktokOpenConfigStorage().isTicketExpired(type)) {
+            Lock lock = this.getTiktokOpenConfigStorage().getTicketLock(type);
+            lock.lock();
+            try {
+                if (this.getTiktokOpenConfigStorage().isTicketExpired(type)) {
+                    String ticket;
+                    int expireInSeconds;
+                    TiktokOpenAccessTokenApi accessTokenApi = new TiktokOpenAccessTokenApi();
+                    switch (type) {
+                        case JSAPI: {
+                            TiktokOpenAccessTokenResult result = accessTokenApi.getJsapiTicketResult();
+                            ticket = result.getTicket();
+                            expireInSeconds = result.getExpiresIn();
+                        }
+                        default:
+                        case CLIENT: {
+                            TiktokOpenAccessTokenResult result = accessTokenApi.getClientTokenResult();
+                            ticket = result.getAccessToken();
+                            expireInSeconds = result.getExpiresIn();
+                        }
+                    }
+                    this.getTiktokOpenConfigStorage().updateTicket(type, ticket, expireInSeconds);
+                }
+            } finally {
+                lock.unlock();
+            }
+        }
+
+        return this.getTiktokOpenConfigStorage().getTicket(type);
     }
 
     public AbstractTiktokOpenApiBase withAccessToken(String accessToken) {
@@ -393,6 +443,21 @@ public abstract class AbstractTiktokOpenApiBase implements ITiktokOpenBaseServic
 
     public AbstractTiktokOpenApiBase withOpenId(String openId) {
         return this.setOpenId(openId);
+    }
+
+    public TiktokOpenJsapiSignature createJsapiSignature(String url) {
+        long timestamp = System.currentTimeMillis() / 1000;
+        String randomStr = SignUtil.getRandomStr();
+        String jsapiTicket = getTicket(TiktokOpenTicketType.JSAPI);
+        String signature = SHA1.genWithAmple("jsapi_ticket=" + jsapiTicket,
+                "noncestr=" + randomStr, "timestamp=" + timestamp, "url=" + url);
+        TiktokOpenJsapiSignature jsapiSignature = new TiktokOpenJsapiSignature();
+        jsapiSignature.setAppId(this.getTiktokOpenConfigStorage().getAppId());
+        jsapiSignature.setTimestamp(timestamp);
+        jsapiSignature.setNonceStr(randomStr);
+        jsapiSignature.setUrl(url);
+        jsapiSignature.setSignature(signature);
+        return jsapiSignature;
     }
 
     public abstract String scope();

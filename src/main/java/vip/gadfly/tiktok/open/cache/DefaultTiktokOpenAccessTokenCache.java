@@ -24,7 +24,7 @@ public class DefaultTiktokOpenAccessTokenCache implements ITiktokOpenAccessToken
         return this;
     }
 
-    public ITiktokOpenAccessTokenCache set(String key, String value, Long time) {
+    public ITiktokOpenAccessTokenCache set(String key, String value, Integer time) {
         accessTokenCah.put(key, value);
         return this;
     }

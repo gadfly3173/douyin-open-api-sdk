@@ -7,7 +7,7 @@ public interface ITiktokOpenAccessTokenCache {
 
     ITiktokOpenAccessTokenCache set(String key, String value);
 
-    ITiktokOpenAccessTokenCache set(String key, String value, Long time);
+    ITiktokOpenAccessTokenCache set(String key, String value, Integer time);
 
     ITiktokOpenAccessTokenCache remove(String key);
 

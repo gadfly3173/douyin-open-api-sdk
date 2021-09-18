@@ -28,7 +28,7 @@ public class RedisTemplateTiktokOpenAccessTokenCache implements ITiktokOpenAcces
         return this;
     }
 
-    public ITiktokOpenAccessTokenCache set(String key, String value, Long time) {
+    public ITiktokOpenAccessTokenCache set(String key, String value, Integer time) {
         redisTemplateTiktokRedisOps.setValue(key, value, Math.toIntExact(time), TimeUnit.SECONDS);
         return this;
     }

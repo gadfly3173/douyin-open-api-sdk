@@ -4,6 +4,15 @@
 
 源项目：[https://gitee.com/hudan870614/wptai-douyin-api](https://gitee.com/hudan870614/wptai-douyin-api)
 
+#### 架构
+本SDK应当以**单例**的形式被调用。
+
+整体架构与WxJava项目接近，提供了一个默认实现`DefaultTtOpServiceImpl.java`。其中的各api接口实现在各个子service中。
+
+使用时需要修改子service的实现的话就去实现其对应的interface，通过`ITtOpBaseService.setXXXService(yourSubService)`来实现。
+而如果需要修改`DefaultTtOpServiceImpl.java`中的实现，也就是覆盖`AbstractTtOpApiBase.java`的实现时，
+请不要直接实现（implements） ITtOpBaseService，而是继承（extends） AbstractTtOpApiBase。
+
 #### 项目介绍
    为抖音开发者提供快速接入方案、未依赖任何第三方mvc框架，支持所用java web 框架接入
    (抖音官方 java-sdk 太烂了，强列建议用这个！！！)

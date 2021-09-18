@@ -4,17 +4,17 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import vip.gadfly.tiktok.config.TiktokOpenConfigStorage;
-import vip.gadfly.tiktok.core.OkHttp4;
 import vip.gadfly.tiktok.core.enums.TiktokOpenTicketType;
 import vip.gadfly.tiktok.core.exception.ITiktokOpenError;
 import vip.gadfly.tiktok.core.exception.TikTokException;
 import vip.gadfly.tiktok.core.exception.TiktokOpenErrorException;
 import vip.gadfly.tiktok.core.exception.TiktokOpenErrorMsgEnum;
 import vip.gadfly.tiktok.core.http.ITiktokOpenHttpClient;
+import vip.gadfly.tiktok.core.http.OkHttp4;
 import vip.gadfly.tiktok.core.utils.StringUtil;
 import vip.gadfly.tiktok.core.utils.TiktokOpenConfigStorageHolder;
 import vip.gadfly.tiktok.core.utils.crypto.SHA1;
@@ -43,18 +43,19 @@ import java.util.concurrent.locks.Lock;
 public abstract class AbstractTiktokOpenApiBase implements ITiktokOpenBaseService, IRetryableExecutor {
 
     private static final String ACCESS_TOKEN_PREFIX = "{0}:{1}:access_token";
-    private static int retrySleepMillis = 1000;
-    private static int maxRetryTimes = 5;
+    private int retrySleepMillis = 1000;
+    private int maxRetryTimes = 5;
     private String openId;
     private String accessToken;
-    @Autowired
     @Getter
+    @Setter
     private ITiktokOpenHttpClient tiktokOpenHttpClient;
 
     private Map<String, TiktokOpenConfigStorage> configStorageMap;
 
-    public AbstractTiktokOpenApiBase(String openId) {
+    public AbstractTiktokOpenApiBase(String openId, ITiktokOpenHttpClient tiktokOpenHttpClient) {
         this.openId = openId;
+        this.tiktokOpenHttpClient = tiktokOpenHttpClient;
     }
 
     public AbstractTiktokOpenApiBase() {
@@ -66,7 +67,7 @@ public abstract class AbstractTiktokOpenApiBase implements ITiktokOpenBaseServic
      * @param request json 内容
      * @return 返回 TiktokOpenApiResponse 内容
      */
-    public static TiktokOpenApiResponse sendPost(TiktokOpenApiRequest request) {
+    public TiktokOpenApiResponse sendPost(TiktokOpenApiRequest request) {
         int retryTimes = 0;
         do {
             try {
@@ -76,12 +77,12 @@ public abstract class AbstractTiktokOpenApiBase implements ITiktokOpenBaseServic
             } catch (TikTokException e) {
                 responseExceptionHandler(retryTimes, e);
             }
-        } while (retryTimes++ < maxRetryTimes);
-        log.warn("重试达到最大次数【{}】", maxRetryTimes);
+        } while (retryTimes++ < this.maxRetryTimes);
+        log.warn("重试达到最大次数【{}】", this.maxRetryTimes);
         throw new TikTokException("抖音服务端异常，超出重试次数");
     }
 
-    public static TiktokOpenApiResponse sendPost(String url, TiktokOpenApiRequest request) {
+    public TiktokOpenApiResponse sendPost(String url, TiktokOpenApiRequest request) {
         int retryTimes = 0;
         do {
             try {
@@ -95,7 +96,7 @@ public abstract class AbstractTiktokOpenApiBase implements ITiktokOpenBaseServic
         throw new TikTokException("抖音服务端异常，超出重试次数");
     }
 
-    public static TiktokOpenApiResponse sendPost(String url, File file, String mediaType) {
+    public TiktokOpenApiResponse sendPost(String url, File file, String mediaType) {
         int retryTimes = 0;
         do {
             try {
@@ -115,7 +116,7 @@ public abstract class AbstractTiktokOpenApiBase implements ITiktokOpenBaseServic
      * @param url json 内容
      * @return 返回 json 内容
      */
-    public static TiktokOpenApiResponse sendPost(String url, String json) {
+    public TiktokOpenApiResponse sendPost(String url, String json) {
         int retryTimes = 0;
         do {
             try {
@@ -129,7 +130,7 @@ public abstract class AbstractTiktokOpenApiBase implements ITiktokOpenBaseServic
         throw new TikTokException("抖音服务端异常，超出重试次数");
     }
 
-    public static TiktokOpenApiResponse sendGet(String url) {
+    public TiktokOpenApiResponse sendGet(String url) {
         int retryTimes = 0;
         do {
             try {
@@ -143,7 +144,7 @@ public abstract class AbstractTiktokOpenApiBase implements ITiktokOpenBaseServic
         throw new TikTokException("抖音服务端异常，超出重试次数");
     }
 
-    private static void responseExceptionHandler(int retryTimes, TikTokException e) {
+    private void responseExceptionHandler(int retryTimes, TikTokException e) {
         if (retryTimes + 1 > maxRetryTimes) {
             log.warn("重试达到最大次数【{}】", maxRetryTimes);
             // 最后一次重试失败后，直接抛出异常，不再等待
@@ -243,115 +244,88 @@ public abstract class AbstractTiktokOpenApiBase implements ITiktokOpenBaseServic
         return this.configStorageMap.get(TiktokOpenConfigStorageHolder.get());
     }
 
-    /**
-     * 设置 {@link TiktokOpenConfigStorage} 的实现. 兼容老版本
-     *
-     * @param tiktokConfigProvider .
-     */
     public void setTiktokOpenConfigStorage(TiktokOpenConfigStorage tiktokConfigProvider) {
         final String defaultMpId = tiktokConfigProvider.getAppId();
         this.setMultiConfigStorages(ImmutableMap.of(defaultMpId, tiktokConfigProvider), defaultMpId);
     }
 
-    /**
-     * 注入多个 {@link TiktokOpenConfigStorage} 的实现. 并为每个 {@link TiktokOpenConfigStorage} 赋予不同的 {@link String mpId} 值
-     * 随机采用一个{@link String mpId}进行Http初始化操作
-     *
-     * @param configStorages TiktokOpenConfigStorage map
-     */
     public void setMultiConfigStorages(Map<String, TiktokOpenConfigStorage> configStorages) {
         this.setMultiConfigStorages(configStorages, configStorages.keySet().iterator().next());
     }
 
-    /**
-     * 注入多个 {@link TiktokOpenConfigStorage} 的实现. 并为每个 {@link TiktokOpenConfigStorage} 赋予不同的 {@link String label} 值
-     *
-     * @param configStorages TiktokOpenConfigStorage map
-     * @param defaultMpId    设置一个{@link TiktokOpenConfigStorage} 所对应的{@link String mpId}进行Http初始化
-     */
-    public void setMultiConfigStorages(Map<String, TiktokOpenConfigStorage> configStorages, String defaultMpId) {
+    public void setMultiConfigStorages(Map<String, TiktokOpenConfigStorage> configStorages, String defaultAppId) {
         this.configStorageMap = Maps.newHashMap(configStorages);
-        TiktokOpenConfigStorageHolder.set(defaultMpId);
+        TiktokOpenConfigStorageHolder.set(defaultAppId);
     }
 
-    /**
-     * Map里 加入新的 {@link TiktokOpenConfigStorage}，适用于动态添加新的微信公众号配置.
-     *
-     * @param mpId           公众号id
-     * @param configStorages 新的微信配置
-     */
-    public void addConfigStorage(String mpId, TiktokOpenConfigStorage configStorages) {
+    public void addConfigStorage(String appId, TiktokOpenConfigStorage configStorages) {
         synchronized (this) {
             if (this.configStorageMap == null) {
                 this.setTiktokOpenConfigStorage(configStorages);
             } else {
-                TiktokOpenConfigStorageHolder.set(mpId);
-                this.configStorageMap.put(mpId, configStorages);
+                TiktokOpenConfigStorageHolder.set(appId);
+                this.configStorageMap.put(appId, configStorages);
             }
         }
     }
 
-    /**
-     * 从 Map中 移除 {@link String mpId} 所对应的 {@link TiktokOpenConfigStorage}，适用于动态移除微信公众号配置.
-     *
-     * @param mpId 对应公众号的标识
-     */
-    public void removeConfigStorage(String mpId) {
+    public void removeConfigStorage(String appId) {
         synchronized (this) {
             if (this.configStorageMap.size() == 1) {
-                this.configStorageMap.remove(mpId);
-                log.warn("已删除最后一个公众号配置：{}，须立即使用setTiktokOpenConfigStorage或setMultiConfigStorages添加配置", mpId);
+                this.configStorageMap.remove(appId);
+                log.warn("已删除最后一个公众号配置：{}，须立即使用setTiktokOpenConfigStorage或setMultiConfigStorages添加配置", appId);
                 return;
             }
-            if (TiktokOpenConfigStorageHolder.get().equals(mpId)) {
-                this.configStorageMap.remove(mpId);
+            if (TiktokOpenConfigStorageHolder.get().equals(appId)) {
+                this.configStorageMap.remove(appId);
                 final String defaultMpId = this.configStorageMap.keySet().iterator().next();
                 TiktokOpenConfigStorageHolder.set(defaultMpId);
                 log.warn("已删除默认公众号配置，公众号【{}】被设为默认配置", defaultMpId);
                 return;
             }
-            this.configStorageMap.remove(mpId);
+            this.configStorageMap.remove(appId);
         }
     }
 
-    /**
-     * 进行相应的公众号切换.
-     *
-     * @param mpId 公众号标识
-     * @return 切换是否成功 boolean
-     */
-    public boolean switchover(String mpId) {
-        if (this.configStorageMap.containsKey(mpId)) {
-            TiktokOpenConfigStorageHolder.set(mpId);
+    @Override
+    public boolean switchover(String appId) {
+        if (this.configStorageMap.containsKey(appId)) {
+            TiktokOpenConfigStorageHolder.set(appId);
             return true;
         }
 
-        log.error("无法找到对应【{}】的公众号配置信息，请核实！", mpId);
+        log.error("无法找到对应【{}】的公众号配置信息，请核实！", appId);
         return false;
     }
 
+    @Override
     public void setRetrySleepMillis(int retrySleepMillis) {
-        AbstractTiktokOpenApiBase.retrySleepMillis = retrySleepMillis;
+        this.retrySleepMillis = retrySleepMillis;
     }
 
+    @Override
     public void setMaxRetryTimes(int maxRetryTimes) {
-        AbstractTiktokOpenApiBase.maxRetryTimes = maxRetryTimes;
+        this.maxRetryTimes = maxRetryTimes;
     }
 
+    @Override
     public String getOpenId() {
         return openId;
     }
 
-    public AbstractTiktokOpenApiBase setOpenId(String openId) {
+    @Override
+    public ITiktokOpenBaseService setOpenId(String openId) {
         this.openId = openId;
         return this;
     }
 
+    @Override
     public String getAppId() {
         TiktokOpenConfigStorage configStorage = getTiktokOpenConfigStorage();
         return configStorage.getAppId();
     }
 
+    @Override
     public String getHttpUrl() {
         TiktokOpenConfigStorage configStorage = getTiktokOpenConfigStorage();
         return configStorage.getHostConfig().getTiktokOpenHost();
@@ -375,15 +349,18 @@ public abstract class AbstractTiktokOpenApiBase implements ITiktokOpenBaseServic
      *
      * @return
      */
+    @Override
     public String getAccessToken() {
         return getAccessToken(false);
     }
 
-    public AbstractTiktokOpenApiBase setAccessToken(String accessToken) {
+    @Override
+    public ITiktokOpenBaseService setAccessToken(String accessToken) {
         this.accessToken = accessToken;
         return this;
     }
 
+    @Override
     public String getAccessToken(boolean isRefresh) {
         //如果有指定 tokenCode
         if (!StringUtil.isEmpty(this.accessToken)) {
@@ -397,10 +374,12 @@ public abstract class AbstractTiktokOpenApiBase implements ITiktokOpenBaseServic
         return config.getAccessToken(getCacheKey(), isRefresh);
     }
 
+    @Override
     public String getTicket(TiktokOpenTicketType type) {
         return this.getTicket(type, false);
     }
 
+    @Override
     public String getTicket(TiktokOpenTicketType type, boolean forceRefresh) {
         if (forceRefresh) {
             this.getTiktokOpenConfigStorage().expireTicket(type);
@@ -437,14 +416,17 @@ public abstract class AbstractTiktokOpenApiBase implements ITiktokOpenBaseServic
         return this.getTiktokOpenConfigStorage().getTicket(type);
     }
 
-    public AbstractTiktokOpenApiBase withAccessToken(String accessToken) {
+    @Override
+    public ITiktokOpenBaseService withAccessToken(String accessToken) {
         return this.setAccessToken(accessToken);
     }
 
-    public AbstractTiktokOpenApiBase withOpenId(String openId) {
+    @Override
+    public ITiktokOpenBaseService withOpenId(String openId) {
         return this.setOpenId(openId);
     }
 
+    @Override
     public TiktokOpenJsapiSignature createJsapiSignature(String url) {
         long timestamp = System.currentTimeMillis() / 1000;
         String randomStr = SignUtil.getRandomStr();
@@ -460,5 +442,7 @@ public abstract class AbstractTiktokOpenApiBase implements ITiktokOpenBaseServic
         return jsapiSignature;
     }
 
-    public abstract String scope();
+    public String scope() {
+        return null;
+    };
 }

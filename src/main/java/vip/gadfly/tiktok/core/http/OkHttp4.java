@@ -1,4 +1,4 @@
-package vip.gadfly.tiktok.core;
+package vip.gadfly.tiktok.core.http;
 
 import okhttp3.*;
 import org.slf4j.Logger;

@@ -52,11 +52,12 @@ public class JoddHttpTtOpHttpClient extends AbstractTtOpHttpClient {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     <T> T doPostWithHeaders(String url, Multimap<String, String> headers, Object requestParam, Class<T> clazz) {
         HttpRequest httpRequest = HttpRequest.post(url);
         Map<String, String> headersMap = multimapHeaders2MapHeaders(headers);
         if (headersMap.get("Content-Type") != null && headersMap.get("Content-Type").contains("form-data")) {
-            Map<String, Object> paramsMap = (Map) handlerRequestParam(requestParam);
+            Map<String, Object> paramsMap = (Map<String, Object>) handlerRequestParam(requestParam);
             httpRequest = httpRequest.form(paramsMap);
         } else {
             httpRequest = httpRequest.contentTypeJson()

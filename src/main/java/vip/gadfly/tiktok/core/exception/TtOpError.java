@@ -1,5 +1,8 @@
 package vip.gadfly.tiktok.core.exception;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
@@ -22,12 +25,19 @@ public class TtOpError implements ITtOpError, Serializable {
     /**
      * 错误代码.
      */
+    @JSONField(name = "error_code")
+    @JsonAlias("error_code")
+    @JsonProperty("error_code")
     @SerializedName("error_code")
     private Integer errorCode;
 
     /**
      * 错误信息.
      */
+    @JSONField(name = "description")
+    @JsonAlias("description")
+    @JsonProperty("description")
+    @SerializedName("description")
     private String description;
 
     /**

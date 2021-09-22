@@ -1,10 +1,5 @@
 package vip.gadfly.tiktok.core.util.crypto;
 
-import vip.gadfly.tiktok.core.exception.TikTokException;
-
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Random;
 
 /**
@@ -13,30 +8,6 @@ import java.util.Random;
  * @author Gadfly
  */
 public class SignUtil {
-    public static String sign(String string, String digest) {
-        try {
-            MessageDigest sign = MessageDigest.getInstance(digest);
-            sign.reset();
-            sign.update(string.getBytes(StandardCharsets.UTF_8));
-
-            //获取字节数组
-            byte[] messageDigestByte = sign.digest();
-
-            StringBuilder hexStr = new StringBuilder();
-            // 字节数组转换为十六进制数
-            for (byte b : messageDigestByte) {
-                String shaHex = Integer.toHexString(b & 0xFF);
-                if (shaHex.length() < 2) {
-                    hexStr.append(0);
-                }
-                hexStr.append(shaHex);
-            }
-            return hexStr.toString();
-        } catch (NoSuchAlgorithmException e) {
-            throw new TikTokException("当前Java环境不支持" + digest, e);
-        }
-    }
-
     /**
      * 随机生成32位字符串.
      */
@@ -59,5 +30,10 @@ public class SignUtil {
             sb.append(base.charAt(number));
         }
         return sb.toString();
+    }
+
+    public static boolean checkWebhookSignature(String xSignature, String... arr) {
+        String webhookSignature = SHA1.gen(arr);
+        return webhookSignature.equals(xSignature);
     }
 }

@@ -32,10 +32,12 @@ public class TtOpWebhookMessageRouterRule {
         this.event = event;
         return this;
     }
-    public TtOpWebhookMessageRouterRule msgType(String msgType){
+
+    public TtOpWebhookMessageRouterRule msgType(String msgType) {
         this.msgType = msgType;
         return this;
     }
+
     /**
      * 设置是否异步执行，默认是true
      */
@@ -43,6 +45,7 @@ public class TtOpWebhookMessageRouterRule {
         this.async = async;
         return this;
     }
+
     /**
      * 设置消息处理器
      */
@@ -97,7 +100,7 @@ public class TtOpWebhookMessageRouterRule {
         return event == null || event.equalsIgnoreCase(message.getEvent());
     }
 
-    private boolean isMsgTypeMatch(TtOpWebhookMessage message){
+    private boolean isMsgTypeMatch(TtOpWebhookMessage message) {
         try {
             return msgType == null || msgType.equalsIgnoreCase(message.getContent().getMessageType());
         } catch (Exception e) {

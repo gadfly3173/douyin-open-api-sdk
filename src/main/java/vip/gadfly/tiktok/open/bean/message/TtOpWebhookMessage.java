@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import vip.gadfly.tiktok.core.util.json.JsonSerializer;
+import vip.gadfly.tiktok.core.util.json.TiktokOpenJsonBuilder;
 
 import java.io.Serializable;
 import java.util.List;
@@ -21,9 +21,6 @@ import java.util.Map;
 @Data
 public class TtOpWebhookMessage implements Serializable {
     private static final long serialVersionUID = 1L;
-    public static int FAILED = 0;
-    public static int SUCCESS = 1;
-    private JsonSerializer jsonSerializer;
     /**
      * 事件名
      */
@@ -56,13 +53,11 @@ public class TtOpWebhookMessage implements Serializable {
     @JsonProperty("client_key")
     @SerializedName("client_key")
     private String clientKey;
-
     @JSONField(name = "msg_id")
     @JsonAlias("msg_id")
     @JsonProperty("msg_id")
     @SerializedName("msg_id")
     private String msgId;
-
     /**
      * Webhook 消息内容
      */
@@ -71,6 +66,10 @@ public class TtOpWebhookMessage implements Serializable {
     @JsonProperty("content")
     @SerializedName("content")
     private WebhookContent content;
+
+    public static TtOpWebhookMessage fromJson(String json) {
+        return TiktokOpenJsonBuilder.instance().parse(json, TtOpWebhookMessage.class);
+    }
 
     @Data
     public static class WebhookContent {

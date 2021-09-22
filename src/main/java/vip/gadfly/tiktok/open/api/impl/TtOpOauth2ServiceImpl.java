@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import vip.gadfly.tiktok.config.TtOpConfigStorage;
 import vip.gadfly.tiktok.core.enums.TtOpTicketType;
-import vip.gadfly.tiktok.core.utils.URIUtil;
+import vip.gadfly.tiktok.core.util.URIUtil;
 import vip.gadfly.tiktok.open.api.TtOpOAuth2Service;
 import vip.gadfly.tiktok.open.bean.oauth2.TtOpAccessTokenRequest;
 import vip.gadfly.tiktok.open.bean.oauth2.TtOpAccessTokenResult;

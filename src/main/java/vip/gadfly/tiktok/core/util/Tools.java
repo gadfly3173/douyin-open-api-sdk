@@ -1,4 +1,4 @@
-package vip.gadfly.tiktok.core.utils;
+package vip.gadfly.tiktok.core.util;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;

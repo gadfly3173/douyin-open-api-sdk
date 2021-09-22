@@ -1,4 +1,4 @@
-package vip.gadfly.tiktok.core.utils;
+package vip.gadfly.tiktok.core.util;
 
 import java.util.Map;
 import java.util.regex.Matcher;

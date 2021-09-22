@@ -1,11 +1,11 @@
-package vip.gadfly.tiktok.core.utils.json;
+package vip.gadfly.tiktok.core.util.json;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
-import vip.gadfly.tiktok.core.utils.StringUtil;
+import vip.gadfly.tiktok.core.util.StringUtil;
 
 import java.lang.reflect.Field;
 

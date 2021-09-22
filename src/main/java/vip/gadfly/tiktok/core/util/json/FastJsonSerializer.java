@@ -1,11 +1,11 @@
-package vip.gadfly.tiktok.core.utils.json;
+package vip.gadfly.tiktok.core.util.json;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.PropertyNamingStrategy;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.serializer.SerializeConfig;
-import vip.gadfly.tiktok.core.utils.StringUtil;
+import vip.gadfly.tiktok.core.util.StringUtil;
 
 import java.lang.reflect.Field;
 

@@ -1,4 +1,4 @@
-package vip.gadfly.tiktok.core.utils.json;
+package vip.gadfly.tiktok.core.util.json;
 
 import java.lang.reflect.Field;
 

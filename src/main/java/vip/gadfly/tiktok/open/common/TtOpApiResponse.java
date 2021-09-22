@@ -5,8 +5,8 @@ import com.google.gson.reflect.TypeToken;
 import lombok.extern.slf4j.Slf4j;
 import vip.gadfly.tiktok.core.exception.TikTokException;
 import vip.gadfly.tiktok.core.http.ITtOpResponse;
-import vip.gadfly.tiktok.core.utils.JsonUtil;
-import vip.gadfly.tiktok.core.utils.StringUtil;
+import vip.gadfly.tiktok.core.util.JsonUtil;
+import vip.gadfly.tiktok.core.util.StringUtil;
 
 import java.io.Serializable;
 import java.lang.reflect.Type;

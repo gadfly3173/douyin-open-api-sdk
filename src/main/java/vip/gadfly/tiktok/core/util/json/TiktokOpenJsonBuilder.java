@@ -1,4 +1,4 @@
-package vip.gadfly.tiktok.core.utils.json;
+package vip.gadfly.tiktok.core.util.json;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ClassUtils;

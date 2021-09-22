@@ -26,7 +26,7 @@ public abstract class BaseTtOpRedisOps implements TiktokRedisOps {
     }
 
     @Override
-    public void expire(String key, int expire, TimeUnit timeUnit) {
+    public Boolean expire(String key, int expire, TimeUnit timeUnit) {
         throw new UnsupportedOperationException();
     }
 

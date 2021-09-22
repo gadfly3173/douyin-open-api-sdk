@@ -1,4 +1,4 @@
-package vip.gadfly.tiktok.core.utils.lock;
+package vip.gadfly.tiktok.core.util.lock;
 
 import lombok.Getter;
 import lombok.NonNull;

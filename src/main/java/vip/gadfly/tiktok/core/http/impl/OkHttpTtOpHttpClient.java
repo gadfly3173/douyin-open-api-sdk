@@ -3,8 +3,8 @@ package vip.gadfly.tiktok.core.http.impl;
 import com.google.common.collect.Multimap;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
-import vip.gadfly.tiktok.core.utils.json.JsonSerializer;
-import vip.gadfly.tiktok.core.utils.json.TiktokOpenJsonBuilder;
+import vip.gadfly.tiktok.core.util.json.JsonSerializer;
+import vip.gadfly.tiktok.core.util.json.TiktokOpenJsonBuilder;
 
 import java.io.File;
 import java.io.IOException;

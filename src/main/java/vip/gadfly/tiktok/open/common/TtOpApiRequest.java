@@ -2,7 +2,7 @@ package vip.gadfly.tiktok.open.common;
 
 
 import vip.gadfly.tiktok.core.http.ITtOpRequest;
-import vip.gadfly.tiktok.core.utils.JsonUtil;
+import vip.gadfly.tiktok.core.util.JsonUtil;
 
 import java.util.HashMap;
 import java.util.Map;

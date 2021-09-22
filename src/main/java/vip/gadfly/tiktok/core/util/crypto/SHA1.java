@@ -1,4 +1,4 @@
-package vip.gadfly.tiktok.core.utils.crypto;
+package vip.gadfly.tiktok.core.util.crypto;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -9,10 +9,10 @@ import java.util.Arrays;
  * @author Daniel Qian
  * @date 14/10/19
  */
-public class MD5 {
+public class SHA1 {
 
     /**
-     * 串接arr参数，生成md5 digest.
+     * 串接arr参数，生成sha1 digest.
      */
     public static String gen(String... arr) {
         if (StringUtils.isAnyEmpty(arr)) {
@@ -24,11 +24,11 @@ public class MD5 {
         for (String a : arr) {
             sb.append(a);
         }
-        return DigestUtils.md5Hex(sb.toString());
+        return DigestUtils.sha1Hex(sb.toString());
     }
 
     /**
-     * 用&串接arr参数，生成md5 digest.
+     * 用&串接arr参数，生成sha1 digest.
      */
     public static String genWithAmple(String... arr) {
         if (StringUtils.isAnyEmpty(arr)) {
@@ -44,6 +44,6 @@ public class MD5 {
                 sb.append('&');
             }
         }
-        return DigestUtils.md5Hex(sb.toString());
+        return DigestUtils.sha1Hex(sb.toString());
     }
 }

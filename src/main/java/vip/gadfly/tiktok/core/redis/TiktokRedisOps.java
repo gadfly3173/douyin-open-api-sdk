@@ -19,7 +19,7 @@ public interface TiktokRedisOps {
 
     Long getExpire(String key);
 
-    void expire(String key, int expire, TimeUnit timeUnit);
+    Boolean expire(String key, int expire, TimeUnit timeUnit);
 
     Lock getLock(String key);
 }

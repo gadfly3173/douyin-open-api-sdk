@@ -6,7 +6,7 @@ import vip.gadfly.tiktok.core.exception.TtOpError;
 import vip.gadfly.tiktok.core.exception.TtOpErrorException;
 import vip.gadfly.tiktok.core.http.ITtOpHttpClient;
 import vip.gadfly.tiktok.core.http.ITtOpResponse;
-import vip.gadfly.tiktok.core.utils.json.JsonSerializer;
+import vip.gadfly.tiktok.core.util.json.JsonSerializer;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;

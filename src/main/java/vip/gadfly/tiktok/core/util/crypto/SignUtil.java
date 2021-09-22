@@ -1,4 +1,4 @@
-package vip.gadfly.tiktok.core.utils.crypto;
+package vip.gadfly.tiktok.core.util.crypto;
 
 import vip.gadfly.tiktok.core.exception.TikTokException;
 

@@ -1,4 +1,4 @@
-package vip.gadfly.tiktok.core.utils;
+package vip.gadfly.tiktok.core.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

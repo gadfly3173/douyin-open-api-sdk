@@ -4,8 +4,8 @@ import com.google.common.collect.Multimap;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
-import vip.gadfly.tiktok.core.utils.json.JsonSerializer;
-import vip.gadfly.tiktok.core.utils.json.TiktokOpenJsonBuilder;
+import vip.gadfly.tiktok.core.util.json.JsonSerializer;
+import vip.gadfly.tiktok.core.util.json.TiktokOpenJsonBuilder;
 
 import java.util.Map;
 

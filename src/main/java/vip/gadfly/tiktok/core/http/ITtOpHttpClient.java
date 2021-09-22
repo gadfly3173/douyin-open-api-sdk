@@ -1,7 +1,7 @@
 package vip.gadfly.tiktok.core.http;
 
 import com.google.common.collect.Multimap;
-import vip.gadfly.tiktok.core.utils.json.JsonSerializer;
+import vip.gadfly.tiktok.core.util.json.JsonSerializer;
 
 /**
  * @author yangyidian

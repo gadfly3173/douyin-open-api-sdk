@@ -3,7 +3,7 @@ package vip.gadfly.tiktok.core.redis;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
-import vip.gadfly.tiktok.core.utils.lock.RedisTemplateSimpleDistributedLock;
+import vip.gadfly.tiktok.core.util.lock.RedisTemplateSimpleDistributedLock;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
@@ -33,8 +33,8 @@ public class RedisTemplateTtOpRedisOps extends BaseTtOpRedisOps {
     }
 
     @Override
-    public void expire(String key, int expire, TimeUnit timeUnit) {
-        redisTemplate.expire(key, expire, timeUnit);
+    public Boolean expire(String key, int expire, TimeUnit timeUnit) {
+        return redisTemplate.expire(key, expire, timeUnit);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package vip.gadfly.tiktok.core.utils.json;
+package vip.gadfly.tiktok.core.util.json;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import vip.gadfly.tiktok.core.utils.StringUtil;
+import vip.gadfly.tiktok.core.util.StringUtil;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;

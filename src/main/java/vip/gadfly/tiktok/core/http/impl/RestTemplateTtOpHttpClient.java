@@ -10,9 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-import vip.gadfly.tiktok.core.utils.json.FastJsonSerializer;
-import vip.gadfly.tiktok.core.utils.json.JsonSerializer;
-import vip.gadfly.tiktok.core.utils.json.TiktokOpenJsonBuilder;
+import vip.gadfly.tiktok.core.util.json.FastJsonSerializer;
+import vip.gadfly.tiktok.core.util.json.JsonSerializer;
+import vip.gadfly.tiktok.core.util.json.TiktokOpenJsonBuilder;
 
 import java.io.File;
 import java.lang.reflect.Field;

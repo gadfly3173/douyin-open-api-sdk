@@ -1,4 +1,4 @@
-package vip.gadfly.tiktok.core.utils.crypto;
+package vip.gadfly.tiktok.core.util.crypto;
 
 import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;

@@ -1,4 +1,4 @@
-package vip.gadfly.tiktok.core.utils;
+package vip.gadfly.tiktok.core.util;
 
 import com.google.gson.*;
 import com.google.gson.internal.LinkedTreeMap;

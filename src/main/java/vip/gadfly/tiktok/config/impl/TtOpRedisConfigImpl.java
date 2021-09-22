@@ -3,7 +3,7 @@ package vip.gadfly.tiktok.config.impl;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import vip.gadfly.tiktok.core.enums.TtOpTicketType;
-import vip.gadfly.tiktok.core.redis.TiktokRedisOps;
+import vip.gadfly.tiktok.core.redis.BaseTtOpRedisOps;
 import vip.gadfly.tiktok.open.bean.oauth2.TtOpAccessTokenResult;
 
 import java.util.concurrent.TimeUnit;
@@ -18,6 +18,7 @@ import java.util.concurrent.locks.Lock;
  * </pre>
  *
  * @author nickwong
+ * @author Gadfly
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -29,12 +30,12 @@ public class TtOpRedisConfigImpl extends TtOpDefaultConfigImpl {
     private static final String TICKET_KEY_TPL = "%s:ticket:key:%s:%s";
     private static final String LOCK_KEY_TPL = "%s:lock:%s:";
 
-    private final TiktokRedisOps redisOps;
+    private final BaseTtOpRedisOps redisOps;
     private final String keyPrefix;
 
     private String lockKey;
 
-    public TtOpRedisConfigImpl(TiktokRedisOps redisOps, String keyPrefix) {
+    public TtOpRedisConfigImpl(BaseTtOpRedisOps redisOps, String keyPrefix) {
         this.redisOps = redisOps;
         this.keyPrefix = keyPrefix;
     }
@@ -100,10 +101,10 @@ public class TtOpRedisConfigImpl extends TtOpDefaultConfigImpl {
 
     @Override
     public synchronized void updateRefreshToken(TtOpAccessTokenResult refreshToken) {
-        redisOps.setValue(this.getRefreshTokenRedisKey(refreshToken.getOpenId()), refreshToken.getRefreshToken(),
+        updateRefreshToken(this.getRefreshTokenRedisKey(refreshToken.getOpenId()), refreshToken.getRefreshToken(),
                 refreshToken.getRefreshExpiresIn() < 10
                         ? refreshToken.getExpiresIn()
-                        : refreshToken.getRefreshExpiresIn(), TimeUnit.SECONDS);
+                        : refreshToken.getRefreshExpiresIn());
     }
 
     @Override

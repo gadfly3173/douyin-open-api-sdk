@@ -23,6 +23,7 @@ public class TiktokOpenJsonBuilder {
             jsonSerializer = new GsonSerializer();
         } else if (FASTJSON_PRESENT) {
             log.info("use fastjson for json serializer");
+            // noinspection deprecation
             jsonSerializer = new FastJsonSerializer();
         } else if (JACKSON_PRESENT) {
             log.info("use jackson for json serializer");

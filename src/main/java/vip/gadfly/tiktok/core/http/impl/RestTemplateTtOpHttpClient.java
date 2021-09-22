@@ -32,6 +32,7 @@ public class RestTemplateTtOpHttpClient extends AbstractTtOpHttpClient {
         this.restTemplate = new RestTemplate();
     }
 
+    @SuppressWarnings("deprecation")
     public RestTemplateTtOpHttpClient(JsonSerializer jsonSerializer) {
         super(jsonSerializer);
         this.restTemplate = new RestTemplate();
@@ -61,6 +62,7 @@ public class RestTemplateTtOpHttpClient extends AbstractTtOpHttpClient {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T> T doPostWithHeaders(String url, Multimap<String, String> headers, Object request, Class<T> t) {
         HttpHeaders httpHeaders = new HttpHeaders();
         for (String headerName : headers.keySet()) {

@@ -39,6 +39,7 @@ public class JacksonSerializer implements JsonSerializer {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T> T parse(String jsonString, Class<T> clazz) {
         if (clazz == String.class) {
             return (T) jsonString;

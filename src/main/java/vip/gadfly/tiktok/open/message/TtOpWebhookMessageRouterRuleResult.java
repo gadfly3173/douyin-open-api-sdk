@@ -13,17 +13,17 @@ import java.util.Map;
  **/
 @Data
 public class TtOpWebhookMessageRouterRuleResult {
-    private Map<ITtOpWebhookMessageHandler, TtOpWebhookMessageHandleResult> results = new HashMap<>();
+    private Map<String, TtOpWebhookMessageHandleResult> results = new HashMap<>();
 
-    private Map<ITtOpWebhookMessageHandler, Exception> exceptions = new HashMap<>();
+    private Map<String, Exception> exceptions = new HashMap<>();
 
-    public Map<ITtOpWebhookMessageHandler, TtOpWebhookMessageHandleResult> addResult(ITtOpWebhookMessageHandler handler, TtOpWebhookMessageHandleResult result) {
-        results.put(handler, result);
+    public Map<String, TtOpWebhookMessageHandleResult> addResult(String handlerName, TtOpWebhookMessageHandleResult result) {
+        results.put(handlerName, result);
         return results;
     }
 
-    public Map<ITtOpWebhookMessageHandler, Exception> addException(ITtOpWebhookMessageHandler handler, Exception e) {
-        exceptions.put(handler, e);
+    public Map<String, Exception> addException(String handlerName, Exception e) {
+        exceptions.put(handlerName, e);
         return exceptions;
     }
 }

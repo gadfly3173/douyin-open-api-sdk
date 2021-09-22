@@ -143,6 +143,14 @@ public interface ITtOpBaseService {
      */
     TtOpJsapiSignature createJsapiSignature(String url);
 
+    /**
+     * 检查webhook签名是否正确
+     *
+     * @param body 消息内容
+     * @return 是否正确
+     */
+    boolean checkWebhookSignature(String xSignature, String body);
+
     TtOpOAuth2Service getTtOpOAuth2Service();
 
     void setTtOpOAuth2Service(TtOpOAuth2Service ttOpOAuth2Service);

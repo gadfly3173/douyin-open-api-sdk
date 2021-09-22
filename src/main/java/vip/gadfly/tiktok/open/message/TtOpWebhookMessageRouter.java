@@ -4,6 +4,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import vip.gadfly.tiktok.core.message.ITtOpWebhookDuplicateChecker;
+import vip.gadfly.tiktok.core.message.TtOpWebhookRedisDuplicateChecker;
 import vip.gadfly.tiktok.core.redis.BaseTtOpRedisOps;
 import vip.gadfly.tiktok.core.util.json.JsonSerializer;
 import vip.gadfly.tiktok.core.util.json.TiktokOpenJsonBuilder;
@@ -30,13 +31,10 @@ public class TtOpWebhookMessageRouter {
     private JsonSerializer jsonSerializer;
     private ExecutorService executorService;
 
-    public TtOpWebhookMessageRouter() {
-    }
-
     public TtOpWebhookMessageRouter(ITtOpWebhookDuplicateChecker messageDuplicateChecker) {
         this.messageDuplicateChecker = messageDuplicateChecker;
         this.jsonSerializer = TiktokOpenJsonBuilder.instance();
-        ThreadFactory namedThreadFactory = new ThreadFactoryBuilder().setNameFormat("WxMpMessageRouter-pool-%d").build();
+        ThreadFactory namedThreadFactory = new ThreadFactoryBuilder().setNameFormat("TtOpWebhookMessageRouter-pool-%d").build();
         this.executorService = new ThreadPoolExecutor(DEFAULT_THREAD_POOL_SIZE, DEFAULT_THREAD_POOL_SIZE,
                 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>(), namedThreadFactory);
     }
@@ -44,7 +42,7 @@ public class TtOpWebhookMessageRouter {
     public TtOpWebhookMessageRouter(ITtOpWebhookDuplicateChecker messageDuplicateChecker, JsonSerializer jsonSerializer) {
         this.messageDuplicateChecker = messageDuplicateChecker;
         this.jsonSerializer = jsonSerializer;
-        ThreadFactory namedThreadFactory = new ThreadFactoryBuilder().setNameFormat("WxMpMessageRouter-pool-%d").build();
+        ThreadFactory namedThreadFactory = new ThreadFactoryBuilder().setNameFormat("TtOpWebhookMessageRouter-pool-%d").build();
         this.executorService = new ThreadPoolExecutor(DEFAULT_THREAD_POOL_SIZE, DEFAULT_THREAD_POOL_SIZE,
                 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>(), namedThreadFactory);
     }
@@ -84,6 +82,9 @@ public class TtOpWebhookMessageRouter {
         for (TtOpWebhookMessageRouterRule rule : this.rules) {
             if (rule.test(message)) {
                 matchedRules.add((rule));
+                if (!rule.isReEnter()) {
+                    break;
+                }
             }
         }
 
@@ -92,11 +93,12 @@ public class TtOpWebhookMessageRouter {
         }
 
         TtOpWebhookMessageRouterRuleResult ruleResult;
-        final List<Future<?>> futures = new ArrayList<>();
+        final List<Future<TtOpWebhookMessageRouterRuleResult>> futures = new ArrayList<>();
         for (final TtOpWebhookMessageRouterRule rule : matchedRules) {
             // 返回最后一个非异步的rule的执行结果
             if (rule.isAsync()) {
                 futures.add(this.executorService.submit(() -> rule.handle(message, context)));
+                log.debug("futures={}", futures);
             } else {
                 ruleResult = rule.handle(message, context);
                 messageResult.addRouterRuleResult(ruleResult);
@@ -104,13 +106,15 @@ public class TtOpWebhookMessageRouter {
         }
 
         if (futures.isEmpty()) {
+            log.debug("futures is empty={}", futures);
             return messageResult;
         }
 
         this.executorService.submit(() -> {
-            for (Future<?> future : futures) {
+            for (Future<TtOpWebhookMessageRouterRuleResult> future : futures) {
                 try {
-                    messageResult.addRouterRuleResult((TtOpWebhookMessageRouterRuleResult) future.get());
+                    messageResult.addRouterRuleResult(future.get());
+                    log.debug("future.get={}", future.get());
                 } catch (InterruptedException e) {
                     log.error("Error happened when wait task finish", e);
                     Thread.currentThread().interrupt();

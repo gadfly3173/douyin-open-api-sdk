@@ -271,6 +271,12 @@ public abstract class AbstractTtOpApiBase implements ITtOpBaseService, IRetryabl
         return jsapiSignature;
     }
 
+    @Override
+    public boolean checkWebhookSignature(String xSignature, String body) {
+        String clientSecret = this.getTtOpConfigStorage().getAppSecret();
+        return SignUtil.checkWebhookSignature(xSignature, clientSecret, body);
+    }
+
     public String scope() {
         return null;
     }

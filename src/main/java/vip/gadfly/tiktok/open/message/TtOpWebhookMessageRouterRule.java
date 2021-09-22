@@ -20,6 +20,7 @@ public class TtOpWebhookMessageRouterRule {
 
     private final TtOpWebhookMessageRouter router;
     private boolean async = true;
+    private boolean reEnter = false;
     private String event;
     private String msgType;
     private List<ITtOpWebhookMessageHandler> handlers = new ArrayList<>();
@@ -60,6 +61,11 @@ public class TtOpWebhookMessageRouterRule {
         return this.router;
     }
 
+    public TtOpWebhookMessageRouter next() {
+        this.reEnter = true;
+        return end();
+    }
+
     /**
      * 使用该规则对应的所有handlers处理消息
      *
@@ -75,13 +81,13 @@ public class TtOpWebhookMessageRouterRule {
             } else {
                 try {
                     handlerResult = handler.handle(message, context);
-                    ruleResult.addResult(handler, handlerResult);
+                    ruleResult.addResult(handler.getHandlerName(), handlerResult);
                 } catch (Exception e) {
                     log.error("handler[{}]处理消息[{}]失败", handler.getHandlerName(), messageId);
                     // 如果这条消息处理报错，那么清除这条消息的重复状态，这样字节服务再次推送这条消息的时候，可以再次处理
                     log.error("消息处理失败，清除消息重复状态===>{}", router.getJsonSerializer().toJson(message));
                     log.error(e.getMessage(), e);
-                    ruleResult.addException(handler, e);
+                    ruleResult.addException(handler.getHandlerName(), e);
                     router.getMessageDuplicateChecker().clearDuplicate(messageId);
                 }
             }
@@ -110,6 +116,10 @@ public class TtOpWebhookMessageRouterRule {
 
     public boolean isAsync() {
         return this.async;
+    }
+
+    public boolean isReEnter() {
+        return this.reEnter;
     }
 
     /**

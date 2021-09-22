@@ -12,9 +12,9 @@ import java.util.Map;
 @Data
 public class TtOpWebhookMessageResult {
 
-    private Map<ITtOpWebhookMessageHandler, TtOpWebhookMessageHandleResult> results = new HashMap<>();
+    private Map<String, TtOpWebhookMessageHandleResult> results = new HashMap<>();
 
-    private Map<ITtOpWebhookMessageHandler, Exception> exceptions = new HashMap<>();
+    private Map<String, Exception> exceptions = new HashMap<>();
 
     public void addRouterRuleResult(TtOpWebhookMessageRouterRuleResult routerRuleResult) {
         addResults(routerRuleResult.getResults());
@@ -34,12 +34,12 @@ public class TtOpWebhookMessageResult {
         }
     }
 
-    private Map<ITtOpWebhookMessageHandler, TtOpWebhookMessageHandleResult> addResults(Map<ITtOpWebhookMessageHandler, TtOpWebhookMessageHandleResult> newResults) {
+    private Map<String, TtOpWebhookMessageHandleResult> addResults(Map<String, TtOpWebhookMessageHandleResult> newResults) {
         results.putAll(newResults);
         return results;
     }
 
-    private Map<ITtOpWebhookMessageHandler, Exception> addExceptions(Map<ITtOpWebhookMessageHandler, Exception> newExceptions) {
+    private Map<String, Exception> addExceptions(Map<String, Exception> newExceptions) {
         exceptions.putAll(newExceptions);
         return exceptions;
     }

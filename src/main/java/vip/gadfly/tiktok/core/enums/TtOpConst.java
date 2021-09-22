@@ -6,6 +6,7 @@ package vip.gadfly.tiktok.core.enums;
  */
 public class TtOpConst {
     public static class WebhookEventType {
+        public static final String VERIFY_WEBHOOK = "verify_webhook";
         public static final String CREATE_VIDEO = "create_video";
         public static final String AUTHORIZE = "authorize";
         public static final String UNAUTHORIZE = "unauthorize";

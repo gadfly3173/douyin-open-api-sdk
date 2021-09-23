@@ -27,7 +27,7 @@ public class TtOpRedisConfigImpl extends TtOpDefaultConfigImpl {
 
     private static final String ACCESS_TOKEN_KEY_TPL = "%s:access_token:%s:%s";
     private static final String REFRESH_TOKEN_KEY_TPL = "%s:refresh_token:%s:%s";
-    private static final String TICKET_KEY_TPL = "%s:ticket:key:%s:%s";
+    private static final String TICKET_KEY_TPL = "%s:ticket:%s:%s";
     private static final String LOCK_KEY_TPL = "%s:lock:%s:";
 
     private final BaseTtOpRedisOps redisOps;

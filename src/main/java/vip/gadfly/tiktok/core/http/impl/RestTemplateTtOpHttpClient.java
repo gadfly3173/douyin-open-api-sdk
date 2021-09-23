@@ -53,12 +53,14 @@ public class RestTemplateTtOpHttpClient extends AbstractTtOpHttpClient {
 
     @Override
     public <T> T doGet(String url, Class<T> t) {
-        return restTemplate.getForObject(url, t);
+        String result = restTemplate.getForObject(url, String.class);
+        return this.getJsonSerializer().parseResponse(result, t);
     }
 
     @Override
     public <T> T doPost(String url, Object request, Class<T> t) {
-        return restTemplate.postForObject(url, request, t);
+        String result = restTemplate.postForObject(url, request, String.class);
+        return this.getJsonSerializer().parseResponse(result, t);
     }
 
     @Override
@@ -72,8 +74,8 @@ public class RestTemplateTtOpHttpClient extends AbstractTtOpHttpClient {
             }
         }
         MultiValueMap<String, Object> param = (MultiValueMap<String, Object>) handlerRequestParam(request);
-        ResponseEntity<T> responseEntity = restTemplate.postForEntity(url, new HttpEntity<>(param, httpHeaders), t);
-        return responseEntity.getBody();
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, new HttpEntity<>(param, httpHeaders), String.class);
+        return this.getJsonSerializer().parseResponse(responseEntity.getBody(), t);
     }
 
     @Override

@@ -74,7 +74,7 @@ public class TtOpConfiguration {
         }
 
         RedisTemplateTtOpRedisOps redisOps = new RedisTemplateTtOpRedisOps(redisTemplate);
-        ITtOpBaseService service = new DefaultTtOpServiceImpl();
+        DefaultTtOpServiceImpl service = new DefaultTtOpServiceImpl();
         service.setMultiConfigStorages(configs.stream().map(a -> {
             TtOpDefaultConfigImpl configStorage;
             if (this.properties.isUseRedis()) {
@@ -86,6 +86,9 @@ public class TtOpConfiguration {
             configStorage.setAppSecret(a.getClientSecret());
             return configStorage;
         }).collect(Collectors.toMap(TtOpDefaultConfigImpl::getAppId, a -> a, (o, n) -> o)));
+
+        // 设置http client，okhttp是默认值，可以不设置
+        service.setTiktokOpenHttpClient(new OkHttpTtOpHttpClient());
         return service;
     }
 
@@ -210,18 +213,9 @@ public class CallbackController {
         if (message.getEvent().equalsIgnoreCase(TtOpConst.WebhookEventType.VERIFY_WEBHOOK)) {
             return message.getContent();
         }
-        TtOpWebhookMessageResult result = this.route(message);
+        TtOpWebhookMessageResult result = messageRouter.route(message);
         log.info("result:{}", result);
         return result.getDefaultResult();
-    }
-
-    private TtOpWebhookMessageResult route(TtOpWebhookMessage message) {
-        try {
-            return messageRouter.route(message);
-        } catch (Exception e) {
-            log.error("路由消息时出现异常！", e);
-        }
-        return null;
     }
 }
 ```

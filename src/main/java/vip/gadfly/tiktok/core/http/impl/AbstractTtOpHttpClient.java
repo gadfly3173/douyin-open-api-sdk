@@ -7,6 +7,7 @@ import vip.gadfly.tiktok.core.exception.TtOpErrorException;
 import vip.gadfly.tiktok.core.http.ITtOpHttpClient;
 import vip.gadfly.tiktok.core.http.ITtOpResponse;
 import vip.gadfly.tiktok.core.util.json.JsonSerializer;
+import vip.gadfly.tiktok.open.common.TtOpBaseResult;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -68,7 +69,9 @@ public abstract class AbstractTtOpHttpClient implements ITtOpHttpClient {
 
 
     private <T> T handleResponse(T response) {
-        if (response instanceof TtOpError) {
+        if (response instanceof TtOpBaseResult) {
+            checkError((TtOpBaseResult) response);
+        } else if (response instanceof TtOpError) {
             checkError((TtOpError) response);
         } else if (response instanceof byte[]) {
             try {
@@ -89,7 +92,15 @@ public abstract class AbstractTtOpHttpClient implements ITtOpHttpClient {
 
     private void checkError(TtOpError error) {
         if (error.getErrorCode() != null && error.getErrorCode() != 0) {
+            log.error("字节跳动接口返回异常：{}", error.getErrorCode());
             throw new TtOpErrorException(error);
+        }
+    }
+
+    private void checkError(TtOpBaseResult result) {
+        if (result.getErrorCode() != null && result.getErrorCode() != 0) {
+            log.error("字节跳动接口返回异常：{}", result.getErrorCode());
+            throw new TtOpErrorException(result);
         }
     }
 

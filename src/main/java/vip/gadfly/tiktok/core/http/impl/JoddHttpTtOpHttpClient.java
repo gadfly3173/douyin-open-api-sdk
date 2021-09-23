@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import vip.gadfly.tiktok.core.util.json.JsonSerializer;
 import vip.gadfly.tiktok.core.util.json.TiktokOpenJsonBuilder;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 /**
@@ -29,7 +30,8 @@ public class JoddHttpTtOpHttpClient extends AbstractTtOpHttpClient {
         HttpResponse response = HttpRequest.get(url)
                 .contentTypeJson()
                 .acceptJson()
-                .send();
+                .send()
+                .charset(StandardCharsets.UTF_8.name());
         if (clazz == byte[].class) {
             return (T) response.bodyBytes();
         } else {
@@ -39,13 +41,14 @@ public class JoddHttpTtOpHttpClient extends AbstractTtOpHttpClient {
 
     @Override
     <T> T doPost(String url, Object request, Class<T> clazz) {
-        HttpResponse response = HttpRequest.post(url)
+        HttpRequest httpRequest = HttpRequest.post(url)
                 .contentTypeJson()
                 .acceptJson()
-                .bodyText(getJsonSerializer().toJson(request))
-                .send();
+                .body(getJsonSerializer().toJson(request));
+        HttpResponse response = httpRequest.send().charset(StandardCharsets.UTF_8.name());
+        log.info("httpRequest:{}, response:{}", httpRequest, response);
         if (clazz == byte[].class) {
-            return (T) response.bodyBytes();
+            return (T) response.body().getBytes(StandardCharsets.UTF_8);
         } else {
             return getJsonSerializer().parseResponse(response.bodyText(), clazz);
         }
@@ -62,11 +65,12 @@ public class JoddHttpTtOpHttpClient extends AbstractTtOpHttpClient {
         } else {
             httpRequest = httpRequest.contentTypeJson()
                     .acceptJson()
-                    .bodyText(getJsonSerializer().toJson(requestParam));
+                    .body(getJsonSerializer().toJson(requestParam));
         }
         HttpResponse response = httpRequest
                 .header(multimapHeaders2MapHeaders(headers))
-                .send();
+                .send()
+                .charset(StandardCharsets.UTF_8.name());
         if (clazz == byte[].class) {
             return (T) response.bodyBytes();
         } else {

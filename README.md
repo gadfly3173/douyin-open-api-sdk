@@ -78,7 +78,7 @@ public class TtOpConfiguration {
         service.setMultiConfigStorages(configs.stream().map(a -> {
             TtOpDefaultConfigImpl configStorage;
             if (this.properties.isUseRedis()) {
-                configStorage = new TtOpRedisConfigImpl(redisOps, a.getClientKey());
+                configStorage = new TtOpRedisConfigImpl(redisOps, "tiktok_open");
             } else {
                 configStorage = new TtOpDefaultConfigImpl();
             }

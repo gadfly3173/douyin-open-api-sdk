@@ -11,7 +11,7 @@ public class TtOpConst {
         public static final String AUTHORIZE = "authorize";
         public static final String UNAUTHORIZE = "unauthorize";
         public static final String RECEIVE_MSG = "receive_msg";
-        public static final String ENTER_IM	 = "enter_im";
+        public static final String ENTER_IM = "enter_im";
         public static final String DIAL_PHONE = "dial_phone";
         public static final String WEBSITE_CONTACT = "website_contact";
         public static final String PERSONALTABCONTACT = "personaltabcontact";

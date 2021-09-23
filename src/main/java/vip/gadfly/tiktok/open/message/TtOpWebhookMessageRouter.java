@@ -4,7 +4,6 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import vip.gadfly.tiktok.core.message.ITtOpWebhookDuplicateChecker;
-import vip.gadfly.tiktok.core.message.TtOpWebhookRedisDuplicateChecker;
 import vip.gadfly.tiktok.core.redis.BaseTtOpRedisOps;
 import vip.gadfly.tiktok.core.util.json.JsonSerializer;
 import vip.gadfly.tiktok.core.util.json.TiktokOpenJsonBuilder;

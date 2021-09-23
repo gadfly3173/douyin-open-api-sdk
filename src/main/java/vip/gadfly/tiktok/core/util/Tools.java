@@ -949,22 +949,21 @@ public class Tools {
     }
 
     /**
-     * 将obj的值转成type指定类型的对象返回<br />
+     * 将obj的值转成type指定类型的对象返回
      *
-     * @param type 转换的类型为：<br />
-     *
-     *             <pre>
-     *                                                             int        - Integer
-     *                                                             double     - Double
-     *                                                             short      - Short
-     *                                                             date       - yyyyMMdd格式的日期值转成Date对象
-     *                                                             date2      - yyyy-MM-dd格式的日期值转成Date对象
-     *                                                             long       - Long
-     *                                                             bigdecimal - BigDecimal
-     *                                                             money	  - BigDecimal
-     *                                                             time	      - HH:mm格式的时间值转成Date对象
-     *                                                             datetime   - yyyy-MM-dd HH:mm格式的日期值转成Date对象
-     *                                                                        </pre>
+     * @param type 转换的类型
+     *             <code>
+     *             int        - Integer
+     *             double     - Double
+     *             short      - Short
+     *             date       - yyyyMMdd格式的日期值转成Date对象
+     *             date2      - yyyy-MM-dd格式的日期值转成Date对象
+     *             long       - Long
+     *             bigdecimal - BigDecimal
+     *             money	  - BigDecimal
+     *             time	      - HH:mm格式的时间值转成Date对象
+     *             datetime   - yyyy-MM-dd HH:mm格式的日期值转成Date对象
+     *             </code>
      */
     public static Object formatToType(String obj, String type) {
         if ("int".equalsIgnoreCase(type)) {

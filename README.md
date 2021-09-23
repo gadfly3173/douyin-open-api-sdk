@@ -161,6 +161,8 @@ public class TtOpConfiguration {
         // msgType根据收到消息中的content.messageType字段来区分。event 和 msgType 的判断都忽略大小写。
         // 如果给非私信事件配置msgType，会因为取不到消息中的content.messageType而认为不符合路由
         // 因此对于非私信事件，必须将msgType置为null或不设置
+        //
+        // 这里使用verify webhook仅为示例，实际开发中这个事件直接在controller里处理更简单
         messageRouter.rule().async(false).event(WebhookEventType.VERIFY_WEBHOOK).addHandler(this.verifyWebhookHandler).end();
         // 不指定event则这个handler处理所有的事件。路由规则的设置依赖ArrayList，因此需要注意顺序，这个兜底的路由需要放在最后。
         messageRouter.rule().async(false).addHandler(this.nullHandler).end();
@@ -223,6 +225,7 @@ public class CallbackController {
             throw new FailedException("非法请求，可能属于伪造的请求！");
         }
         TtOpWebhookMessage message = TtOpWebhookMessage.fromJson(body);
+        // 抖音的webhook验证要求返回的内容是一个包含challenge的json，相比于走路由器，直接处理消息后做个if直接return更简单
         if (message.getEvent().equalsIgnoreCase(TtOpConst.WebhookEventType.VERIFY_WEBHOOK)) {
             return message.getContent();
         }

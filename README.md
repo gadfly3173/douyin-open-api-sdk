@@ -14,60 +14,41 @@
 
 使用时需要修改子service的实现的话就去实现其对应的interface，通过`ITtOpBaseService.setXXXService(yourSubService)`来实现。
 而如果需要修改`DefaultTtOpServiceImpl.java`中的实现，也就是覆盖`AbstractTtOpApiBase.java`的实现时，
-请不要直接实现（implements） ITtOpBaseService，而是继承（extends） AbstractTtOpApiBase。
+请不要直接实现（implements） `ITtOpBaseService`，而是继承（extends） `AbstractTtOpApiBase`。
 
-* 自动更新用户的access/refresh token功能未实现。
+* 自动更新用户的 access/refresh token 功能未实现。
 
 ## 项目介绍
    为抖音开发者提供快速接入方案、未依赖任何第三方mvc框架，支持各类 java web 框架接入 
 
 ## 安装教程
-
-  **Maven引用**   
-
-```
+### Maven引用
+```xml
 	<dependency>
 		<groupId>vip.gadfly</groupId>
 		<artifactId>douyin-open-api-sdk</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</dependency>	
 ```
+### 自行打包
+参阅：[编译](#编译)
 
 ## 规范说明
-
-1："OAuth2.0" 相关：
-```
-appId : 抖音应用编码
-appSecret :  抖音应用密钥
-code : 用户授权码
-accessToken : 权限访问今牌
-redirectUri : 抖音扫一扫登陆后回调地址
-
-```
-
-2：类 相关：
-```
-Service 类: 接口调用及处理类
-Request 类: 接口入参实实体类
-Result 类：接口出参实体类
-
-```
-
-3：方法 相关：
-```
-
-```
+- 类 相关：
+  * Service 类: 接口调用及处理类
+  * Request 类: 接口入参实实体类
+  * Result 类：接口出参实体类
 
 ## 使用说明
 
-默认的json序列化/反序列化包：gson
-默认的http client：okhttp 4
-项目给出了RedisTemplate的实现，但是spring data redis是provided scope的
+- 默认的json序列化/反序列化包：`gson`
+- 默认的http client：`okhttp 4`
+- 项目给出了RedisTemplate的实现，但是`spring-data-redis`是provided scope的
 
 ### 加载配置文件及指定配置参数（Spring Boot 2.x）
 
-1.在application.yml中添加如下配置 *以下配置仅供参考*
-```
+1.在 `application.yml` 中添加如下配置 *以下配置仅供参考*
+```yaml
 tt:
   op:
     useRedis: true
@@ -117,19 +98,19 @@ public class TtOpConfiguration {
         private boolean useRedis;
 
         /**
-         * 多个公众号配置信息
+         * 多个抖音开放应用配置信息
          */
         private List<TtOpConfig> configs;
 
         @Data
         public static class TtOpConfig {
             /**
-             * 设置微信公众号的appId
+             * 设置抖音开放应用的appId
              */
             private String clientKey;
 
             /**
-             * 设置微信公众号的app secret
+             * 设置抖音开放应用的app secret
              */
             private String clientSecret;
         }
@@ -137,7 +118,7 @@ public class TtOpConfiguration {
 }
 ```
 ### Webhook消息路由
-项目提供了Webhook消息的路由器，可以针对不同的消息/事件类型配置不同的处理。
+项目提供了 Webhook 消息的路由器，可以针对不同的消息/事件类型配置不同的处理。
 
 配置文件
 ```java
@@ -248,9 +229,9 @@ public class CallbackController {
 ## 编译
 项目使用了lombok来简化代码，请在你的IDE中安装对应的插件。
 
-由于lombok是在编译过程中增加字节码的形式来增加语句，因此不做配置时使用 maven-source-plugin
-打包出的源码包会在IDE中提示字节码与源码不同。为了解决这个问题，项目中引入了 lombok-maven-plugin
-来进行delombok。打包时需要指定一下profile id。例如：
+由于lombok是在编译过程中增加字节码的形式来增加语句，因此不做配置时使用 `maven-source-plugin`
+打包出的源码包会在IDE中提示字节码与源码不同。为了解决这个问题，项目中引入了 `lombok-maven-plugin`
+来进行 delombok。打包时需要指定一下profile id。例如：
 ```bash
 mvn clean install -Pdelombok -f pom.xml clean
 ```

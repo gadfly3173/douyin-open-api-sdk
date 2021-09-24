@@ -8,6 +8,7 @@ import vip.gadfly.tiktok.core.util.json.TiktokOpenJsonBuilder;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 /**
@@ -19,7 +20,7 @@ import java.util.Map;
 @Slf4j
 public class OkHttpTtOpHttpClient extends AbstractTtOpHttpClient {
 
-    public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
+    public static final MediaType JSON = MediaType.parse("application/json");
 
     public OkHttpClient client;
 
@@ -52,6 +53,7 @@ public class OkHttpTtOpHttpClient extends AbstractTtOpHttpClient {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T> T doPostWithHeaders(String url, Multimap<String, String> headers, Object requestParam, Class<T> clazz) {
         Map<String, String> headersMap = multimapHeaders2MapHeaders(headers);
         Headers.Builder headersBuilder = Headers.of().newBuilder();
@@ -87,16 +89,20 @@ public class OkHttpTtOpHttpClient extends AbstractTtOpHttpClient {
 
     @Override
     public <T> T doPost(String url, Object requestParam, Class<T> clazz) {
-        RequestBody body = RequestBody.create(getJsonSerializer().toJson(requestParam), JSON);
+        String requestJson = getJsonSerializer().toJson(requestParam);
+        log.trace("json:{}, {}", requestParam, requestJson);
+        RequestBody body = RequestBody.Companion.create(requestJson.getBytes(StandardCharsets.UTF_8), JSON);
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
                 .build();
+        log.trace("request json:{} content-type:{}", requestJson, request.headers().get("Content-Type"));
         return doRequest(request, clazz);
     }
 
     private <T> T doRequest(Request request, Class<T> clazz) {
         try (Response result = client.newCall(request).execute()) {
+            log.trace("{}, {}", request, result);
             if (clazz == byte[].class) {
                 return (T) result.body().bytes();
             } else {

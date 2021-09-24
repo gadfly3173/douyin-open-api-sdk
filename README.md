@@ -30,6 +30,27 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</dependency>	
 ```
+maven引用时可能出现依赖的okhttp3版本变为3.14.9等低版本的情况，如果在使用自带的okhttp实现时遇到NoSuchMethod等异常时，
+可以另外声明依赖的okhttp版本或换成自带的joddhttp/rest template的实现，这两个实现的依赖需要另外声明。
+```xml
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.9.1</version>
+        </dependency>
+        <!--以下两个为provided，如需使用需要声明-->
+        <dependency>
+            <groupId>org.jodd</groupId>
+            <artifactId>jodd-http</artifactId>
+            <version>5.1.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>5.2.7.RELEASE</version>
+        </dependency>
+```
+
 ### 自行打包
 参阅：[编译](#编译)
 

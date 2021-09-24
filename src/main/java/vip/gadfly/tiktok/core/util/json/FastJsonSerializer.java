@@ -1,11 +1,12 @@
 package vip.gadfly.tiktok.core.util.json;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.PropertyNamingStrategy;
+import com.alibaba.fastjson.TypeReference;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.serializer.SerializeConfig;
 import vip.gadfly.tiktok.core.util.StringUtil;
+import vip.gadfly.tiktok.open.common.TtOpBaseResponse;
 
 import java.lang.reflect.Field;
 
@@ -36,8 +37,8 @@ public class FastJsonSerializer implements JsonSerializer {
 
     @Override
     public <T> T parseResponse(String jsonString, Class<T> clazz) {
-        JSONObject responseObj = JSON.parseObject(jsonString);
-        return responseObj.getObject("data", clazz);
+        TtOpBaseResponse<T> responseObj = JSON.parseObject(jsonString, new TypeReference<TtOpBaseResponse<T>>(clazz) {});
+        return responseObj.getData();
     }
 
     @Override

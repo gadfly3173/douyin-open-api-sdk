@@ -4,10 +4,11 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import vip.gadfly.tiktok.core.util.StringUtil;
+import vip.gadfly.tiktok.open.common.TtOpBaseResponse;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -54,9 +55,9 @@ public class JacksonSerializer implements JsonSerializer {
     @Override
     public <T> T parseResponse(String jsonString, Class<T> clazz) {
         try {
-            JsonNode responseObj = mapper.readTree(jsonString);
-            JsonNode resultValue = responseObj.findValue("data");
-            return mapper.readValue(resultValue.toString(), clazz);
+            JavaType type = mapper.getTypeFactory().constructParametricType(TtOpBaseResponse.class, clazz);
+            TtOpBaseResponse<T> response = mapper.readValue(jsonString, type);
+            return response.getData();
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

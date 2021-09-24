@@ -3,9 +3,9 @@ package vip.gadfly.tiktok.core.util.json;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 import vip.gadfly.tiktok.core.util.StringUtil;
+import vip.gadfly.tiktok.open.common.TtOpBaseResponse;
 
 import java.lang.reflect.Field;
 
@@ -35,8 +35,8 @@ public class GsonSerializer implements JsonSerializer {
 
     @Override
     public <T> T parseResponse(String jsonString, Class<T> clazz) {
-        JsonObject responseObj = gson.fromJson(jsonString, JsonObject.class);
-        return gson.fromJson(responseObj.get("data"), clazz);
+        TtOpBaseResponse<T> responseObj = gson.fromJson(jsonString, GsonTypeFactory.$Parameterized(null, TtOpBaseResponse.class, clazz));
+        return responseObj.getData();
     }
 
     @Override

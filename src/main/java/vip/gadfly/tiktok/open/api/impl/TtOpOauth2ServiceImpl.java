@@ -95,11 +95,10 @@ public class TtOpOauth2ServiceImpl implements TtOpOAuth2Service {
         if (!forceRefresh) {
             return ttOpBaseService.getTicket(TtOpTicketType.JSAPI);
         }
-        String url = OAUTH2_JSAPI_TICKET_URL.getUrl(getTtOpConfigStorage());
+        String rawUrl = OAUTH2_JSAPI_TICKET_URL.getUrl(getTtOpConfigStorage());
+        String url = String.format(rawUrl, ttOpBaseService.getTicket(TtOpTicketType.CLIENT));
         log.debug("url={}", url);
-        TtOpAccessTokenRequest request = new TtOpAccessTokenRequest().setGrantType(null);
-        request.setAccessToken(ttOpBaseService.getTicket(TtOpTicketType.CLIENT));
-        TtOpAccessTokenResult result = this.ttOpBaseService.post(url, request, TtOpAccessTokenResult.class);
+        TtOpAccessTokenResult result = this.ttOpBaseService.get(url, TtOpAccessTokenResult.class);
         this.getTtOpConfigStorage().updateTicket(TtOpTicketType.JSAPI, result.getTicket(), result.getExpiresIn());
         return result.getTicket();
     }

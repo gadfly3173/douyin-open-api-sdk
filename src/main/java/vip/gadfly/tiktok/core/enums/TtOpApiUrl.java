@@ -63,7 +63,7 @@ public interface TtOpApiUrl {
         /**
          * 获取jsapi ticket.
          */
-        OAUTH2_JSAPI_TICKET_URL(TIKTOK_OPEN_API_HOST_URL, "/js/getticket/"),
+        OAUTH2_JSAPI_TICKET_URL(TIKTOK_OPEN_API_HOST_URL, "/js/getticket/?access_token=%s"),
         /**
          * oauth2授权的url连接.
          */

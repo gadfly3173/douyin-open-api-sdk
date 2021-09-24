@@ -4,6 +4,7 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
+import lombok.Getter;
 import vip.gadfly.tiktok.core.util.StringUtil;
 import vip.gadfly.tiktok.open.common.TtOpBaseResponse;
 
@@ -14,6 +15,7 @@ import java.lang.reflect.Field;
  * @date 2020/08/03
  **/
 public class GsonSerializer implements JsonSerializer {
+    @Getter
     private static final Gson gson = new GsonBuilder()
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
             .setDateFormat("yyyy-MM-dd HH:mm:ss")

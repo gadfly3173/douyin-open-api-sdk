@@ -18,7 +18,7 @@ public enum TtOpTicketType {
     /**
      * jsapi
      */
-    JSAPI("ticket");
+    JSAPI("jsapi_ticket");
 
     /**
      * type代码

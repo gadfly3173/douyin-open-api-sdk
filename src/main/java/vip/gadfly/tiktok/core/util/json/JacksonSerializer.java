@@ -1,12 +1,14 @@
 package vip.gadfly.tiktok.core.util.json;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import lombok.Getter;
 import vip.gadfly.tiktok.core.util.StringUtil;
 import vip.gadfly.tiktok.open.common.TtOpBaseResponse;
 
@@ -24,12 +26,17 @@ import java.lang.reflect.Field;
  **/
 public class JacksonSerializer implements JsonSerializer {
 
+    @Getter
     private static final ObjectMapper mapper = new ObjectMapper();
+
+    public JacksonSerializer() {
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+                .setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE)
+                .setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    }
 
     @Override
     public String toJson(Object object) {
-        mapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE)
-                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         String jsonStr;
         try {
             jsonStr = mapper.writeValueAsString(object);

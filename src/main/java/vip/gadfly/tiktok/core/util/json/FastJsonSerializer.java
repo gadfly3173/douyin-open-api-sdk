@@ -21,7 +21,7 @@ import java.lang.reflect.Field;
 public class FastJsonSerializer implements JsonSerializer {
     private static final SerializeConfig config = new SerializeConfig();
 
-    static {
+    public FastJsonSerializer() {
         config.propertyNamingStrategy = PropertyNamingStrategy.SnakeCase;
     }
 

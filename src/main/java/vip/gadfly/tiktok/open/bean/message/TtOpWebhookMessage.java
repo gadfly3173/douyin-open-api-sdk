@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import vip.gadfly.tiktok.core.util.json.TiktokOpenJsonBuilder;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -86,6 +87,7 @@ public class TtOpWebhookMessage implements Serializable {
         private Long challenge;
         /**
          * 创建的视频id
+         * 被点赞的素材id
          */
         @JSONField(name = "item_id")
         @JsonAlias("item_id")
@@ -212,6 +214,22 @@ public class TtOpWebhookMessage implements Serializable {
         @JsonProperty("object")
         @SerializedName("object")
         private String object;
+        /**
+         * 来源场景对应id（video对应视频id）
+         */
+        @JSONField(name = "action_time")
+        @JsonAlias("action_time")
+        @JsonProperty("action_time")
+        @SerializedName("action_time")
+        private Date actionTime;
+        /**
+         * 来源场景对应id（video对应视频id）
+         */
+        @JSONField(name = "action_type")
+        @JsonAlias("action_type")
+        @JsonProperty("action_type")
+        @SerializedName("action_type")
+        private Integer actionType;
 
         @Data
         public static class ActionInfo {

@@ -23,7 +23,7 @@ public class TtOpJsapiSignature implements Serializable {
 
     private String nonceStr;
 
-    private long timestamp;
+    private String timestamp;
 
     private String url;
 

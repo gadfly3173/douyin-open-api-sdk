@@ -264,7 +264,7 @@ public abstract class AbstractTtOpApiBase implements ITtOpBaseService, IRetryabl
                 "noncestr=" + randomStr, "timestamp=" + timestamp, "url=" + url);
         TtOpJsapiSignature jsapiSignature = new TtOpJsapiSignature();
         jsapiSignature.setAppId(this.getTtOpConfigStorage().getAppId());
-        jsapiSignature.setTimestamp(timestamp);
+        jsapiSignature.setTimestamp(String.valueOf(timestamp));
         jsapiSignature.setNonceStr(randomStr);
         jsapiSignature.setUrl(url);
         jsapiSignature.setSignature(signature);

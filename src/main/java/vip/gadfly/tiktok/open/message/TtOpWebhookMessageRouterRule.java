@@ -106,12 +106,16 @@ public class TtOpWebhookMessageRouterRule {
         return event == null || event.equalsIgnoreCase(message.getEvent());
     }
 
+    /**
+     * 测试message type符合
+     *
+     * @param message 消息
+     * @return 返回true的情况：
+     * - msgType未设置
+     * - message的content不为空且符合msgType
+     */
     private boolean isMsgTypeMatch(TtOpWebhookMessage message) {
-        try {
-            return msgType == null || msgType.equalsIgnoreCase(message.getContent().getMessageType());
-        } catch (Exception e) {
-            return false;
-        }
+        return msgType == null || (message.getContent() != null && msgType.equalsIgnoreCase(message.getContent().getMessageType()));
     }
 
     public boolean isAsync() {

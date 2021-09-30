@@ -4,7 +4,9 @@ import com.google.common.collect.Multimap;
 import vip.gadfly.tiktok.config.TtOpConfigStorage;
 import vip.gadfly.tiktok.core.enums.TtOpTicketType;
 import vip.gadfly.tiktok.open.api.TtOpOAuth2Service;
-import vip.gadfly.tiktok.open.common.bean.TtOpJsapiSignature;
+import vip.gadfly.tiktok.open.api.TtOpUserInfoService;
+import vip.gadfly.tiktok.open.api.TtOpVideoService;
+import vip.gadfly.tiktok.open.bean.oauth2.TtOpJsapiSignature;
 
 import java.util.Map;
 
@@ -154,4 +156,12 @@ public interface ITtOpBaseService {
     TtOpOAuth2Service getTtOpOAuth2Service();
 
     void setTtOpOAuth2Service(TtOpOAuth2Service ttOpOAuth2Service);
+
+    TtOpUserInfoService getTtOpUserInfoService();
+
+    void setTtOpUserInfoService(TtOpUserInfoService ttOpUserInfoService);
+
+    TtOpVideoService getTtOpVideoService();
+
+    void setTtOpVideoService(TtOpVideoService ttOpVideoService);
 }

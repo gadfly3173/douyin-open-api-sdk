@@ -1,4 +1,4 @@
-package vip.gadfly.tiktok.open.common.bean;
+package vip.gadfly.tiktok.open.bean.oauth2;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

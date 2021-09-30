@@ -18,8 +18,12 @@ import vip.gadfly.tiktok.core.util.TtOpConfigStorageHolder;
 import vip.gadfly.tiktok.core.util.crypto.SHA1;
 import vip.gadfly.tiktok.core.util.crypto.SignUtil;
 import vip.gadfly.tiktok.open.api.TtOpOAuth2Service;
+import vip.gadfly.tiktok.open.api.TtOpUserInfoService;
+import vip.gadfly.tiktok.open.api.TtOpVideoService;
 import vip.gadfly.tiktok.open.api.impl.TtOpOauth2ServiceImpl;
-import vip.gadfly.tiktok.open.common.bean.TtOpJsapiSignature;
+import vip.gadfly.tiktok.open.api.impl.TtOpUserInfoServiceImpl;
+import vip.gadfly.tiktok.open.api.impl.TtOpVideoServiceImpl;
+import vip.gadfly.tiktok.open.bean.oauth2.TtOpJsapiSignature;
 
 import java.util.Map;
 import java.util.concurrent.locks.Lock;
@@ -50,6 +54,12 @@ public abstract class AbstractTtOpApiBase implements ITtOpBaseService, IRetryabl
     @Getter
     @Setter
     private TtOpOAuth2Service ttOpOAuth2Service = new TtOpOauth2ServiceImpl(this);
+    @Getter
+    @Setter
+    private TtOpUserInfoService ttOpUserInfoService = new TtOpUserInfoServiceImpl(this);
+    @Getter
+    @Setter
+    private TtOpVideoService ttOpVideoService = new TtOpVideoServiceImpl(this);
 
     private Map<String, TtOpConfigStorage> configStorageMap;
 

@@ -41,6 +41,25 @@ public interface TtOpApiUrl {
      */
     String getPrefix();
 
+    /**
+     * 用户管理
+     */
+    @AllArgsConstructor
+    @Getter
+    enum UserInfo implements TtOpApiUrl {
+        /**
+         * 获取用户信息
+         */
+        GET_USER_INFO_URL(TIKTOK_OPEN_API_HOST_URL, "/oauth/userinfo/?open_id=%s&access_token=%s");
+
+        private final String prefix;
+        private final String path;
+
+    }
+
+    /**
+     * 账号授权
+     */
     @AllArgsConstructor
     @Getter
     enum OAuth2 implements TtOpApiUrl {
@@ -65,9 +84,29 @@ public interface TtOpApiUrl {
          */
         OAUTH2_JSAPI_TICKET_URL(TIKTOK_OPEN_API_HOST_URL, "/js/getticket/?access_token=%s"),
         /**
-         * oauth2授权的url连接.
+         * oauth2授权的url链接.
          */
         CONNECT_OAUTH2_AUTHORIZE_URL(TIKTOK_OPEN_API_HOST_URL, "/platform/oauth/connect/?client_key=%s&redirect_uri=%s&response_type=code&scope=%s&state=%s&optionalScope=%s");
+
+        private final String prefix;
+        private final String path;
+
+    }
+
+    /**
+     * 视频管理
+     */
+    @AllArgsConstructor
+    @Getter
+    enum Video implements TtOpApiUrl {
+        /**
+         * 创建抖音视频
+         */
+        CREATE_TIKTOK_VIDEO_URL(TIKTOK_OPEN_API_HOST_URL, "/video/create/?open_id=%s&access_token=%s"),
+        /**
+         * 上传抖音视频.
+         */
+        UPLOAD_TIKTOK_VIDEO_URL(TIKTOK_OPEN_API_HOST_URL, "/video/upload/?open_id=%s&access_token=%s");
 
         private final String prefix;
         private final String path;

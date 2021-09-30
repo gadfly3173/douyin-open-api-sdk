@@ -10,12 +10,18 @@ import vip.gadfly.tiktok.core.http.ITtOpResponse;
 @Data
 public class TtOpBaseResult implements ITtOpResponse {
 
+    /**
+     * 错误码
+     */
     @JSONField(name = "error_code")
     @JsonAlias("error_code")
     @JsonProperty("error_code")
     @SerializedName("error_code")
     private Integer errorCode;
 
+    /**
+     * 错误码描述
+     */
     @JSONField(name = "description")
     @JsonAlias("description")
     @JsonProperty("description")

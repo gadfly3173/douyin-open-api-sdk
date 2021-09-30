@@ -89,4 +89,13 @@ public class TtOpConst {
          */
         public static final int ACTION_UNFRIEND = 102;
     }
+
+    /**
+     * 性别: * `0` - 未知 * `1` - 男性 * `2` - 女性
+     */
+    public static class UserInfoGender {
+        public static final int GENDER_UNKNOWN = 0;
+        public static final int GENDER_MALE = 1;
+        public static final int GENDER_FEMALE = 2;
+    }
 }

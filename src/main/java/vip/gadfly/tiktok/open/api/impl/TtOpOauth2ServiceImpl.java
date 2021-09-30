@@ -27,9 +27,16 @@ public class TtOpOauth2ServiceImpl implements TtOpOAuth2Service {
     }
 
     @Override
-    public String buildAuthorizationUrl(String redirectUri, String scope, String state) {
+    public String buildAuthorizationUrl(String redirectUri, String scope, String state, String optionalScope) {
         log.debug("构造oauth2授权的url连接，收到的参数：redirectUri={},scope={},state={}", redirectUri, scope, state);
         return String.format(CONNECT_OAUTH2_AUTHORIZE_URL.getUrl(getTtOpConfigStorage()),
+                getTtOpConfigStorage().getAppId(), URIUtil.encodeURIComponent(redirectUri), scope, StringUtils.trimToEmpty(state), StringUtils.trimToEmpty(optionalScope));
+    }
+
+    @Override
+    public String buildSilentAuthorizationUrl(String redirectUri, String scope, String state) {
+        log.debug("构造oauth2授权的url连接，收到的参数：redirectUri={},scope={},state={}", redirectUri, scope, state);
+        return String.format(CONNECT_SILENT_OAUTH2_AUTHORIZE_URL.getUrl(null),
                 getTtOpConfigStorage().getAppId(), URIUtil.encodeURIComponent(redirectUri), scope, StringUtils.trimToEmpty(state));
     }
 

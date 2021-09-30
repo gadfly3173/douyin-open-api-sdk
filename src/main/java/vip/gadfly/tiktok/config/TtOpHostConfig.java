@@ -19,6 +19,7 @@ public class TtOpHostConfig {
     public static final String TIKTOK_OPEN_API_HOST_URL = "https://open.douyin.com";
     public static final String TOUTIAO_OPEN_API_HOST_URL = "https://open.snssdk.com";
     public static final String XIGUA_OPEN_API_HOST_URL = "https://open-api.ixigua.com";
+    public static final String TIKTOK_SILENT_OPEN_API_HOST_URL = "https://aweme.snssdk.com";
 
     /**
      * 对应于：https://open.douyin.com

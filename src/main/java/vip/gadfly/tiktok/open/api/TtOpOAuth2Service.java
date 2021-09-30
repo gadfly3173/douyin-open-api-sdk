@@ -17,7 +17,18 @@ public interface TtOpOAuth2Service {
      * @param state       state
      * @return url
      */
-    String buildAuthorizationUrl(String redirectUri, String scope, String state);
+    String buildAuthorizationUrl(String redirectUri, String scope, String state, String optionalScope);
+
+    /**
+     * 构造oauth2静默授权的url连接.
+     * 详情请见: https://open.douyin.com/platform/doc/6848834666171009035
+                          *
+                          * @param redirectUri 用户授权完成后的重定向链接，无需urlencode, 方法内会进行encode
+     * @param scope       scope
+     * @param state       state
+     * @return url
+     */
+    String buildSilentAuthorizationUrl(String redirectUri, String scope, String state);
 
     /**
      * 使用授权码换取用户信息的接口调用凭据.

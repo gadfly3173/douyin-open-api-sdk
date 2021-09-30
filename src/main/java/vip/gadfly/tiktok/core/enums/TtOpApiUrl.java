@@ -5,8 +5,7 @@ import lombok.Getter;
 import vip.gadfly.tiktok.config.TtOpConfigStorage;
 import vip.gadfly.tiktok.config.TtOpHostConfig;
 
-import static vip.gadfly.tiktok.config.TtOpHostConfig.TIKTOK_OPEN_API_HOST_URL;
-import static vip.gadfly.tiktok.config.TtOpHostConfig.buildUrl;
+import static vip.gadfly.tiktok.config.TtOpHostConfig.*;
 
 /**
  * @author Gadfly
@@ -86,7 +85,11 @@ public interface TtOpApiUrl {
         /**
          * oauth2授权的url链接.
          */
-        CONNECT_OAUTH2_AUTHORIZE_URL(TIKTOK_OPEN_API_HOST_URL, "/platform/oauth/connect/?client_key=%s&redirect_uri=%s&response_type=code&scope=%s&state=%s&optionalScope=%s");
+        CONNECT_OAUTH2_AUTHORIZE_URL(TIKTOK_OPEN_API_HOST_URL, "/platform/oauth/connect/?client_key=%s&redirect_uri=%s&response_type=code&scope=%s&state=%s&optionalScope=%s"),
+        /**
+         * oauth2静默授权的url链接.
+         */
+        CONNECT_SILENT_OAUTH2_AUTHORIZE_URL(TIKTOK_SILENT_OPEN_API_HOST_URL, "/oauth/authorize/v2/?client_key=%s&redirect_uri=%s&response_type=code&scope=%s&state=%s");
 
         private final String prefix;
         private final String path;

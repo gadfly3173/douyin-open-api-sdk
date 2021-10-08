@@ -141,7 +141,7 @@ public abstract class AbstractTtOpApiBase implements ITtOpBaseService, IRetryabl
     @Override
     public TtOpConfigStorage getTtOpConfigStorage() {
         if (this.configStorageMap.size() == 1) {
-            // 只有一个公众号，直接返回其配置即可
+            // 只有一个抖音开发者应用，直接返回其配置即可
             return this.configStorageMap.values().iterator().next();
         }
 
@@ -150,7 +150,7 @@ public abstract class AbstractTtOpApiBase implements ITtOpBaseService, IRetryabl
 
     @Override
     public void setTiktokOpenConfigStorage(TtOpConfigStorage tiktokConfigProvider) {
-        final String defaultMpId = tiktokConfigProvider.getAppId();
+        final String defaultMpId = tiktokConfigProvider.getClientKey();
         this.setMultiConfigStorages(ImmutableMap.of(defaultMpId, tiktokConfigProvider), defaultMpId);
     }
 
@@ -160,57 +160,57 @@ public abstract class AbstractTtOpApiBase implements ITtOpBaseService, IRetryabl
     }
 
     @Override
-    public void setMultiConfigStorages(Map<String, TtOpConfigStorage> configStorages, String defaultAppId) {
+    public void setMultiConfigStorages(Map<String, TtOpConfigStorage> configStorages, String defaultClientKey) {
         this.configStorageMap = Maps.newHashMap(configStorages);
-        TtOpConfigStorageHolder.set(defaultAppId);
+        TtOpConfigStorageHolder.set(defaultClientKey);
     }
 
     @Override
-    public void addConfigStorage(String appId, TtOpConfigStorage configStorages) {
+    public void addConfigStorage(String clientKey, TtOpConfigStorage configStorages) {
         synchronized (this) {
             if (this.configStorageMap == null) {
                 this.setTiktokOpenConfigStorage(configStorages);
             } else {
-                TtOpConfigStorageHolder.set(appId);
-                this.configStorageMap.put(appId, configStorages);
+                TtOpConfigStorageHolder.set(clientKey);
+                this.configStorageMap.put(clientKey, configStorages);
             }
         }
     }
 
     @Override
-    public void removeConfigStorage(String appId) {
+    public void removeConfigStorage(String clientKey) {
         synchronized (this) {
             if (this.configStorageMap.size() == 1) {
-                this.configStorageMap.remove(appId);
-                log.warn("已删除最后一个公众号配置：{}，须立即使用setTiktokOpenConfigStorage或setMultiConfigStorages添加配置", appId);
+                this.configStorageMap.remove(clientKey);
+                log.warn("已删除最后一个抖音开发者应用配置：{}，须立即使用setTiktokOpenConfigStorage或setMultiConfigStorages添加配置", clientKey);
                 return;
             }
-            if (TtOpConfigStorageHolder.get().equals(appId)) {
-                this.configStorageMap.remove(appId);
+            if (TtOpConfigStorageHolder.get().equals(clientKey)) {
+                this.configStorageMap.remove(clientKey);
                 final String defaultMpId = this.configStorageMap.keySet().iterator().next();
                 TtOpConfigStorageHolder.set(defaultMpId);
-                log.warn("已删除默认公众号配置，公众号【{}】被设为默认配置", defaultMpId);
+                log.warn("已删除默认抖音开发者应用配置，抖音开发者应用【{}】被设为默认配置", defaultMpId);
                 return;
             }
-            this.configStorageMap.remove(appId);
+            this.configStorageMap.remove(clientKey);
         }
     }
 
     @Override
-    public boolean switchover(String appId) {
-        if (this.configStorageMap.containsKey(appId)) {
-            TtOpConfigStorageHolder.set(appId);
+    public boolean switchover(String clientKey) {
+        if (this.configStorageMap.containsKey(clientKey)) {
+            TtOpConfigStorageHolder.set(clientKey);
             return true;
         }
 
-        log.error("无法找到对应【{}】的公众号配置信息，请核实！", appId);
+        log.error("无法找到对应【{}】的抖音开发者应用配置信息，请核实！", clientKey);
         return false;
     }
 
     @Override
-    public String getAppId() {
+    public String getClientKey() {
         TtOpConfigStorage configStorage = getTtOpConfigStorage();
-        return configStorage.getAppId();
+        return configStorage.getClientKey();
     }
 
     @Override
@@ -273,7 +273,7 @@ public abstract class AbstractTtOpApiBase implements ITtOpBaseService, IRetryabl
         String signature = SHA1.genWithAmple("jsapi_ticket=" + jsapiTicket,
                 "noncestr=" + randomStr, "timestamp=" + timestamp, "url=" + url);
         TtOpJsapiSignature jsapiSignature = new TtOpJsapiSignature();
-        jsapiSignature.setAppId(this.getTtOpConfigStorage().getAppId());
+        jsapiSignature.setClientKey(this.getTtOpConfigStorage().getClientKey());
         jsapiSignature.setTimestamp(String.valueOf(timestamp));
         jsapiSignature.setNonceStr(randomStr);
         jsapiSignature.setUrl(url);
@@ -283,7 +283,7 @@ public abstract class AbstractTtOpApiBase implements ITtOpBaseService, IRetryabl
 
     @Override
     public boolean checkWebhookSignature(String xSignature, String body) {
-        String clientSecret = this.getTtOpConfigStorage().getAppSecret();
+        String clientSecret = this.getTtOpConfigStorage().getClientSecret();
         return SignUtil.checkWebhookSignature(xSignature, clientSecret, body);
     }
 

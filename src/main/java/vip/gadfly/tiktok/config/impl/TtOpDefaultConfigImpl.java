@@ -21,8 +21,8 @@ import java.util.concurrent.locks.ReentrantLock;
 public class TtOpDefaultConfigImpl implements TtOpConfigStorage, Serializable {
     private static final long serialVersionUID = -1L;
 
-    protected volatile String appId;
-    protected volatile String appSecret;
+    protected volatile String clientKey;
+    protected volatile String clientSecret;
     protected volatile String accessToken;
     protected volatile long expiresTime;
     protected volatile String refreshToken;

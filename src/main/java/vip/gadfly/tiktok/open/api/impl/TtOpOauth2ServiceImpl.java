@@ -30,14 +30,14 @@ public class TtOpOauth2ServiceImpl implements TtOpOAuth2Service {
     public String buildAuthorizationUrl(String redirectUri, String scope, String state, String optionalScope) {
         log.debug("构造oauth2授权的url连接，收到的参数：redirectUri={},scope={},state={}", redirectUri, scope, state);
         return String.format(CONNECT_OAUTH2_AUTHORIZE_URL.getUrl(getTtOpConfigStorage()),
-                getTtOpConfigStorage().getAppId(), URIUtil.encodeURIComponent(redirectUri), scope, StringUtils.trimToEmpty(state), StringUtils.trimToEmpty(optionalScope));
+                getTtOpConfigStorage().getClientKey(), URIUtil.encodeURIComponent(redirectUri), scope, StringUtils.trimToEmpty(state), StringUtils.trimToEmpty(optionalScope));
     }
 
     @Override
     public String buildSilentAuthorizationUrl(String redirectUri, String scope, String state) {
         log.debug("构造oauth2授权的url连接，收到的参数：redirectUri={},scope={},state={}", redirectUri, scope, state);
         return String.format(CONNECT_SILENT_OAUTH2_AUTHORIZE_URL.getUrl(null),
-                getTtOpConfigStorage().getAppId(), URIUtil.encodeURIComponent(redirectUri), scope, StringUtils.trimToEmpty(state));
+                getTtOpConfigStorage().getClientKey(), URIUtil.encodeURIComponent(redirectUri), scope, StringUtils.trimToEmpty(state));
     }
 
     @Override
@@ -47,8 +47,8 @@ public class TtOpOauth2ServiceImpl implements TtOpOAuth2Service {
         log.debug("url={}", url);
         TtOpAccessTokenRequest request = new TtOpAccessTokenRequest()
                 .setGrantType(TtOpAccessTokenRequest.GRANT_TYPE_CODE)
-                .setClientKey(getTtOpConfigStorage().getAppId())
-                .setClientSecret(getTtOpConfigStorage().getAppSecret())
+                .setClientKey(getTtOpConfigStorage().getClientKey())
+                .setClientSecret(getTtOpConfigStorage().getClientSecret())
                 .setCode(authorizationCode);
         TtOpAccessTokenResult result = this.ttOpBaseService.post(url, request, TtOpAccessTokenResult.class);
         this.getTtOpConfigStorage().updateAccessToken(result);
@@ -61,8 +61,8 @@ public class TtOpOauth2ServiceImpl implements TtOpOAuth2Service {
         log.debug("url={}", url);
         TtOpAccessTokenRequest request = new TtOpAccessTokenRequest()
                 .setGrantType(TtOpAccessTokenRequest.GRANT_TYPE_REFRESH)
-                .setClientKey(getTtOpConfigStorage().getAppId())
-                .setClientSecret(getTtOpConfigStorage().getAppSecret());
+                .setClientKey(getTtOpConfigStorage().getClientKey())
+                .setClientSecret(getTtOpConfigStorage().getClientSecret());
         TtOpAccessTokenResult result = this.ttOpBaseService.post(url, request, TtOpAccessTokenResult.class);
         this.getTtOpConfigStorage().updateAccessToken(result);
         return result;
@@ -74,8 +74,8 @@ public class TtOpOauth2ServiceImpl implements TtOpOAuth2Service {
         log.debug("url={}", url);
         TtOpAccessTokenRequest request = new TtOpAccessTokenRequest()
                 .setGrantType(null)
-                .setClientKey(getTtOpConfigStorage().getAppId())
-                .setClientSecret(getTtOpConfigStorage().getAppSecret());
+                .setClientKey(getTtOpConfigStorage().getClientKey())
+                .setClientSecret(getTtOpConfigStorage().getClientSecret());
         TtOpAccessTokenResult result = this.ttOpBaseService.post(url, request, TtOpAccessTokenResult.class);
         this.getTtOpConfigStorage().updateAccessToken(result);
         return result;
@@ -90,8 +90,8 @@ public class TtOpOauth2ServiceImpl implements TtOpOAuth2Service {
         log.debug("url={}", url);
         TtOpAccessTokenRequest request = new TtOpAccessTokenRequest()
                 .setGrantType(TtOpAccessTokenRequest.GRANT_TYPE_CLIENT)
-                .setClientKey(getTtOpConfigStorage().getAppId())
-                .setClientSecret(getTtOpConfigStorage().getAppSecret());
+                .setClientKey(getTtOpConfigStorage().getClientKey())
+                .setClientSecret(getTtOpConfigStorage().getClientSecret());
         TtOpAccessTokenResult result = this.ttOpBaseService.post(url, request, TtOpAccessTokenResult.class);
         this.getTtOpConfigStorage().updateTicket(TtOpTicketType.CLIENT, result.getAccessToken(), result.getExpiresIn());
         return result.getAccessToken();

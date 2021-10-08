@@ -22,7 +22,7 @@ public class TtOpTiktokVideoUploadResult extends TtOpBaseResult {
     private Video video;
 
     @Data
-    private static class Video {
+    public static class Video {
         @JSONField(name = "height")
         @JsonAlias("height")
         @JsonProperty("height")

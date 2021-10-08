@@ -99,14 +99,14 @@ public interface TtOpConfigStorage {
      *
      * @return the app id
      */
-    String getAppId();
+    String getClientKey();
 
     /**
      * Gets secret.
      *
      * @return the secret
      */
-    String getAppSecret();
+    String getClientSecret();
 
     /**
      * Gets oauth 2 redirect uri.

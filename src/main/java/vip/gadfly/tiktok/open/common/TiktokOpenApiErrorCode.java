@@ -19,11 +19,11 @@ public class TiktokOpenApiErrorCode {
         ERROR_CODE.put(-1, "系统繁忙，此时请开发者稍候再试");
         ERROR_CODE.put(0, "请求成功");
         ERROR_CODE.put(10008,
-                "获取access_token时AppSecret错误，或者access_token无效");
+                "获取access_token时ClientSecret错误，或者access_token无效");
         ERROR_CODE.put(2190008,
-                "获取access_token时AppSecret错误，或者access_token无效");
+                "获取access_token时ClientSecret错误，或者access_token无效");
         ERROR_CODE.put(10010,
-                "获取access_token时AppSecret错误，或者access_token无效");
+                "获取access_token时ClientSecret错误，或者access_token无效");
 
     }
 

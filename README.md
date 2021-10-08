@@ -103,10 +103,10 @@ public class TtOpConfiguration {
             } else {
                 configStorage = new TtOpDefaultConfigImpl();
             }
-            configStorage.setAppId(a.getClientKey());
-            configStorage.setAppSecret(a.getClientSecret());
+            configStorage.setClientKey(a.getClientKey());
+            configStorage.setClientSecret(a.getClientSecret());
             return configStorage;
-        }).collect(Collectors.toMap(TtOpDefaultConfigImpl::getAppId, a -> a, (o, n) -> o)));
+        }).collect(Collectors.toMap(TtOpDefaultConfigImpl::getClientKey, a -> a, (o, n) -> o)));
 
         // 设置http client，okhttp是默认值，可以不设置
         service.setTiktokOpenHttpClient(new OkHttpTtOpHttpClient());
@@ -129,7 +129,7 @@ public class TtOpConfiguration {
         @Data
         public static class TtOpConfig {
             /**
-             * 设置抖音开放应用的appId
+             * 设置抖音开放应用的clientKey
              */
             private String clientKey;
 

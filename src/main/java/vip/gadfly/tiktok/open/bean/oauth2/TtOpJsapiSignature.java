@@ -19,7 +19,7 @@ import java.io.Serializable;
 public class TtOpJsapiSignature implements Serializable {
     private static final long serialVersionUID = -1116808193154384804L;
 
-    private String appId;
+    private String clientKey;
 
     private String nonceStr;
 

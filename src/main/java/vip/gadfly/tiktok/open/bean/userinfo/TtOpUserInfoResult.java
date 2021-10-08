@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import vip.gadfly.tiktok.open.common.TtOpBaseResult;
 
 /**
  * https://open.douyin.com/platform/doc/6848806527751489550
@@ -13,7 +15,10 @@ import lombok.Data;
  * @since 2021-09-30 14:02
  */
 @Data
-public class TtOpUserInfoResult {
+@EqualsAndHashCode(callSuper = true)
+public class TtOpUserInfoResult extends TtOpBaseResult {
+    private static final long serialVersionUID = 1L;
+
     @JSONField(name = "avatar")
     @JsonAlias("avatar")
     @JsonProperty("avatar")

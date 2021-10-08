@@ -32,15 +32,15 @@ public interface ITtOpBaseService {
     TtOpConfigStorage getTtOpConfigStorage();
 
     /**
-     * 设置 {@link TtOpConfigStorage} 的实现. 兼容老版本
+     * 设置 {@link TtOpConfigStorage} 的实现
      *
      * @param tiktokConfigProvider .
      */
     void setTiktokOpenConfigStorage(TtOpConfigStorage tiktokConfigProvider);
 
     /**
-     * 注入多个 {@link TtOpConfigStorage} 的实现. 并为每个 {@link TtOpConfigStorage} 赋予不同的 {@link String appId} 值
-     * 随机采用一个{@link String appId}进行Http初始化操作
+     * 注入多个 {@link TtOpConfigStorage} 的实现. 并为每个 {@link TtOpConfigStorage} 赋予不同的 {@link String clientKey} 值
+     * 随机采用一个{@link String clientKey}进行Http初始化操作
      *
      * @param configStorages TtOpConfigStorage map
      */
@@ -50,32 +50,32 @@ public interface ITtOpBaseService {
      * 注入多个 {@link TtOpConfigStorage} 的实现. 并为每个 {@link TtOpConfigStorage} 赋予不同的 {@link String label} 值
      *
      * @param configStorages TtOpConfigStorage map
-     * @param defaultAppId   设置一个{@link TtOpConfigStorage} 所对应的{@link String appId}进行Http初始化
+     * @param defaultClientKey   设置一个{@link TtOpConfigStorage} 所对应的{@link String clientKey}进行Http初始化
      */
-    void setMultiConfigStorages(Map<String, TtOpConfigStorage> configStorages, String defaultAppId);
+    void setMultiConfigStorages(Map<String, TtOpConfigStorage> configStorages, String defaultClientKey);
 
     /**
-     * Map里 加入新的 {@link TtOpConfigStorage}，适用于动态添加新的微信公众号配置.
+     * Map里 加入新的 {@link TtOpConfigStorage}，适用于动态添加新的抖音开发者应用配置.
      *
-     * @param appId          公众号id
+     * @param clientKey          抖音开发者应用id
      * @param configStorages 新的微信配置
      */
-    void addConfigStorage(String appId, TtOpConfigStorage configStorages);
+    void addConfigStorage(String clientKey, TtOpConfigStorage configStorages);
 
     /**
-     * 从 Map中 移除 {@link String appId} 所对应的 {@link TtOpConfigStorage}，适用于动态移除微信公众号配置.
+     * 从 Map中 移除 {@link String clientKey} 所对应的 {@link TtOpConfigStorage}，适用于动态移除抖音开发者应用配置.
      *
-     * @param appId 对应公众号的标识
+     * @param clientKey 对应抖音开发者应用的标识
      */
-    void removeConfigStorage(String appId);
+    void removeConfigStorage(String clientKey);
 
     /**
-     * 进行相应的公众号切换.
+     * 进行相应的抖音开发者应用切换.
      *
-     * @param appId 公众号标识
+     * @param clientKey 抖音开发者应用标识
      * @return 切换是否成功 boolean
      */
-    boolean switchover(String appId);
+    boolean switchover(String clientKey);
 
     /**
      * 设置重试间隔毫秒
@@ -96,7 +96,7 @@ public interface ITtOpBaseService {
      *
      * @return openid
      */
-    String getAppId();
+    String getClientKey();
 
     /**
      * 获取当前用户的access token

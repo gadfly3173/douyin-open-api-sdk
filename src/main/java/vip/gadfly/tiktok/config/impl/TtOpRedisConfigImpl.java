@@ -36,12 +36,12 @@ public class TtOpRedisConfigImpl extends TtOpDefaultConfigImpl {
     }
 
     /**
-     * 每个公众号生成独有的存储key.
+     * 每个抖音开发者应用生成独有的存储key.
      */
     @Override
-    public void setAppId(String appId) {
-        super.setAppId(appId);
-        this.lockKey = String.format(LOCK_KEY_TPL, this.keyPrefix, appId);
+    public void setClientKey(String clientKey) {
+        super.setClientKey(clientKey);
+        this.lockKey = String.format(LOCK_KEY_TPL, this.keyPrefix, clientKey);
         jsapiTicketLock = this.redisOps.getLock(lockKey.concat("jsapiTicketLock"));
         clientTicketLock = this.redisOps.getLock(lockKey.concat("clientTicketLock"));
     }
@@ -113,15 +113,15 @@ public class TtOpRedisConfigImpl extends TtOpDefaultConfigImpl {
     }
 
     private String getAccessTokenRedisKey(String openid) {
-        return String.format(ACCESS_TOKEN_KEY_TPL, this.keyPrefix, appId, openid);
+        return String.format(ACCESS_TOKEN_KEY_TPL, this.keyPrefix, clientKey, openid);
     }
 
     private String getRefreshTokenRedisKey(String openid) {
-        return String.format(REFRESH_TOKEN_KEY_TPL, this.keyPrefix, appId, openid);
+        return String.format(REFRESH_TOKEN_KEY_TPL, this.keyPrefix, clientKey, openid);
     }
 
     private String getTicketRedisKey(TtOpTicketType type) {
-        return String.format(TICKET_KEY_TPL, this.keyPrefix, appId, type.getCode());
+        return String.format(TICKET_KEY_TPL, this.keyPrefix, clientKey, type.getCode());
     }
 
     @Override

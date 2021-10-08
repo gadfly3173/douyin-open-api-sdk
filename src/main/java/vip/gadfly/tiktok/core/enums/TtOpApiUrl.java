@@ -15,7 +15,7 @@ public interface TtOpApiUrl {
     /**
      * 得到api完整地址.
      *
-     * @param config 微信公众号配置
+     * @param config 抖音开发者应用配置
      * @return api地址
      */
     default String getUrl(TtOpConfigStorage config) {
@@ -65,7 +65,7 @@ public interface TtOpApiUrl {
         /**
          * 用code换取oauth2的access token.
          */
-        OAUTH2_ACCESS_TOKEN_URL(TIKTOK_OPEN_API_HOST_URL, " /oauth/access_token/"),
+        OAUTH2_ACCESS_TOKEN_URL(TIKTOK_OPEN_API_HOST_URL, "/oauth/access_token/"),
         /**
          * 刷新oauth2的access token.
          */

@@ -6,12 +6,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import vip.gadfly.tiktok.config.TtOpConfigStorage;
 import vip.gadfly.tiktok.open.api.TtOpVideoService;
-import vip.gadfly.tiktok.open.bean.video.TtOpTiktokVideoUploadResult;
 import vip.gadfly.tiktok.open.bean.video.TtOpTiktokVideoCreateRequest;
 import vip.gadfly.tiktok.open.bean.video.TtOpTiktokVideoCreateResult;
+import vip.gadfly.tiktok.open.bean.video.TtOpTiktokVideoUploadRequest;
+import vip.gadfly.tiktok.open.bean.video.TtOpTiktokVideoUploadResult;
 import vip.gadfly.tiktok.open.common.ITtOpBaseService;
-
-import java.io.File;
 
 import static vip.gadfly.tiktok.core.enums.TtOpApiUrl.Video.CREATE_TIKTOK_VIDEO_URL;
 import static vip.gadfly.tiktok.core.enums.TtOpApiUrl.Video.UPLOAD_TIKTOK_VIDEO_URL;
@@ -38,12 +37,12 @@ public class TtOpVideoServiceImpl implements TtOpVideoService {
     }
 
     @Override
-    public TtOpTiktokVideoUploadResult uploadTiktokVideo(String openId, File video) {
+    public TtOpTiktokVideoUploadResult uploadTiktokVideo(String openId, TtOpTiktokVideoUploadRequest request) {
         log.debug("上传抖音视频");
         String url = String.format(UPLOAD_TIKTOK_VIDEO_URL.getUrl(getTtOpConfigStorage()), openId, this.ttOpBaseService.getAccessToken(openId));
         Multimap<String, String> headers = LinkedListMultimap.create();
         headers.put("Content-Type", "multipart/form-data");
         log.debug("url={}, headers={}", url, headers);
-        return this.ttOpBaseService.postWithHeaders(url, headers, video, TtOpTiktokVideoUploadResult.class);
+        return this.ttOpBaseService.postWithHeaders(url, headers, request, TtOpTiktokVideoUploadResult.class);
     }
 }

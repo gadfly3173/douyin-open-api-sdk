@@ -116,7 +116,7 @@ public class TtOpBaseResponse<T> {
         @JsonAlias("now")
         @JsonProperty("now")
         @SerializedName("now")
-        private Integer now;
+        private Long now;
 
         @JSONField(name = "sub_description")
         @JsonAlias("sub_description")

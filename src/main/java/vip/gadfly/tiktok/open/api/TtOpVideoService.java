@@ -1,10 +1,9 @@
 package vip.gadfly.tiktok.open.api;
 
-import vip.gadfly.tiktok.open.bean.video.TtOpTiktokVideoUploadResult;
 import vip.gadfly.tiktok.open.bean.video.TtOpTiktokVideoCreateRequest;
 import vip.gadfly.tiktok.open.bean.video.TtOpTiktokVideoCreateResult;
-
-import java.io.File;
+import vip.gadfly.tiktok.open.bean.video.TtOpTiktokVideoUploadRequest;
+import vip.gadfly.tiktok.open.bean.video.TtOpTiktokVideoUploadResult;
 
 /**
  * @author Gadfly
@@ -24,8 +23,8 @@ public interface TtOpVideoService {
      * 上传抖音视频
      *
      * @param openId 用户openid
-     * @param video  视频文件
+     * @param request  视频文件
      * @return 结果
      */
-    TtOpTiktokVideoUploadResult uploadTiktokVideo(String openId, File video);
+    TtOpTiktokVideoUploadResult uploadTiktokVideo(String openId, TtOpTiktokVideoUploadRequest request);
 }

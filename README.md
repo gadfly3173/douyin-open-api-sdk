@@ -1,4 +1,4 @@
-# wptai-douyin-api 快速接入 几行代码实现抖音接入
+# douyin-open-api-sdk 快速接入 几行代码实现抖音接入
 
 开发中，暂不可直接使用
 
@@ -23,11 +23,12 @@
 
 ## 安装教程
 ### Maven引用
+> 暂未在maven仓库发布，请自行打包后使用
 ```xml
 	<dependency>
 		<groupId>vip.gadfly</groupId>
 		<artifactId>douyin-open-api-sdk</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.0.2-SNAPSHOT</version>
 	</dependency>	
 ```
 maven引用时可能出现依赖的okhttp3版本变为3.14.9等低版本的情况，如果在使用自带的okhttp实现时遇到NoSuchMethod等异常时，

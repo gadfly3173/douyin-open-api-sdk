@@ -228,9 +228,11 @@ public class CallbackController {
             throw new IllegalArgumentException(String.format("未找到对应clientKey=[%s]的配置，请核实！", clientKey));
         }
         if (!ttOpBaseService.checkWebhookSignature(headers.getFirst("X-Douyin-Signature"), body)) {
-            throw new FailedException("非法请求，可能属于伪造的请求！");
+            throw new IllegalArgumentException("非法请求，可能属于伪造的请求！");
         }
         TtOpWebhookMessage message = TtOpWebhookMessage.fromJson(body);
+        // 抖音webhook的消息id放在了请求头中，因此sdk不能直接读取，需要自行传入
+        message.setMsgId(headers.getFirst("Msg-Id"));
         // 抖音的webhook验证要求返回的内容是一个包含challenge的json，相比于走路由器，直接处理消息后做个if直接return更简单
         if (message.getEvent().equalsIgnoreCase(TtOpConst.WebhookEventType.VERIFY_WEBHOOK)) {
             return message.getContent();

@@ -272,13 +272,13 @@ public abstract class AbstractTtOpApiBase implements ITtOpBaseService, IRetryabl
         String jsapiTicket = getTicket(TtOpTicketType.JSAPI);
         String signature = SHA1.genWithAmple("jsapi_ticket=" + jsapiTicket,
                 "noncestr=" + randomStr, "timestamp=" + timestamp, "url=" + url);
-        TtOpJsapiSignature jsapiSignature = new TtOpJsapiSignature();
-        jsapiSignature.setClientKey(this.getTtOpConfigStorage().getClientKey());
-        jsapiSignature.setTimestamp(String.valueOf(timestamp));
-        jsapiSignature.setNonceStr(randomStr);
-        jsapiSignature.setUrl(url);
-        jsapiSignature.setSignature(signature);
-        return jsapiSignature;
+        return TtOpJsapiSignature.builder()
+                .clientKey(this.getTtOpConfigStorage().getClientKey())
+                .timestamp(String.valueOf(timestamp))
+                .nonceStr(randomStr)
+                .url(url)
+                .signature(signature)
+                .build();
     }
 
     @Override
@@ -286,9 +286,4 @@ public abstract class AbstractTtOpApiBase implements ITtOpBaseService, IRetryabl
         String clientSecret = this.getTtOpConfigStorage().getClientSecret();
         return SignUtil.checkWebhookSignature(xSignature, clientSecret, body);
     }
-
-    public String scope() {
-        return null;
-    }
-
 }

@@ -17,6 +17,32 @@
         </license>
     </licenses>
 
+    <developers>
+        <developer>
+            <name>Gadfly</name>
+            <email>gadfly@gadfly.vip</email>
+            <url>https://github.com/gadfly3173</url>
+        </developer>
+    </developers>
+
+    <scm>
+        <tag>master</tag>
+        <url>git@github.com:gadfly3173/douyin-open-api-sdk.git</url>
+        <connection>git@github.com:gadfly3173/douyin-open-api-sdk.git</connection>
+        <developerConnection>git@github.com:gadfly3173/douyin-open-api-sdk.git</developerConnection>
+    </scm>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
     <profiles>
         <profile>
             <id>delombok</id>
@@ -47,6 +73,38 @@
                         <id>attach-sources</id>
                         <goals>
                             <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <charset>UTF-8</charset>
+                            <encoding>UTF-8</encoding>
+                            <docencoding>UTF-8</docencoding>
+                            <additionalparam>-Xdoclint:none</additionalparam>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
                         </goals>
                     </execution>
                 </executions>

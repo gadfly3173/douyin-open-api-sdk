@@ -24,11 +24,13 @@
 ## 安装教程
 ### Maven引用
 > 暂未在maven仓库发布，请自行打包后使用
+>
+> 由于准备发布至maven仓库，配置了gpg插件。自行打包时可能需要删除
 ```xml
 	<dependency>
 		<groupId>vip.gadfly</groupId>
 		<artifactId>douyin-open-api-sdk</artifactId>
-		<version>0.0.2-SNAPSHOT</version>
+		<version>0.0.3</version>
 	</dependency>	
 ```
 maven引用时可能出现依赖的okhttp3版本变为3.14.9等低版本的情况，如果在使用自带的okhttp实现时遇到NoSuchMethod等异常时，

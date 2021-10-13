@@ -15,7 +15,7 @@ import vip.gadfly.tiktok.core.exception.TtOpErrorMsgEnum;
 import vip.gadfly.tiktok.core.http.ITtOpHttpClient;
 import vip.gadfly.tiktok.core.http.impl.OkHttpTtOpHttpClient;
 import vip.gadfly.tiktok.core.util.TtOpConfigStorageHolder;
-import vip.gadfly.tiktok.core.util.crypto.SHA1;
+import vip.gadfly.tiktok.core.util.crypto.MD5;
 import vip.gadfly.tiktok.core.util.crypto.SignUtil;
 import vip.gadfly.tiktok.open.api.TtOpOAuth2Service;
 import vip.gadfly.tiktok.open.api.TtOpUserInfoService;
@@ -267,14 +267,14 @@ public abstract class AbstractTtOpApiBase implements ITtOpBaseService, IRetryabl
 
     @Override
     public TtOpJsapiSignature createJsapiSignature(String url) {
-        long timestamp = System.currentTimeMillis() / 1000;
+        String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
         String randomStr = SignUtil.getRandomStr();
         String jsapiTicket = getTicket(TtOpTicketType.JSAPI);
-        String signature = SHA1.genWithAmple("jsapi_ticket=" + jsapiTicket,
-                "noncestr=" + randomStr, "timestamp=" + timestamp, "url=" + url);
+        String signature = MD5.genWithAmple("jsapi_ticket=" + jsapiTicket,
+                "nonce_str=" + randomStr, "timestamp=" + timestamp, "url=" + url);
         return TtOpJsapiSignature.builder()
                 .clientKey(this.getTtOpConfigStorage().getClientKey())
-                .timestamp(String.valueOf(timestamp))
+                .timestamp(timestamp)
                 .nonceStr(randomStr)
                 .url(url)
                 .signature(signature)

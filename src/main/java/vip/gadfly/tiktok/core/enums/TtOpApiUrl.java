@@ -49,7 +49,20 @@ public interface TtOpApiUrl {
         /**
          * 获取用户信息
          */
-        GET_USER_INFO_URL(TIKTOK_OPEN_API_HOST_URL, "/oauth/userinfo/?open_id=%s&access_token=%s");
+        GET_USER_INFO_URL(TIKTOK_OPEN_API_HOST_URL, "/oauth/userinfo/?open_id=%s&access_token=%s"),
+        /**
+         * 获取粉丝列表
+         */
+        GET_FANS_LIST_URL(TIKTOK_OPEN_API_HOST_URL, "/fans/list/?open_id=%s&cursor=%s&count=%s&access_token=%s"),
+        /**
+         * 获取关注列表
+         */
+        GET_FOLLOWING_LIST_URL(TIKTOK_OPEN_API_HOST_URL, "/following/list/?open_id=%s&cursor=%s&count=%s&access_token=%s"),
+        /**
+         * 粉丝判断
+         */
+        GET_FANS_CHECK_URL(TIKTOK_OPEN_API_HOST_URL, "/following/list/?open_id=%s&follower_open_id=%s&access_token=%s"),
+        ;
 
         private final String prefix;
         private final String path;
@@ -89,7 +102,8 @@ public interface TtOpApiUrl {
         /**
          * oauth2静默授权的url链接.
          */
-        CONNECT_SILENT_OAUTH2_AUTHORIZE_URL(TIKTOK_SILENT_OPEN_API_HOST_URL, "/oauth/authorize/v2/?client_key=%s&redirect_uri=%s&response_type=code&scope=%s&state=%s");
+        CONNECT_SILENT_OAUTH2_AUTHORIZE_URL(TIKTOK_SILENT_OPEN_API_HOST_URL, "/oauth/authorize/v2/?client_key=%s&redirect_uri=%s&response_type=code&scope=%s&state=%s"),
+        ;
 
         private final String prefix;
         private final String path;
@@ -109,7 +123,12 @@ public interface TtOpApiUrl {
         /**
          * 上传抖音视频.
          */
-        UPLOAD_TIKTOK_VIDEO_URL(TIKTOK_OPEN_API_HOST_URL, "/video/upload/?open_id=%s&access_token=%s");
+        UPLOAD_TIKTOK_VIDEO_URL(TIKTOK_OPEN_API_HOST_URL, "/video/upload/?open_id=%s&access_token=%s"),
+        /**
+         * 查询抖音指定视频数据
+         */
+        GET_TIKTOK_SPECIFIC_VIDEO_DATA_URL(TIKTOK_OPEN_API_HOST_URL, "/video/data/?open_id=%s&access_token=%s"),
+        ;
 
         private final String prefix;
         private final String path;

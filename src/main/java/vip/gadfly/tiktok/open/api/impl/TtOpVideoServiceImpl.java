@@ -6,14 +6,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import vip.gadfly.tiktok.config.TtOpConfigStorage;
 import vip.gadfly.tiktok.open.api.TtOpVideoService;
-import vip.gadfly.tiktok.open.bean.video.TtOpTiktokVideoCreateRequest;
-import vip.gadfly.tiktok.open.bean.video.TtOpTiktokVideoCreateResult;
-import vip.gadfly.tiktok.open.bean.video.TtOpTiktokVideoUploadRequest;
-import vip.gadfly.tiktok.open.bean.video.TtOpTiktokVideoUploadResult;
+import vip.gadfly.tiktok.open.bean.video.*;
 import vip.gadfly.tiktok.open.common.ITtOpBaseService;
 
-import static vip.gadfly.tiktok.core.enums.TtOpApiUrl.Video.CREATE_TIKTOK_VIDEO_URL;
-import static vip.gadfly.tiktok.core.enums.TtOpApiUrl.Video.UPLOAD_TIKTOK_VIDEO_URL;
+import static vip.gadfly.tiktok.core.enums.TtOpApiUrl.Video.*;
 
 /**
  * @author Gadfly
@@ -31,18 +27,29 @@ public class TtOpVideoServiceImpl implements TtOpVideoService {
     @Override
     public TtOpTiktokVideoCreateResult createTiktokVideo(String openId, TtOpTiktokVideoCreateRequest request) {
         log.debug("创建抖音视频，收到的参数：request={}", request);
-        String url = String.format(CREATE_TIKTOK_VIDEO_URL.getUrl(getTtOpConfigStorage()), openId, this.ttOpBaseService.getAccessToken(openId));
-        log.debug("url={}", url);
+        String url = String.format(CREATE_TIKTOK_VIDEO_URL.getUrl(getTtOpConfigStorage()),
+                openId, this.ttOpBaseService.getAccessToken(openId));
+        log.debug("url={}， request={}", url, request);
         return this.ttOpBaseService.post(url, request, TtOpTiktokVideoCreateResult.class);
     }
 
     @Override
     public TtOpTiktokVideoUploadResult uploadTiktokVideo(String openId, TtOpTiktokVideoUploadRequest request) {
         log.debug("上传抖音视频");
-        String url = String.format(UPLOAD_TIKTOK_VIDEO_URL.getUrl(getTtOpConfigStorage()), openId, this.ttOpBaseService.getAccessToken(openId));
+        String url = String.format(UPLOAD_TIKTOK_VIDEO_URL.getUrl(getTtOpConfigStorage()),
+                openId, this.ttOpBaseService.getAccessToken(openId));
         Multimap<String, String> headers = LinkedListMultimap.create();
         headers.put("Content-Type", "multipart/form-data");
         log.debug("url={}, headers={}", url, headers);
         return this.ttOpBaseService.postWithHeaders(url, headers, request, TtOpTiktokVideoUploadResult.class);
+    }
+
+    @Override
+    public TtOpTiktokVideoDataResult getTiktokSpecificVideoData(String openId, TtOpTiktokVideoDataRequest request) {
+        log.debug("查询抖音指定视频数据");
+        String url = String.format(GET_TIKTOK_SPECIFIC_VIDEO_DATA_URL.getUrl(getTtOpConfigStorage()),
+                openId, this.ttOpBaseService.getAccessToken(openId));
+        log.debug("url={}, request={}", url, request);
+        return this.ttOpBaseService.post(url, request, TtOpTiktokVideoDataResult.class);
     }
 }

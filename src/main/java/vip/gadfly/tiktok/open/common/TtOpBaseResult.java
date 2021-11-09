@@ -28,6 +28,9 @@ public class TtOpBaseResult implements ITtOpResponse {
     @SerializedName("description")
     private String description;
 
+    /**
+     * 用于下一页请求的cursor
+     */
     @JSONField(name = "cursor")
     @JsonAlias("cursor")
     @JsonProperty("cursor")
@@ -40,6 +43,9 @@ public class TtOpBaseResult implements ITtOpResponse {
     @SerializedName("has_more")
     private boolean hasMore;
 
+    /**
+     * 总数
+     */
     @JSONField(name = "total")
     @JsonAlias("total")
     @JsonProperty("total")

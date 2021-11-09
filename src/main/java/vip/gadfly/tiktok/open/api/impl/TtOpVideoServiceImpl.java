@@ -26,7 +26,7 @@ public class TtOpVideoServiceImpl implements TtOpVideoService {
 
     @Override
     public TtOpTiktokVideoCreateResult createTiktokVideo(String openId, TtOpTiktokVideoCreateRequest request) {
-        log.debug("创建抖音视频，收到的参数：request={}", request);
+        log.debug("创建抖音视频，收到的参数：openId={}, request={}", openId, request);
         String url = String.format(CREATE_TIKTOK_VIDEO_URL.getUrl(getTtOpConfigStorage()),
                 openId, this.ttOpBaseService.getAccessToken(openId));
         log.debug("url={}， request={}", url, request);
@@ -35,7 +35,7 @@ public class TtOpVideoServiceImpl implements TtOpVideoService {
 
     @Override
     public TtOpTiktokVideoUploadResult uploadTiktokVideo(String openId, TtOpTiktokVideoUploadRequest request) {
-        log.debug("上传抖音视频");
+        log.debug("上传抖音视频，收到的参数：openId={}, request={}", openId, request);
         String url = String.format(UPLOAD_TIKTOK_VIDEO_URL.getUrl(getTtOpConfigStorage()),
                 openId, this.ttOpBaseService.getAccessToken(openId));
         Multimap<String, String> headers = LinkedListMultimap.create();
@@ -46,7 +46,7 @@ public class TtOpVideoServiceImpl implements TtOpVideoService {
 
     @Override
     public TtOpTiktokVideoDataResult getTiktokSpecificVideoData(String openId, TtOpTiktokVideoDataRequest request) {
-        log.debug("查询抖音指定视频数据");
+        log.debug("查询抖音指定视频数据，收到的参数：openId={}, request={}", openId, request);
         String url = String.format(GET_TIKTOK_SPECIFIC_VIDEO_DATA_URL.getUrl(getTtOpConfigStorage()),
                 openId, this.ttOpBaseService.getAccessToken(openId));
         log.debug("url={}, request={}", url, request);

@@ -112,15 +112,15 @@ public class TtOpRedisConfigImpl extends TtOpDefaultConfigImpl {
         redisOps.expire(this.getRefreshTokenRedisKey(openid), 0, TimeUnit.SECONDS);
     }
 
-    private String getAccessTokenRedisKey(String openid) {
+    public String getAccessTokenRedisKey(String openid) {
         return String.format(ACCESS_TOKEN_KEY_TPL, this.keyPrefix, clientKey, openid);
     }
 
-    private String getRefreshTokenRedisKey(String openid) {
+    public String getRefreshTokenRedisKey(String openid) {
         return String.format(REFRESH_TOKEN_KEY_TPL, this.keyPrefix, clientKey, openid);
     }
 
-    private String getTicketRedisKey(TtOpTicketType type) {
+    public String getTicketRedisKey(TtOpTicketType type) {
         return String.format(TICKET_KEY_TPL, this.keyPrefix, clientKey, type.getCode());
     }
 

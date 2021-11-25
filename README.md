@@ -8,7 +8,7 @@
 - [https://github.com/Wechat-Group/WxJava](https://github.com/Wechat-Group/WxJava)
 
 ## 架构
-本SDK应当以**单例**的形式被调用。
+本SDK应当以**单例**或**依赖注入**的形式被调用。
 
 整体架构与WxJava项目接近，提供了一个默认实现`DefaultTtOpServiceImpl.java`。其中的各api接口实现在各个子service中。
 

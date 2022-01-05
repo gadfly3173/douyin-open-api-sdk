@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import vip.gadfly.tiktok.config.TtOpConfigStorage;
 import vip.gadfly.tiktok.core.enums.TtOpTicketType;
 import vip.gadfly.tiktok.core.exception.ITtOpError;
+import vip.gadfly.tiktok.core.exception.TtOpError;
 import vip.gadfly.tiktok.core.exception.TtOpErrorException;
 import vip.gadfly.tiktok.core.exception.TtOpErrorMsgEnum;
 import vip.gadfly.tiktok.core.http.ITtOpHttpClient;
@@ -25,6 +26,7 @@ import vip.gadfly.tiktok.open.api.impl.TtOpUserInfoServiceImpl;
 import vip.gadfly.tiktok.open.api.impl.TtOpVideoServiceImpl;
 import vip.gadfly.tiktok.open.bean.oauth2.TtOpJsapiSignature;
 
+import java.net.SocketTimeoutException;
 import java.util.Map;
 import java.util.concurrent.locks.Lock;
 
@@ -135,6 +137,8 @@ public abstract class AbstractTtOpApiBase implements ITtOpBaseService, IRetryabl
                 throw new TtOpErrorException(error, e);
             }
             return null;
+        } catch (SocketTimeoutException e) {
+            throw new TtOpErrorException(new TtOpError().setErrorCode(TtOpErrorMsgEnum.CODE_2100004.getCode()), e);
         }
     }
 

@@ -1,6 +1,9 @@
 package vip.gadfly.tiktok.open.common;
 
 import com.google.common.collect.Multimap;
+import vip.gadfly.tiktok.core.exception.TtOpErrorException;
+
+import java.net.SocketTimeoutException;
 
 /**
  * @author yangyidian
@@ -16,5 +19,5 @@ public interface IExecutable<T> {
      * @param t       返回值类型
      * @return
      */
-    T execute(String url, Multimap<String, String> headers, Object request, Class<T> t);
+    T execute(String url, Multimap<String, String> headers, Object request, Class<T> t) throws TtOpErrorException, SocketTimeoutException;
 }

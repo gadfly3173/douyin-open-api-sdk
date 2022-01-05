@@ -3,7 +3,11 @@ package vip.gadfly.tiktok.open.common;
 import com.google.common.collect.Multimap;
 import org.slf4j.Logger;
 import vip.gadfly.tiktok.core.exception.ITtOpError;
+import vip.gadfly.tiktok.core.exception.TtOpError;
 import vip.gadfly.tiktok.core.exception.TtOpErrorException;
+import vip.gadfly.tiktok.core.exception.TtOpErrorMsgEnum;
+
+import java.net.SocketTimeoutException;
 
 /**
  * @author yangyidian
@@ -60,6 +64,7 @@ public interface IRetryableExecutor {
                 if (getLogger() != null) {
                     getLogger().error("重试达到最大次数【{}】", retryTimes - 1);
                 }
+                assert exception != null;
                 throw exception;
             }
             try {
@@ -81,6 +86,18 @@ public interface IRetryableExecutor {
                     }
                 } else {
                     throw e;
+                }
+            } catch (SocketTimeoutException e) {
+                if (getLogger() != null) {
+                    getLogger().warn("字节跳动接口请求失败，{} ms 后重试(第{}次)", getRetrySleepMillis(), retryTimes + 1);
+                }
+                retryTimes += 1;
+                exception = new TtOpErrorException(new TtOpError().setErrorCode(TtOpErrorMsgEnum.CODE_2100004.getCode()), e);
+                try {
+                    // noinspection BusyWait
+                    Thread.sleep(getRetrySleepMillis());
+                } catch (InterruptedException ex) {
+                    getLogger().error(ex.getMessage(), ex);
                 }
             }
         }

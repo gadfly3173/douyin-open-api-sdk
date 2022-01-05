@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -19,6 +20,7 @@ import java.util.Objects;
  * @date 2020/06/28
  **/
 @Data
+@Accessors(chain = true)
 public class TtOpError implements ITtOpError, Serializable {
 
     private static final long serialVersionUID = 8757224149770373443L;

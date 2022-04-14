@@ -7,6 +7,8 @@
     <groupId>vip.gadfly</groupId>
     <artifactId>douyin-open-api-sdk</artifactId>
     <version>0.0.3</version>
+    <name>Douyin Open API SDK</name>
+    <description>Douyin Open API SDK</description>
     <url>https://www.getplay.cn/</url>
 
     <licenses>
